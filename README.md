@@ -1,2 +1,2 @@
 # BlackFilmMagician
-AI-generated film ideas with Black actors..
+AI-generated film ideas with Black actors.
