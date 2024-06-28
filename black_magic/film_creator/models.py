@@ -13,7 +13,7 @@ class Actor(models.Model):
 
 class Film(models.Model):
     film_imdb_id = models.CharField(max_length=15, primary_key=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=150)
     release_date = models.DateTimeField()
     genre = models.CharField()
     plot = models.TextField()
@@ -24,5 +24,7 @@ class Film(models.Model):
 class Role(models.Model):
     film_imdb_id = models.CharField(max_length=15, primary_key=True)
     actor_tmdb_id = models.CharField(max_length=15)
+    film_title = models.CharField(max_length=150)
     actor_name = models.CharField(max_length=50)
     lead = models.IntegerField(max_length=1)
+
