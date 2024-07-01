@@ -1,7 +1,13 @@
 # film_creator/management/commands/populate_data.py
+import sys
+import os
+
 from django.core.management.base import BaseCommand
 from black_magic.film_creator.models import Actor, Film, Role
 from django.db import connection
+
+# Adding the root BlackFilmMagician/black_magic to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 
 class Command(BaseCommand):
@@ -14,9 +20,10 @@ class Command(BaseCommand):
                            'as "actor_picture" FROM public.actor_model;')
             actors_data = cursor.fetchall()
 
-            cursor.execute('SELECT "Film_IMDb_ID" as "film_imdb_id", "Title" as "title", "Release_Date" as "release_date", '
-                           '"Genre" as "genre", "Plot" as "plot", "Plot_Words" as "plot_words", "Keyword_List" as '
-                           '"keyword_list", "Worldwide_Gross" as "worldwide_gross" FROM public.film_model;')
+            cursor.execute(
+                'SELECT "Film_IMDb_ID" as "film_imdb_id", "Title" as "title", "Release_Date" as "release_date", '
+                '"Genre" as "genre", "Plot" as "plot", "Plot_Words" as "plot_words", "Keyword_List" as '
+                '"keyword_list", "Worldwide_Gross" as "worldwide_gross" FROM public.film_model;')
             films_data = cursor.fetchall()
 
             cursor.execute('SELECT "Actor_TMDb_ID" as "actor_tmdb_id",  "Film_IMDb_ID" as "film_imdb_id", "Title" as '
@@ -39,7 +46,8 @@ class Command(BaseCommand):
         for imdb_id, title, release_date, genre, plot, plot_words, keyword_list, worldwide_gross in films_data:
             Film.objects.get_or_create(
                 film_imdb_id=imdb_id,
-                defaults={'imdb_id': imdb_id, 'title': title, 'release_date': release_date, 'genre': genre, 'plot': plot, #
+                defaults={'imdb_id': imdb_id, 'title': title, 'release_date': release_date, 'genre': genre,
+                          'plot': plot,  #
                           'plot_words': plot_words, 'keyword_list': keyword_list, 'worldwide_gross': worldwide_gross}
             )
         # Create Role instances

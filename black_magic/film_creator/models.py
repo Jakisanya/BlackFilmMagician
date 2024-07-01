@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Actor(models.Model):
     objects = models.Manager()
@@ -10,6 +11,7 @@ class Actor(models.Model):
     birthday = models.DateTimeField()
     movie_credits = models.CharField()
     picture = models.URLField()
+
 
 class Film(models.Model):
     objects = models.Manager()
@@ -22,6 +24,7 @@ class Film(models.Model):
     keyword_list = models.TextField()
     worldwide_gross = models.IntegerField()
 
+
 class Role(models.Model):
     objects = models.Manager()
     film_imdb_id = models.ForeignKey(Film, on_delete=models.CASCADE)
@@ -29,4 +32,3 @@ class Role(models.Model):
     film_title = models.CharField(max_length=150)
     actor_name = models.CharField(max_length=50)
     lead = models.IntegerField(max_length=1)
-
