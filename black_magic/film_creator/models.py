@@ -1,18 +1,19 @@
 from django.db import models
 
-
 # Create your models here.
 class Actor(models.Model):
-    actor_tmdb_id = models.IntegerField(max_length=15, unique=True)
-    actor_imdb_id = models.CharField(max_length=15, primary_key=True)
+    objects = models.Manager()
+    tmdb_id = models.IntegerField(max_length=15, primary_key=True)
+    imdb_id = models.CharField(max_length=15)
     name = models.CharField(max_length=100)
     gender = models.IntegerField(max_length=1)
     birthday = models.DateTimeField()
     movie_credits = models.CharField()
-    picture = models.URLField()  # Assuming pictures are stored as URLs
+    picture = models.URLField()
 
 class Film(models.Model):
-    film_imdb_id = models.CharField(max_length=15, primary_key=True)
+    objects = models.Manager()
+    imdb_id = models.CharField(max_length=15, primary_key=True)
     title = models.CharField(max_length=150)
     release_date = models.DateTimeField()
     genre = models.CharField()
@@ -22,7 +23,8 @@ class Film(models.Model):
     worldwide_gross = models.IntegerField()
 
 class Role(models.Model):
-    film_imdb_id = models.CharField(max_length=15, primary_key=True)
+    objects = models.Manager()
+    film_imdb_id = models.ForeignKey(Film, on_delete=models.CASCADE)
     actor_tmdb_id = models.CharField(max_length=15)
     film_title = models.CharField(max_length=150)
     actor_name = models.CharField(max_length=50)
