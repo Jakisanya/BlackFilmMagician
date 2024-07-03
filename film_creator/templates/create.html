@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Film</title>
+    <style>
+        .actor-img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <button id="create-film-button">Create a Black Film</button>
+        <div id="film-details" style="display: none;">
+            <h2>Lead Actors</h2>
+            <div id="lead-actors"></div>
+            <h2>Supporting Actors</h2>
+            <div id="supporting-actors"></div>
+            <h2>Film Title</h2>
+            <p id="film-title"></p>
+            <h2>Plot</h2>
+            <p id="film-plot"></p>
+            <h2>Reasons</h2>
+            <ul id="reasons"></ul>
+            <h2>Estimated Gross</h2>
+            <p id="estimated-gross"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('create-film-button').addEventListener('click', function() {
+            fetch('/create/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('film-details').style.display = 'block';
+
+                // Display lead actors
+                let leadActorsDiv = document.getElementById('lead-actors');
+                leadActorsDiv.innerHTML = '';
+                data.lead_actors.forEach(actor => {
+                    let img = document.createElement('img');
+                    img.src = actor.picture;
+                    img.alt = actor.name;
+                    img.className = 'actor-img';
+                    leadActorsDiv.appendChild(img);
+                });
+
+                // Display supporting actors
+                let supportingActorsDiv = document.getElementById('supporting-actors');
+                supportingActorsDiv.innerHTML = '';
+                data.supporting_actors.forEach(actor => {
+                    let img = document.createElement('img');
+                    img.src = actor.picture;
+                    img.alt = actor.name;
+                    img.className = 'actor-img';
+                    supportingActorsDiv.appendChild(img);
+                });
+
+                // Display film title and plot
+                document.getElementById('film-title').innerText = data.film_title;
+                document.getElementById('film-plot').innerText = data.plot;
+
+                // Display reasons
+                let reasonsUl = document.getElementById('reasons');
+                reasonsUl.innerHTML = '';
+                data.reasons.forEach(reason => {
+                    let li = document.createElement('li');
+                    li.innerText = reason;
+                    reasonsUl.appendChild(li);
+                });
+
+                // Display estimated gross
+                document.getElementById('estimated-gross').innerText = `$${data.estimated_gross}`;
+            });
+        });
+    </script>
+</body>
+</html>
