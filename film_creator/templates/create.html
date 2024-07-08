@@ -27,40 +27,86 @@
     height: 250px;
     border-radius: 50%; /* Ensure the button is a circle */
     border: 2px solid #fff;
+    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
+    color: #fbfbfb;
+    text-decoration: none;
   }
-  .actor-button {
+  .create-button:hover {
+    width: 280px;
+    height: 280px;
+    margin-top: -15px;
+    margin-bottom: -15px;
+    border-color: #2cd6ae;
+  }
+  .lead-actors-row-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px; /* Optional padding between containers */
+  }
+  .lead-actor-col-container {
+    text-align: center;
+  }
+  .lead-actor-button {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5em;
     text-align: center;
+    margin-right: auto;
+    margin-left: auto;
     width: 350px;
     height: 350px;
     border-radius: 50%; /* Ensure the button is a circle */
     border: 2px solid #fff;
+    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
+    color: #fbfbfb;
+    text-decoration: none;
   }
-  .actor-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+  .lead-actor-button img {
+    width: 350px; /* Adjust size as needed */
+    height: 350px; /* Adjust size as needed */
+    border-radius: 50%; /* Make image circular */
+    object-fit: cover; /* Ensure image fits within the specified dimensions */
+  }
+  .lead-actor-button-name {
+    font-weight: bold; /* Optional: make name bold */
+    margin-top: 15px;
+  }
+  .lead-actor-button:hover {
+    width: 380px;
+    height: 380px;
+    margin-top: -15px;
+    margin-bottom: -15px;
+    border-color: #2cd6ae;
   }
   .create-actions-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
   }
   .create-action-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
     font-size: 1.5em;
     text-align: center;
     width: 200px;
     height: 200px;
-    border-radius: 50%; /* Ensure the button is a circle */
+    border-radius: 50%;
     border: 2px solid #fff;
+    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
+    color: #fbfbfb;
+    text-decoration: none;
   }
-
+  .create-action-button:hover {
+    width: 230px;
+    height: 230px;
+    margin-top: -15px;
+    margin-bottom: -15px;
+    border-color: #2cd6ae;
+  }
   </style>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
@@ -98,7 +144,7 @@
         </a>
         <div class="menu-wrapper">
           <div data-w-id="99139f38-ef85-935f-512e-06a9164ce66c" class="menu">
-            <a href="/#Create" class="menu-link">Create</a>
+            <a href="/#Create" class="menu-link">Create Film</a>
             <a href="/#Actors" class="menu-link">Actors</a>
           </div>
           <a data-w-id="99139f38-ef85-935f-512e-06a9164ce675" href="/contact-us" class="contact-us-link">Contact Us</a>
@@ -107,29 +153,48 @@
           <img src="https://assets.website-files.com/60be390332a614269413c7ee/60be390332a61465dd13c826_menu.svg" loading="lazy" alt="Menu"/>
         </a>
       </div>
+      <br>
+      <br>
       <div class="create-button-container">
-          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="create-button">Create</a>
+          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="create-button">Create Film</a>
       </div>
       <div class="container">
         <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
           <br/><span class="text-green">"Film Title"</span>
         </h1>
         <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-        <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+        <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
           <br><span class="text-green">Lead Actors</span>
-        </h1>
-        <div class="actor-container">
-          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="actor-button">Actor #1</a>
-          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="actor-button">Actor #2</a>
-          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="actor-button">Actor #3</a>
+        </h3>
+        <div class="lead-actors-row-container">
+          {% if actors|length == 3 %}
+          <div class="lead-actor-col-container">
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <img src="{{ actors.0.picture }}" alt="{{ actors.0.name }}">
+            </a>
+            <div class="lead-actor-button-name">{{ actors.0.name }}</div>
+          </div>
+          <div class="lead-actor-col-container">
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <img src="{{ actors.1.picture }}" alt="{{ actors.1.name }}">
+            </a>
+            <div class="lead-actor-button-name">{{ actors.1.name }}</div>
+          </div>
+          <div class="lead-actor-col-container">
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <img src="{{ actors.2.picture }}" alt="{{ actors.2.name }}">
+            </a>
+            <div class="lead-actor-button-name">{{ actors.2.name }}</div>
+          </div>
+          {% endif %}
         </div>
-        <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+        <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
           <br><span class="text-green">Model Reasoning</span>
-        </h1>
+        </h3>
         <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-       <div class="create-actions-container">
+       <br>
+        <div class="create-actions-container">
           <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button">Save Creation</a>
-          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="create-action-button">Recreate</a>
         </div>
       </div>
       <div id="particles-js" class="hero-bg"></div>
