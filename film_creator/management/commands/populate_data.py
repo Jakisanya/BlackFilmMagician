@@ -33,7 +33,7 @@ class Command(BaseCommand):
                           'gender': gender,
                           'birthday': birthday,
                           'movie_credits': movie_credits,
-                          'picture': picture}
+                          'picture': picture[1:-1]}
             )
 
         # Create Film instances
