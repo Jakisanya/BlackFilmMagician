@@ -58,9 +58,18 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f'Film with imdb_id {film_imdb_id} does not exist. Skipping...'))
                 continue
 
-            Role.objects.get_or_create(
-                defaults={'actor': actor, 'film': film, 'film_title': title,
-                          'actor_name': actor_name, 'lead': lead_actor}
+            role, created = Role.objects.get_or_create(
+                actor=actor,
+                film=film,
+                defaults={'film_title': title, 'actor_name': actor_name, 'lead': lead_actor}
             )
 
+            if created:
+                self.stdout.write(self.style.SUCCESS(f'Created Role for actor {actor_name} in film {title}'))
+            else:
+                self.stdout.write(self.style.WARNING(f'Role already exists for actor {actor_name} in film {title}'))
+
+                # Retrieve and print the Role instance by actor_name
+            retrieved_role = Role.objects.get(actor_name=actor_name, film=film)
+            print(f'Retrieved Role: {retrieved_role.actor_name} in film {retrieved_role.film_title}, Lead: {retrieved_role.lead}')
         self.stdout.write(self.style.SUCCESS('Successfully populated the database with initial data'))

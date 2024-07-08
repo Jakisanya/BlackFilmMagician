@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.views.generic import TemplateView
-from .models import Actor
+from .models import Actor, Role, Film
 import random
 
 class HomeView(TemplateView):
@@ -23,10 +23,14 @@ class CreateView(TemplateView):
         context['title'] = 'Create Page'
         context['message'] = 'Get creating!'
 
-        # Fetch all actors and select three at random
-        actors = list(Actor.objects.all())
-        selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
-        context['actors'] = selected_actors
+        # Retrieve all Role records
+        roles = Role.objects.all()
+
+        # Print out each record
+        for role in roles:
+            print(f"Film: {role.film_title}, Actor: {role.actor_name}, Lead: {role.lead}")
+        # selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
+        # context['actors'] = selected_actors
 
         return context
 
