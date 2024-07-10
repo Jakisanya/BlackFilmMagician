@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Actor, Role, Film
 import random
+from django.http import JsonResponse
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -23,17 +24,23 @@ class CreateView(TemplateView):
         context['title'] = 'Create Page'
         context['message'] = 'Get creating!'
 
-        # Retrieve all Role records
-        roles = Role.objects.all()
-
-        # Print out each record
-        for role in roles:
-            print(f"Film: {role.film_title}, Actor: {role.actor_name}, Lead: {role.lead}")
-        # selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
-        # context['actors'] = selected_actors
-
+        # Get all unique actor IDs from roles where lead is 1
+        actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
+        actors = list(Actor.objects.filter(tmdb_id__in=actor_ids))
+        print(f'len(actors): {len(actors)}')
+        selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
+        context['actors'] = selected_actors
+        print(selected_actors[1])
         return context
 
-    def create(request):
-        books = Book.objects.all()  # Retrieve all books from the database
-        return render(request, 'create.html', {'books': books})
+
+def fetch_new_actors(request):
+    # Get all unique actor IDs from roles where lead is 1
+    actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
+    actors = list(Actor.objects.filter(tmdb_id__in=actor_ids))
+    selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
+
+    # Prepare the data to be sent as JSON
+    actors_data = [{'name': actor.name, 'picture': actor.picture.url, 'tmdb_id': actor.tmdb_id} for actor in
+                   selected_actors]
+    return JsonResponse({'new_actors': actors_data})
