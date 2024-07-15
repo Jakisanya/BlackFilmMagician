@@ -41,6 +41,7 @@ def fetch_new_actors(request):
     selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
 
     # Prepare the data to be sent as JSON
-    actors_data = [{'name': actor.name, 'picture': actor.picture.url, 'tmdb_id': actor.tmdb_id} for actor in
+    actors_data = [{'name': actor.name, 'picture': actor.picture, 'tmdb_id': actor.tmdb_id} for actor in
                    selected_actors]
+    print(actors_data)
     return JsonResponse({'new_actors': actors_data})

@@ -56,7 +56,7 @@
     margin-left: auto;
     width: 350px;
     height: 350px;
-    border-radius: 50%; /* Ensure the button is a circle */
+    border-radius: 50%;
     border: 2px solid #fff;
     transition: all 300ms cubic-bezier(.165, .84, .44, 1);
     color: #fbfbfb;
@@ -131,27 +131,28 @@
               url: '{% url "fetch_new_actors" %}',
               method: 'GET',
               success: function(data) {
+                  // console.log('Actor picture URL:', actor.picture);
                   const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
                   leadActorsRowContainer.innerHTML = ''; // Clear current content
 
                   if (data.new_actors.length === 3) {
                       data.new_actors.forEach(actor => {
                         const actorColContainer = document.createElement('div');
-                          actorColContainer.className = 'lead-actor-col-container';
+                        actorColContainer.className = 'lead-actor-col-container';
 
-                          actorColContainer.innerHTML = `
-                              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
-                                  <img src="${actor.picture}" alt="${actor.name}">
-                              </a>
-                              <div class="lead-actor-button-name">${actor.name}</div>
-                          `;
-                          leadActorsRowContainer.appendChild(actorColContainer);
+                        actorColContainer.innerHTML = `
+                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/fetch_new_actors/" class="lead-actor-button">
+                                <img src="${actor.picture}" alt="${actor.name}">
+                            </a>
+                            <div class="lead-actor-button-name">${actor.name}</div>
+                        `;
+                        leadActorsRowContainer.appendChild(actorColContainer);
                       });
-                  }
 
-                  // Show the hidden section if it's not already visible
-                  const hiddenSection = document.getElementById('hidden-section');
-                  hiddenSection.style.display = 'block';
+                      // Show the hidden section if it's not already visible
+                      const hiddenSection = document.getElementById("film-creation-section-hidden-section");
+                      hiddenSection.style.display = 'block';
+                  }
               },
               error: function(error) {
                   console.error('Error fetching actors:', error);
@@ -197,7 +198,7 @@
       <div class="create-button-container">
           <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="fetchNewActors()" class="create-button">Create Film</a>
       </div>
-      <div id="film-creation-section hidden-section" class="hidden-section">
+      <div id="film-creation-section-hidden-section" class="hidden-section">
         <div class="container">
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <br/><span class="text-green">"Film Title"</span>
@@ -209,19 +210,19 @@
           <div class="lead-actors-row-container">
             {% if actors|length == 3 %}
             <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
                 <img src="{{ actors.0.picture }}" alt="{{ actors.0.name }}">
               </a>
               <div class="lead-actor-button-name">{{ actors.0.name }}</div>
             </div>
             <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
                 <img src="{{ actors.1.picture }}" alt="{{ actors.1.name }}">
               </a>
               <div class="lead-actor-button-name">{{ actors.1.name }}</div>
             </div>
             <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="lead-actor-button">
+              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
                 <img src="{{ actors.2.picture }}" alt="{{ actors.2.name }}">
               </a>
               <div class="lead-actor-button-name">{{ actors.2.name }}</div>
@@ -287,7 +288,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         const createFilmButton = document.querySelector('.create-button');
-        const hiddenSection = document.getElementById("film-creation-section hidden-section");
+        const hiddenSection = document.getElementById("film-creation-section-hidden-section");
 
         createFilmButton.addEventListener('click', function() {
             // Toggle the visibility of the hidden section
