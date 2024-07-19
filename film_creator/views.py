@@ -6,6 +6,10 @@ from django.views.generic import TemplateView
 from .models import Actor, Role, Film
 import random
 from django.http import JsonResponse
+import openai
+
+openai.api_key = 'your_openai_api_key'
+
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -45,3 +49,29 @@ def fetch_new_actors(request):
                    selected_actors]
     print(actors_data)
     return JsonResponse({'new_actors': actors_data})
+
+def generate_gpt_film_details(request):
+    # Combine film plots and keywords into a prompt
+    plots_and_keywords = "\n".join(
+        [f"Title: {title}\nPlot: {plot}\nKeywords: {keywords}" for title, plot, keywords in film_data]
+    )
+
+    prompt = (f"Create a film title, plot, and reasoning for a new movie starring {', '.join(actor_names)}. "
+              f"Use the following film data as reference:\n\n{plots_and_keywords}")
+
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=300,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+
+    return response.choices[0].text.strip()
+
+    actor_names = ["Actor1", "Actor2", "Actor3"]
+    film_data = extract_film_data(actor_names)
+    film_details = generate_film_details(actor_names, film_data)
+
+    print(film_details)
