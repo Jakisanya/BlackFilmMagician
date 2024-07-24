@@ -7,6 +7,8 @@ from .models import Actor, Role, Film
 import random
 from django.http import JsonResponse
 import openai
+from django.core.serializers import serialize
+import json
 
 openai.api_key = 'your_openai_api_key'
 
@@ -50,39 +52,66 @@ def fetch_new_actors(request):
     return JsonResponse({'new_actors': actors_data, 'new_actors_data': selected_actors})
 
 def generate_gpt_film_details(request):
-    new_actors = fetch_new_actors(request)
+    lead_actors = fetch_new_actors(request)
+
+    lead_actor_info = lead_actors['new_actors_data']
 
     actor_ids = []
     actor_names = []
-    for new_actor in new_actors:
-        actor_ids.append(new_actor['tmdb_id'])
-        actor_names.append(new_actor['name'])
+    for actor in lead_actors:
+        actor_ids.append(actor['new_actors']['tmdb_id'])
+        actor_names.append(actor['new_actors']['name'])
 
-    new_actor_roles = Role.objects.filter(actor__in=actor_ids, actor_name__in=actor_names)
+    lead_actor_roles = Role.objects.filter(actor__in=actor_ids, actor_name__in=actor_names)
 
-    Film.objects.filter(imdb_id__in=)
-    reference_data = [{"actor_name": new_actor.actor_name, "movie_credits": []} for new_actor in new_actor_roles]
+    actor_film_ids = []
+    for role in lead_actor_roles:
+        actor_film_ids.append(role.film)
 
-    plots_and_keywords = "\n".join(
-        [f"Title: {title}\nPlot: {plot}\nKeywords: {keywords}" for title, plot, keywords in film_data]
-    )
+    lead_actor_films = Film.objects.filter(imdb_id__in=actor_film_ids)
+
+    # Convert the querysets to lists of dictionaries
+    lead_actor_info_list = json.loads(serialize('json', lead_actor_info))
+    lead_actor_roles_list = json.loads(serialize('json', lead_actor_roles))
+    lead_actor_films_list = json.loads(serialize('json', lead_actor_films))
+
+    # Convert the lists of dictionaries to JSON strings
+    lead_actor_info_json = json.dumps(lead_actor_info_list, indent=4)
+    lead_actor_roles_json = json.dumps(lead_actor_roles_list, indent=4)
+    lead_actor_films_json = json.dumps(lead_actor_films_list, indent=4)
 
     # Query to find roles for the specific actor and actor_names
-
     prompt = (f"Create a film title and plot for a new movie starring the following lead actors {', '.join(actor_names)}. "
               f"Use the following data as reference:"
-              f"1. Details about each actor: {actor_details}\n"
-              f"2. The plots of all of the films that the actors have starred in: {plots}\n"
-              f"3. Keywords that help categorise all of the films that the actors have starred in: {keywords}\n\n"
+              f"1. Lead Actor Info: {lead_actor_info_json}\n"
+              f"2. Lead Actor Roles: {lead_actor_roles_json}\n"
+              f"3. Lead Actor Films: {lead_actor_films_json}\n\n" 
+              
               f"Here's how I want you to use the reference data:"
-              f"Factor in all information about each actor, specifically, their age and gender, when creating their "
-              f"character. For all of the films that each actor has acted in, gain an understanding of the genre of film"
-              f" they are most suited to. The plot should clearly outline a film that sits in a single genre but still "
-              f"be suited to all of the actors to the highest degree. The film title should creatively convey what the "
-              f"film is about.\n\n"
-              f"In addition to the film title and plot, provide 5 detailed bullet points explaining how the film has "
-              f"been created - making reference to the reference data used. The last bullet point should always explain "
-              f"how the title was created.")
+              f"Cross reference the data presented in 'Lead Actor Info', 'Lead Actor Roles', and 'Lead Actor Films' to "
+              f"help categorise and gain an understanding of each actor and to help create a synergous and cohesive "
+              f"new film idea.\n"
+              f"1. Use 'Lead Actor Info' to get information about each actor. Within 'Lead Actor Info', factor in "
+              f"their age from 'birthday' and their 'gender', when creating their character and role in the new film.\n"
+              f"2. Use 'Lead Actor Roles' to understand the roles each actor has played. Within 'Lead Actor Roles', "
+              f"find the lead actor in 'actor', the 'film', and if they were 'lead' to decide whether to weigh the "
+              f"data for that film more heavily if they were lead than if they were not when building their character "
+              f"and role in the new film.\n"
+              f"3. Use 'Lead Actor Films' to see the films each actor has been in. Within 'Lead Actor Films', use "
+              f"'genre', 'plot', 'plot_words', 'keyword_list' to gain an understanding of the genre of film they are "
+              f"most suited to. Use the information to find a single genre that is most suited to all of the lead "
+              f"actors in the new film. The new plot should clearly outline a film that sits in this single genre and "
+              f"is suited to all of the actors to the highest degree. Also use the information to help create the new"
+              f"film title and plot. The film title should creatively convey what the film is about. The plot should be"
+              f"clear, descriptive, and less than 500 words. It should specifically mention each lead actor and their "
+              f"character and role in the film. Use the style of writing of the plots of highest grossing films to "
+              f"gain an understanding of how to write the new plot. The gross figure is referenced in "
+              f"'worldwide_gross'. \n"
+              f"4. In addition to the film title and plot, provide 5 detailed bullet points explaining how the film "
+              f"has been created - making reference to the reference data used. The last bullet point should always "
+              f"explain how the title was created, i.e., the inspiration behind the title.")
+
+    print(f"Prompt: {prompt}\n\n")
 
     response = openai.Completion.create(
         engine="text-davinci-003",
@@ -93,10 +122,9 @@ def generate_gpt_film_details(request):
         temperature=0.7,
     )
 
-    return response.choices[0].text.strip()
+    film_details = response.choices[0].text.strip()
 
-    actor_names = ["Actor1", "Actor2", "Actor3"]
-    film_data = extract_film_data(actor_names)
-    film_details = generate_film_details(actor_names, film_data)
+    print(f'Film details: {film_details}')
 
-    print(film_details)
+    return JsonResponse({"lead_actor_info": lead_actor_info, "lead_actor_roles": lead_actor_roles,
+                         "lead_actor_films": lead_actor_films, "gpt_film_details": film_details})
