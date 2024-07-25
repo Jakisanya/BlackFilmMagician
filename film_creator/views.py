@@ -6,12 +6,10 @@ from django.views.generic import TemplateView
 from .models import Actor, Role, Film
 import random
 from django.http import JsonResponse
-import openai
+from openai import OpenAI
 from django.core.serializers import serialize
 import json
-
-openai.api_key = 'your_openai_api_key'
-
+import secrets
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -122,16 +120,25 @@ def generate_gpt_film_details(request):
 
     print(f"Prompt: {prompt}\n\n")
 
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=300,
-        n=1,
-        stop=None,
-        temperature=0.7,
+    client = OpenAI()
+
+    assistant = client.beta.assistants.create(
+        name="Film Magician",
+        instructions="",
+        tools=[{"type": ""}],
+        model="gpt-4o-mini",
     )
 
-    film_details = response.choices[0].text.strip()
+    my_thread_message = client.beta.threads.messages.create(
+        thread_id=my_thread.id,
+        role="user",
+        content=prompt,
+        attachments=[
+            {"file_id": file_id, "tools": [{"type": "file_search"}]}
+        ],
+    )
+
+
 
     print(f'Film details: {film_details}')
 
