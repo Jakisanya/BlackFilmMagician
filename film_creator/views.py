@@ -31,14 +31,12 @@ class CreateView(TemplateView):
         # Get all unique actor IDs from roles where lead is 1
         actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
         actors = list(Actor.objects.filter(tmdb_id__in=actor_ids))
-        print(f'len(actors): {len(actors)}')
         selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
         context['actors'] = selected_actors
-        print(selected_actors[1])
         return context
 
 
-def fetch_new_actors(request):
+def fetch_new_actors():
     # Get all unique actor IDs from roles where lead is 1
     actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
     actors = list(Actor.objects.filter(tmdb_id__in=actor_ids))
@@ -47,12 +45,11 @@ def fetch_new_actors(request):
     # Prepare the data to be sent as JSON
     actors_data = [{'name': actor.name, 'picture': actor.picture, 'tmdb_id': actor.tmdb_id} for actor in
                    selected_actors]
-    print(actors_data)
     return {'new_actors': actors_data, 'new_actors_data': selected_actors}
 
 
 def generate_gpt_film_details(request):
-    lead_actors = fetch_new_actors(request)
+    lead_actors = fetch_new_actors()
 
     lead_actor_info = lead_actors['new_actors_data']
 
@@ -69,11 +66,11 @@ def generate_gpt_film_details(request):
     for role in list(lead_actor_roles):
         actor_film_ids.append(role.film.imdb_id)
 
-    print(f'actor_film_ids: {actor_film_ids}')
+    # print(f'actor_film_ids: {actor_film_ids}')
     lead_actor_films = Film.objects.filter(imdb_id__in=actor_film_ids)
 
-    print(f'lead_actor_roles: {len(list(lead_actor_roles))}')
-    print(f'lead_actor_films: {len(list(lead_actor_films))}')
+    # print(f'lead_actor_roles: {len(list(lead_actor_roles))}')
+    # print(f'lead_actor_films: {len(list(lead_actor_films))}')
 
     # Convert the querysets to lists of dictionaries
     lead_actor_info_list = [{'name': actor.name, 'picture': actor.picture, 'tmdb_id': actor.tmdb_id} for actor in
@@ -118,7 +115,7 @@ def generate_gpt_film_details(request):
               f"explain how the title was created, i.e., the inspiration behind the title.\n\n"
               f"The model's response should have 3 sections: 'Title', 'Plot' and 'Reasoning'.")
 
-    print(f"Prompt: {prompt}\n\n")
+    # print(f"Prompt: {prompt}\n\n")
 
     client = OpenAI()
 

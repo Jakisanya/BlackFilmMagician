@@ -132,7 +132,7 @@
               method: 'GET',
               success: function(data) {
                   // console.log('Actor picture URL:', actor.picture);
-                  const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
+                const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
                   leadActorsRowContainer.innerHTML = ''; // Clear current content
 
                   if (data.lead_actor_info.length === 3) {
@@ -141,7 +141,7 @@
                         actorColContainer.className = 'lead-actor-col-container';
 
                         actorColContainer.innerHTML = `
-                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/generate_gpt_film_details/" class="lead-actor-button">
+                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                 <img src="${actor.picture}" alt="${actor.name}">
                             </a>
                             <div class="lead-actor-button-name">${actor.name}</div>
