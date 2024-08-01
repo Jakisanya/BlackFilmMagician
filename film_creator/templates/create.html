@@ -216,7 +216,6 @@
             <br><span class="text-green">Lead Actors</span>
           </h3>
           <div class="lead-actors-row-container">
-            {% if actors|length == 3 %}
             <div class="lead-actor-col-container">
               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
                 <img src="{{ actors.0.picture }}" alt="{{ actors.0.name }}">
@@ -235,7 +234,6 @@
               </a>
               <div class="lead-actor-button-name">{{ actors.2.name }}</div>
             </div>
-            {% endif %}
           </div>
           <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
             <br><span class="text-green">Model Reasoning</span>
