@@ -76,12 +76,15 @@ def generate_gpt_film_details(request):
     lead_actor_roles_list = json.loads(serialize('json', lead_actor_roles))
     lead_actor_films_list = json.loads(serialize('json', lead_actor_films))
 
+    # print(f'lead_actor_info_list: {lead_actor_info_list}')
+
     # Convert the lists of dictionaries to JSON strings
-    lead_actor_info_json = json.dumps(lead_actor_info_list, indent=4)
     lead_actor_roles_json = json.dumps(lead_actor_roles_list, indent=4)
     lead_actor_films_json = json.dumps(lead_actor_films_list, indent=4)
 
-    return JsonResponse({"lead_actor_info": lead_actor_info_json})  # "gpt_film_details": film_details
+    print(f'lead_actor_info_json: {lead_actor_info_list}')
+
+    return JsonResponse({"lead_actor_info": lead_actor_info_list})  # "gpt_film_details": film_details
 
 
 """

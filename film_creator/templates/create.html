@@ -131,12 +131,15 @@
               url: '{% url "generate_gpt_film_details" %}',
               method: 'GET',
               success: function(data) {
-                  // console.log('Actor picture URL:', actor.picture);
+                console.log('AJAX request successful'); // Log successful AJAX request
+                console.log('Received data:', data); // Log received data
                 const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
                   leadActorsRowContainer.innerHTML = ''; // Clear current content
 
                   if (data.lead_actor_info.length === 3) {
                       data.lead_actor_info.forEach(actor => {
+                        console.log('Actor picture URL:', actor.picture); // Log actor picture URL
+                        console.log('Actor name:', actor.name); // Log actor name
                         const actorColContainer = document.createElement('div');
                         actorColContainer.className = 'lead-actor-col-container';
 
@@ -156,10 +159,6 @@
                       filmTitleElement.textContent = data.gpt_film_details['Title'];
                       filmPlotElement.textContent = data.gpt_film_details['Plot'];
                       modelReasoningElement.textContent = data.gpt_film_details['Reasoning'];
-
-                      // Show the hidden section if it's not already visible
-                      const hiddenSection = document.getElementById("film-creation-section-hidden-section");
-                      hiddenSection.style.display = 'block';
                   }
               },
               error: function(error) {
@@ -215,26 +214,7 @@
           <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
             <br><span class="text-green">Lead Actors</span>
           </h3>
-          <div class="lead-actors-row-container">
-            <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
-                <img src="{{ actors.0.picture }}" alt="{{ actors.0.name }}">
-              </a>
-              <div class="lead-actor-button-name">{{ actors.0.name }}</div>
-            </div>
-            <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
-                <img src="{{ actors.1.picture }}" alt="{{ actors.1.name }}">
-              </a>
-              <div class="lead-actor-button-name">{{ actors.1.name }}</div>
-            </div>
-            <div class="lead-actor-col-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="/create" class="lead-actor-button">
-                <img src="{{ actors.2.picture }}" alt="{{ actors.2.name }}">
-              </a>
-              <div class="lead-actor-button-name">{{ actors.2.name }}</div>
-            </div>
-          </div>
+          <div class="lead-actors-row-container"></div>
           <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
             <br><span class="text-green">Model Reasoning</span>
           </h3>
@@ -298,10 +278,8 @@
 
         createFilmButton.addEventListener('click', function() {
             // Toggle the visibility of the hidden section
-            if (hiddenSection.style.display === 'none') {
+            if (hiddenSection.style.display === 'none' || hiddenSection.style.display === '') {
                 hiddenSection.style.display = 'block';
-            } else {
-                hiddenSection.style.display = 'none';
             }
         });
     });
