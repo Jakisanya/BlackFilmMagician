@@ -39,16 +39,18 @@ def fetch_new_actors():
 
 def parse_film_details(details_string):
     # Define the regex patterns
-    title_pattern = r'### Title\n\*\*"(.*?)"\*\*'
-    genre_pattern = r'### Genre\n\*\*(.*?)\*\*'
-    plot_pattern = r'### Plot\n(.*?)\n\n### Reasoning'
-    reasoning_pattern = r'### Reasoning\n(.*)'
+
+    print("\n\n\n", f'details_string: {repr(details_string)}')
+    title_pattern = r'Title\*\*(.*?)\*\*'
+    genre_pattern = r'Genre\*\*(.*?)\*\*'
+    plot_pattern = r'Plot\*\*(.*?)\*\*'
+    reasoning_pattern = r'Reasoning\*\*(.*)'
 
     # Extract the details using regex
     title = re.search(title_pattern, details_string, re.DOTALL).group(1).strip()
     genre = re.search(genre_pattern, details_string, re.DOTALL).group(1).strip()
     plot = re.search(plot_pattern, details_string, re.DOTALL).group(1).strip()
-    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip()
+    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip().replace(" - ", "\n\n - ")
 
     # Create the dictionary
     data = {
@@ -111,7 +113,7 @@ def generate_gpt_film_details(request):
         file.write(lead_actor_films_json)
 
     # Upload files to openai client
-    client = OpenAI(api_key=os.environ['BMFILMS_API_KEY'])
+    client = OpenAI(api_key=os.getenv('BMFILMS_API_KEY'))
 
     with open(lead_actor_info_file, 'rb') as file:
         response = client.files.create(
@@ -177,10 +179,13 @@ def generate_gpt_film_details(request):
         else:
             print(run.status)
 
-        film_details = messages.data[0].content[0].text.value
+        film_details = messages.data[0].content[0].text.value.replace("\n", " ")
+        film_details_v2 = re.sub(r'\s\s+', ' ', film_details)
 
-        parsed_film_details = parse_film_details(film_details)
-        print(f'Film Details: {parsed_film_details}')
+        print(f'Film Details: {film_details_v2}')
+
+        parsed_film_details = parse_film_details(film_details_v2)
+
 
         parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
                                     f'{actor_names[2]}.json')
