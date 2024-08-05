@@ -11,6 +11,7 @@ from django.core.serializers import serialize
 import json
 from django.conf import settings
 import re
+import os
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -112,7 +113,7 @@ def generate_gpt_film_details(request):
         file.write(lead_actor_films_json)
 
     # Upload files to openai client
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    client = OpenAI(api_key=os.environ['BMFILMS_API_KEY'])
 
     with open(lead_actor_info_file, 'rb') as file:
         response = client.files.create(
