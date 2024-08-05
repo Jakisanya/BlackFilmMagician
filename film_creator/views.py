@@ -10,6 +10,7 @@ from openai import OpenAI
 from django.core.serializers import serialize
 import json
 from django.conf import settings
+import re
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -35,6 +36,33 @@ def fetch_new_actors():
     actors_data = [{'name': actor.name, 'picture': actor.picture, 'tmdb_id': actor.tmdb_id} for actor in
                    selected_actors]
     return {'new_actors': actors_data, 'new_actors_data': selected_actors}
+
+
+def parse_film_details(details_string):
+    # Define the regex patterns
+    title_pattern = r'### Title\n\*\*"(.*?)"\*\*'
+    genre_pattern = r'### Genre\n\*\*(.*?)\*\*'
+    plot_pattern = r'### Plot\n(.*?)\n\n### Reasoning'
+    reasoning_pattern = r'### Reasoning\n(.*)'
+
+    # Extract the details using regex
+    title = re.search(title_pattern, details_string, re.DOTALL).group(1).strip()
+    genre = re.search(genre_pattern, details_string, re.DOTALL).group(1).strip()
+    plot = re.search(plot_pattern, details_string, re.DOTALL).group(1).strip()
+    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip()
+
+    # Create the dictionary
+    data = {
+        "title": title,
+        "genre": genre,
+        "plot": plot,
+        "reasoning": reasoning
+    }
+
+    # Convert to JSON
+    json_data = json.dumps(data, indent=4)
+
+    return json_data
 
 
 def generate_gpt_film_details(request):
@@ -116,7 +144,7 @@ def generate_gpt_film_details(request):
             description="You are a film creator. You create detailed film ideas from reference data. This includes a "
                         "film title, plot, genre and reasoning as why how the idea has been formed.",
             model="gpt-4o-mini",
-            tools=[{"type": "file_search"}]
+            tools=[{"type": "file_search"}],
         )
 
         thread = client.beta.threads.create()
@@ -136,22 +164,30 @@ def generate_gpt_film_details(request):
                 {"file_id": films_file_id, "tools": [{"type": "file_search"}]}
             ]
         )
-        print(f'thread_message: {thread_message}')
+        # print(f'thread_message: {thread_message}\n\n\n\n')
 
         run = client.beta.threads.runs.create_and_poll(
             thread_id=thread.id,
-            assistant_id=assistant.id,
+            assistant_id=assistant.id
         )
 
         if run.status == 'completed':
             messages = client.beta.threads.messages.list(
                 thread_id=thread.id
             )
-            print(messages)
         else:
             print(run.status)
 
-        film_details = messages
-        print(f'Film details: {film_details}')
+        film_details = messages.data[0].content[0].text.value
 
-    return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": film_details})
+        parsed_film_details = parse_film_details(film_details)
+        print(f'Film Details: {parsed_film_details}')
+
+        parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
+                                    f'{actor_names[2]}.json')
+
+        # Create 3 JSON files locally
+        with open(parsed_film_details_file, 'w') as details_file:
+            details_file.write(parsed_film_details)
+
+    return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details})

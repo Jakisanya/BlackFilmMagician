@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -124,4 +124,4 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
