@@ -156,9 +156,9 @@
                       const filmTitleElement = document.querySelector('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
                       const filmPlotElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
                       const modelReasoningElement = document.querySelector('h3[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
-                      filmTitleElement.textContent = data.gpt_film_details['Title'];
-                      filmPlotElement.textContent = data.gpt_film_details['Plot'];
-                      modelReasoningElement.textContent = data.gpt_film_details['Reasoning'];
+                      filmTitleElement.textContent = data.gpt_film_details.title;
+                      filmPlotElement.textContent = data.gpt_film_details.plot;
+                      modelReasoningElement.textContent = data.gpt_film_details.reasoning;
                   }
               },
               error: function(error) {

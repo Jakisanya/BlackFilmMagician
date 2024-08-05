@@ -60,10 +60,7 @@ def parse_film_details(details_string):
         "reasoning": reasoning
     }
 
-    # Convert to JSON
-    json_data = json.dumps(data, indent=4)
-
-    return json_data
+    return data
 
 
 def generate_gpt_film_details(request):
