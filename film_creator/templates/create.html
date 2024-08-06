@@ -137,33 +137,44 @@
                   leadActorsRowContainer.innerHTML = ''; // Clear current content
 
                   if (data.lead_actor_info.length === 3) {
-                      data.lead_actor_info.forEach(actor => {
-                        console.log('Actor picture URL:', actor.picture); // Log actor picture URL
-                        console.log('Actor name:', actor.name); // Log actor name
-                        const actorColContainer = document.createElement('div');
-                        actorColContainer.className = 'lead-actor-col-container';
+                    data.lead_actor_info.forEach(actor => {
+                      console.log('Actor picture URL:', actor.picture); // Log actor picture URL
+                      console.log('Actor name:', actor.name); // Log actor name
+                      const actorColContainer = document.createElement('div');
+                      actorColContainer.className = 'lead-actor-col-container';
 
-                        actorColContainer.innerHTML = `
+                      actorColContainer.innerHTML = `
                             <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                 <img src="${actor.picture}" alt="${actor.name}">
                             </a>
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
-                        leadActorsRowContainer.appendChild(actorColContainer);
-                      });
+                      leadActorsRowContainer.appendChild(actorColContainer);
+                    });
 
-                      // Update the film title, plot and reasoning
-                      const filmTitleElement = document.querySelector('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
-                      const filmPlotElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
-                      const modelReasoningElement = document.querySelector('h3[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
-                      filmTitleElement.textContent = data.gpt_film_details.title;
-                      filmPlotElement.textContent = data.gpt_film_details.plot;
+                    // Update the film title, plot and reasoning
+                    const filmTitleElement = document.querySelector('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
+                    filmTitleElement.textContent = data.gpt_film_details.title;
+
+                    const filmPlotElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
+                    filmPlotElement.textContent = data.gpt_film_details.plot;
+                    console.log('Film plot element:', filmPlotElement);
+
+                    const modelReasoningElements = document.querySelectorAll('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
+                    console.log('Number of elements found:', modelReasoningElements.length);
+
+                    if (modelReasoningElements.length >= 2) {
+                      const modelReasoningElement = modelReasoningElements[1];
+                      console.log('Setting reasoning text:', data.gpt_film_details.reasoning);
                       modelReasoningElement.textContent = data.gpt_film_details.reasoning;
+                    } else {
+                      console.log('Less than two elements found, cannot set reasoning text.');
+                    }
                   }
               },
-              error: function(error) {
-                  console.error('Error fetching actors:', error);
-              }
+            error: function (error) {
+              console.error('Error fetching actors:', error);
+            }
           });
       }
   </script>
@@ -210,15 +221,15 @@
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <br/><span class="text-green">"Film Title"</span>
           </h1>
-          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text"> </div>
           <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-            <br><span class="text-green">Lead Actors</span>
+            <br><span class="text-green">LEAD ACTORS</span>
           </h3>
           <div class="lead-actors-row-container"></div>
           <h3 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-            <br><span class="text-green">Model Reasoning</span>
+            <br><span class="text-green">MODEL REASONING</span>
           </h3>
-          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0" class="hero-text"> </div>
          <br>
           <div class="create-actions-container">
             <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button">Save Creation</a>

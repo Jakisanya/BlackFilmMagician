@@ -39,8 +39,8 @@ def fetch_new_actors():
 
 def parse_film_details(details_string):
     # Define the regex patterns
-
     print("\n\n\n", f'details_string: {repr(details_string)}')
+
     title_pattern = r'Title\*\*(.*?)\*\*'
     genre_pattern = r'Genre\*\*(.*?)\*\*'
     plot_pattern = r'Plot\*\*(.*?)\*\*'
@@ -53,14 +53,16 @@ def parse_film_details(details_string):
     reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip().replace(" - ", "\n\n - ")
 
     # Create the dictionary
-    data = {
+    data_dict = {
         "title": title,
         "genre": genre,
         "plot": plot,
         "reasoning": reasoning
     }
 
-    return data
+    json_data_str = json.dumps(data_dict, indent=4)
+
+    return json_data_str, data_dict
 
 
 def generate_gpt_film_details(request):
@@ -176,12 +178,12 @@ def generate_gpt_film_details(request):
         else:
             print(run.status)
 
-        film_details = messages.data[0].content[0].text.value.replace("\n", " ")
+        film_details = messages.data[0].content[0].text.value
         film_details_v2 = re.sub(r'\s\s+', ' ', film_details)
 
         print(f'Film Details: {film_details_v2}')
 
-        parsed_film_details = parse_film_details(film_details_v2)
+        parsed_film_details_json_str, parsed_film_details_dict = parse_film_details(film_details_v2)
 
 
         parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
@@ -189,6 +191,6 @@ def generate_gpt_film_details(request):
 
         # Create 3 JSON files locally
         with open(parsed_film_details_file, 'w') as details_file:
-            details_file.write(parsed_film_details)
+            details_file.write(parsed_film_details_json_str)
 
-    return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details})
+    return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details_dict})
