@@ -50,7 +50,7 @@ def parse_film_details(details_string):
     title = re.search(title_pattern, details_string, re.DOTALL).group(1).strip()
     genre = re.search(genre_pattern, details_string, re.DOTALL).group(1).strip()
     plot = re.search(plot_pattern, details_string, re.DOTALL).group(1).strip()
-    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip().replace(" - ", "\n\n - ")
+    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip()
 
     # Create the dictionary
     data_dict = {
