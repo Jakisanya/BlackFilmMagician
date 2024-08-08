@@ -217,7 +217,7 @@
                     if (modelReasoningElements.length >= 2) {
                       const modelReasoningElement = modelReasoningElements[1];
                       console.log('Setting reasoning text:', data.gpt_film_details.reasoning);
-                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s\*\*(.*?)\*\*/, '<span class="highlight">$1</span>').replace(/\s-\s\*\*(.*?)\*\*/g, '<br><br><span class="highlight">$1</span>');
+                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\s-\s(.*?:)/g, '<br><br><span class="highlight">$1</span>');
                     } else {
                       console.log('Less than two elements found, cannot set reasoning text.');
                     }
