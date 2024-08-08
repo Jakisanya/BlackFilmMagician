@@ -38,31 +38,28 @@ def fetch_new_actors():
 
 
 def parse_film_details(details_string):
-    # Define the regex patterns
-    print("\n\n\n", f'details_string: {details_string}')
+    film_details_list = details_string.split("\n")
+    print(f'Film Details List: {film_details_list}\n\n')
 
-    title_pattern = r'Title\*\*(.*?)\*\*'
-    genre_pattern = r'Genre\*\*(.*?)\*\*'
-    plot_pattern = r'Plot\*\*(.*?)\*\*'
-    reasoning_pattern = r'Reasoning\*\*(.*)'
-
-    # Extract the details using regex
-    title = re.search(title_pattern, details_string, re.DOTALL).group(1).strip()
-    genre = re.search(genre_pattern, details_string, re.DOTALL).group(1).strip()
-    plot = re.search(plot_pattern, details_string, re.DOTALL).group(1).strip()
-    reasoning = re.search(reasoning_pattern, details_string, re.DOTALL).group(1).strip()
+    title = film_details_list[1].strip()
+    genre = film_details_list[4].strip()
+    plot_end_index = next((i for i, s in enumerate(film_details_list) if "Reason" in s), None)
+    plot = "\n".join(film_details_list[7:plot_end_index])
+    reasoning = "\n".join(film_details_list[plot_end_index + 1:])
 
     # Create the dictionary
-    data_dict = {
+    film_data_dict = {
         "title": title,
         "genre": genre,
         "plot": plot,
         "reasoning": reasoning
     }
 
-    json_data_str = json.dumps(data_dict, indent=4)
+    print(f'Film Details Dictionary: {film_data_dict}\n\n')
 
-    return json_data_str, data_dict
+    json_data_str = json.dumps(film_data_dict, indent=4)
+
+    return json_data_str, film_data_dict
 
 
 def generate_gpt_film_details(request):
@@ -178,21 +175,21 @@ def generate_gpt_film_details(request):
         else:
             print(run.status)
 
-        film_details = messages.data[0].content[0].text
-        print(f'Film Details: {film_details.value}\n\n')
+        film_details = messages.data[0].content[0].text.value
+        print(f'Film details: {film_details}\n\n')
 
-        film_details_v2 = re.sub(r'\s\s+', ' ', film_details.value)
-
+        """
         # Remove sources
         pattern = r'【\d+:\d+†source】'
         film_details_v3 = re.sub(pattern, '', film_details_v2)
+        """
 
-        parsed_film_details_json_str, parsed_film_details_dict = parse_film_details(film_details_v3)
+        parsed_film_details_json_str, parsed_film_details_dict = parse_film_details(film_details)
 
         parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
                                     f'{actor_names[2]}.json')
 
         with open(parsed_film_details_file, 'w') as details_file:
             details_file.write(parsed_film_details_json_str)
-
+    
     return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details_dict})

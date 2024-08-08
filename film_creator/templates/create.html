@@ -204,11 +204,14 @@
                     });
 
                     // Update the film title, plot and reasoning
+                    // Selecting the title element
                     const filmTitleElement = document.querySelector('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green');
-                    filmTitleElement.textContent = data.gpt_film_details.title;
+
+                    // Setting the title and genre with adjusted spacing
+                    filmTitleElement.innerHTML = `${data.gpt_film_details.title} <span style="font-size: 18px; font-style: italic; line-height: 1.2; margin-top: -5px; display: inline-block;">(${data.gpt_film_details.genre})</span>`;
 
                     const filmPlotElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
-                    filmPlotElement.textContent = data.gpt_film_details.plot;
+                    filmPlotElement.innerHTML = data.gpt_film_details.plot.replace(/\n\n/g, '<br><br>');
                     console.log('Film plot element:', filmPlotElement);
 
                     const modelReasoningElements = document.querySelectorAll('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
@@ -217,7 +220,7 @@
                     if (modelReasoningElements.length >= 2) {
                       const modelReasoningElement = modelReasoningElements[1];
                       console.log('Setting reasoning text:', data.gpt_film_details.reasoning);
-                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\s-\s(.*?:)/g, '<br><br><span class="highlight">$1</span>');
+                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\n\n-\s(.*?:)/g, '<br><br><span class="highlight">$1</span>');
                     } else {
                       console.log('Less than two elements found, cannot set reasoning text.');
                     }
