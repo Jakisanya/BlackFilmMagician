@@ -29,7 +29,13 @@ def fetch_new_actors():
     # Get all unique actor IDs from roles where lead is 1
     actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
     actors = list(Actor.objects.filter(tmdb_id__in=actor_ids))
-    selected_actors = random.sample(actors, 3) if len(actors) >= 3 else actors
+
+    # Determine how many actors to return: 1, 2, or 3
+    max_actors_to_select = 3
+    num_actors_to_select = random.randint(1, max_actors_to_select)
+
+    # Randomly select the actors
+    selected_actors = random.sample(actors, num_actors_to_select)
 
     # Prepare the data to be sent as JSON
     actors_data = [{'name': actor.name, 'picture': actor.picture, 'tmdb_id': actor.tmdb_id} for actor in
@@ -186,8 +192,13 @@ def generate_gpt_film_details(request):
 
         parsed_film_details_json_str, parsed_film_details_dict = parse_film_details(film_details)
 
-        parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
-                                    f'{actor_names[2]}.json')
+        if len(actor_names) == 3:
+            parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}_'
+                                        f'{actor_names[2]}.json')
+        if len(actor_names) == 2:
+            parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}_{actor_names[1]}.json')
+        if len(actor_names) == 1:
+            parsed_film_details_file = (f'film_creator/api_response_archive/{actor_names[0]}.json')
 
         with open(parsed_film_details_file, 'w') as details_file:
             details_file.write(parsed_film_details_json_str)

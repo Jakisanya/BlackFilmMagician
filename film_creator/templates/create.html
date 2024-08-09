@@ -182,13 +182,14 @@
               url: '{% url "generate_gpt_film_details" %}',
               method: 'GET',
               success: function(data) {
-                console.log('AJAX request successful'); // Log successful AJAX request
-                console.log('Received data:', data); // Log received data
-                const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
-                  leadActorsRowContainer.innerHTML = ''; // Clear current content
+                  console.log('AJAX request successful'); // Log successful AJAX request
+                  console.log('Received data:', data); // Log received data
+                  const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
+                    leadActorsRowContainer.innerHTML = ''; // Clear current content
 
-                  if (data.lead_actor_info.length === 3) {
-                    data.lead_actor_info.forEach(actor => {
+                  // Check if there are 1, 2, or 3 actors in the data
+                  if (data.lead_actor_info && data.lead_actor_info.length > 0) {
+                      data.lead_actor_info.forEach(actor => {
                       console.log('Actor picture URL:', actor.picture); // Log actor picture URL
                       console.log('Actor name:', actor.name); // Log actor name
                       const actorColContainer = document.createElement('div');
@@ -220,7 +221,7 @@
                     if (modelReasoningElements.length >= 2) {
                       const modelReasoningElement = modelReasoningElements[1];
                       console.log('Setting reasoning text:', data.gpt_film_details.reasoning);
-                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\n\n-\s(.*?:)/g, '<br><br><span class="highlight">$1</span>');
+                      modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\n\n-\s+(.*?:)/g, '<br><br><span class="highlight">$1</span>');
                     } else {
                       console.log('Less than two elements found, cannot set reasoning text.');
                     }
