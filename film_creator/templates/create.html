@@ -160,7 +160,7 @@
   h3[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green {
     font-size: 25px; /* Adjust size as needed */
   }
-  #editor {
+  #plot-editor {
       height: auto; /* Adjust height as needed */
       background: transparent;
       border: 1px solid #ccc;
@@ -170,6 +170,19 @@
     line-height: 2.0;
     text-align: justify;
     font-size: 16px;
+  }
+  #slider-controls-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0; /* Add some spacing around the controls */
+  }
+  .slider-instruction {
+    font-size: 18px; /* Adjust font size as needed */
+    font-weight: bold;
+    color: #fbfbfb; /* Adjust color as needed */
+    margin: 0 10px; /* Adjust spacing between arrows and text */
+    text-align: center;
   }
   </style>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -223,21 +236,24 @@
                     // Setting the title and genre with adjusted spacing
                     filmTitleElement.innerHTML = `${data.gpt_film_details.title} <span style="font-size: 18px; font-style: italic; line-height: 1.2; margin-top: -5px; display: inline-block;">(${data.gpt_film_details.genre})</span>`;
 
-                    const filmPlotElement = document.querySelector('#editor p');
-                    filmPlotElement.textContent = data.gpt_film_details.plot
-                    console.log('Film plot element:', filmPlotElement);
+                    const filmPlotOriginalElement = document.querySelector('#plot-original p')
+                    const filmPlotEditorElement = document.querySelector('#plot-editor p');
+
+                    function convertNewLinesToParagraphs(text) {
+                      return text.split('\n\n').map(p => `<p>${p}</p>`).join('');
+                    }
+
+                    filmPlotOriginalElement.innerHTML = convertNewLinesToParagraphs(data.gpt_film_details.plot)
+                    filmPlotEditorElement.innerHTML = convertNewLinesToParagraphs(data.gpt_film_details.plot)
+                    console.log('Film plot element:', filmPlotOriginalElement);
 
                     const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
                     modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\n\n-\s+(.*?:)/g, '<br><br><span class="highlight">$1</span>');
                     console.log('Model reasoning element:', modelReasoningElement);
 
                     // Show the hidden sections after the data is successfully loaded
-                    // Show and initialize Quill editor
-                    const quillEditorContainer = document.getElementById('editor');
-                    if (quillEditorContainer) {
-                      quillEditorContainer.classList.remove('hidden-section');
-                    }
-
+                    document.getElementById('plot-original').classList.remove('hidden-section');
+                    document.getElementById('plot-editor').classList.remove('hidden-section');
                     document.querySelectorAll('h1.text-green').forEach(h1 => {
                       h1.classList.remove('hidden-section');
                     });
@@ -314,22 +330,38 @@
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <span class="text-green"></span>
           </h1>
-          <!-- Insert the Quill editor container -->
-          <div id="editor" class="hidden-section">
-            <p></p>
+          <!-- Insert the slider -->
+          <div data-delay="4000" data-animation="outin" class="service-slider w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true" role="region" aria-label="carousel">
+            <div class="w-slider-mask" id="w-slider-mask-1">
+              <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: hidden;" aria-hidden="true">
+                <!-- Insert original plot container -->
+                <div id="plot-original" class="hidden-section">
+                  <p></p>
+                </div>
+              </div>
+              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" aria-hidden="true" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
+                <!-- Insert the Quill editor container -->
+                <div id="plot-editor" class="hidden-section">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+            <span class="slider-instruction">SLIDE TO EDIT</span>
+            <div data-w-id="9e9efe71-cf9b-ac2a-7c3f-325fee2815af" style="opacity: 1;" class="left-arrow-service w-slider-arrow-left" role="button" tabindex="0" aria-controls="w-slider-mask-1" aria-label="previous slide"></div>
+            <div data-w-id="9e9efe71-cf9b-ac2a-7c3f-325fee2815b1" style="opacity: 1;" class="right-arrow-service w-slider-arrow-right" role="button" tabindex="0" aria-controls="w-slider-mask-1" aria-label="next slide"></div>
           </div>
-          <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
-            <span class="text-green">LEAD ACTORS</span>
-          </h1>
-          <div class="lead-actors-row-container"></div>
-          <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
-            <span class="text-green">MODEL REASONING</span>
-          </h1>
-          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0;"> </div>
-         <br>
-          <div class="create-actions-container">
-            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button hidden-section">Save Creation</a>
-          </div>
+            <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
+              <span class="text-green">LEAD ACTORS</span>
+            </h1>
+            <div class="lead-actors-row-container"></div>
+            <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
+              <span class="text-green">MODEL REASONING</span>
+            </h1>
+            <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0;"> </div>
+            <br>
+            <div class="create-actions-container">
+              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button hidden-section">Save Creation</a>
+            </div>
         </div>
       <div id="particles-js" class="hero-bg"></div>
     </div>
@@ -394,34 +426,33 @@
   <script>
       const quill = new Quill('#editor');
 
-      // Track old document contents
-      let oldContents = quill.getContents();
-
       // Listen for text-change events
       quill.on('text-change', (delta, oldDelta, source) => {
           if (source === 'user') {
-              // Get the new contents of the editor
-              let newContents = quill.getContents();
+              let currentIndex = 0;
 
-              // Create a map to store the positions of deleted text
-              let deletedTextPositions = [];
+              oldDelta.ops.forEach((op) => {
+                  if (op.retain) {
+                      // Move the index forward by the number of retained characters
+                      currentIndex += op.retain;
+                  } else if (op.insert) {
+                      // Move the index forward by the length of the inserted text
+                      currentIndex += op.insert.length;
+                  } else if (op.delete) {
+                      // Deletion: Re-insert the deleted character and apply strikethrough formatting
+                      let startIndex = currentIndex;
+                      let deletedText = quill.getText(startIndex, op.delete);
 
-              // Compare oldDelta and newDelta to find deletions
-              oldDelta.ops.forEach((op, index) => {
-                  if (op.delete) {
-                      let startIndex = op.index;
-                      let endIndex = startIndex + op.delete;
-                      deletedTextPositions.push({ start: startIndex, end: endIndex });
+                      // Re-insert the deleted text at the same position
+                      quill.insertText(startIndex, deletedText);
+
+                      // Apply strikethrough to the re-inserted text
+                      quill.formatText(startIndex, op.delete, 'strike', true);
+
+                      // Update currentIndex to move past the re-inserted text
+                      currentIndex += op.delete;
                   }
               });
-
-              // Apply strikethrough formatting to deleted text
-              deletedTextPositions.forEach(pos => {
-                  quill.formatText(pos.start, pos.end - pos.start, 'strike', true);
-              });
-
-              // Update old contents
-              oldContents = newContents;
           }
       });
   </script>
