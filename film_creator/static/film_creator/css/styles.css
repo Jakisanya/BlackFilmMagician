@@ -518,11 +518,11 @@ a:hover {
   right: auto;
   bottom: -80px;
   display: block;
-  width: 33px;
-  height: 16px;
+  width: 150px;
+  height: 60px;
   background-image: url("https://assets.website-files.com/60be390332a614269413c7ee/60be390332a614a44113c803_Slide%20arrow%20left%20gray.svg");
   background-position: 0% 100%;
-  background-size: auto;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
@@ -536,11 +536,11 @@ a:hover {
   right: auto;
   bottom: -80px;
   display: block;
-  width: 33px;
-  height: 16px;
+  width: 150px;
+  height: 60px;
   background-image: url("https://assets.website-files.com/60be390332a614269413c7ee/60be390332a614a75a13c802_Slide%20arrow%20right%20gray.svg");
   background-position: 0% 100%;
-  background-size: auto;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
