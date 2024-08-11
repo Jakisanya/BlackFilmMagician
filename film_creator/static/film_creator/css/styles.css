@@ -478,15 +478,15 @@ a:hover {
 
 .left-arrow-review {
   left: 0%;
-  top: auto;
+  top: 50%;
   right: auto;
   bottom: 10px;
   display: block;
-  width: 33px;
-  height: 16px;
+  width: 150px;
+  height: 60px;
   background-image: url("https://assets.website-files.com/60be390332a614269413c7ee/60be390332a614a44113c803_Slide%20arrow%20left%20gray.svg");
   background-position: 0% 100%;
-  background-size: auto;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
@@ -513,10 +513,8 @@ a:hover {
 }
 
 .left-arrow-service {
-  left: 0%;
-  top: auto;
-  right: auto;
-  bottom: -80px;
+  top: 400px;
+  right: 800px;
   display: block;
   width: 150px;
   height: 60px;
@@ -531,10 +529,8 @@ a:hover {
 }
 
 .right-arrow-service {
-  left: 73px;
-  top: auto;
-  right: auto;
-  bottom: -80px;
+  top: 400px;
+  left: 800px;
   display: block;
   width: 150px;
   height: 60px;
