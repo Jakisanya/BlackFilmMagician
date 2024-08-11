@@ -461,7 +461,7 @@
           <!-- Insert the slider -->
           <div data-delay="4000" data-animation="outin" class="service-slider w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true" role="region" aria-label="carousel">
             <div class="w-slider-mask" id="w-slider-mask-1">
-              <div class="servise-slide w-slide" aria-label="1 of 4" role="group" aria-hidden="false" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 2; visibility: visible;">
+              <div class="servise-slide w-slide" aria-label="1 of 4" role="group" aria-hidden="false" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible;">
                 <!-- Insert original plot container -->
                 <div id="plot-original" class="hidden-section">
                   <p></p>
@@ -599,6 +599,9 @@
           // Move to the next slide
           slides[0].style.visibility = 'hidden';
           slides[1].style.visibility = 'visible';
+          let slideWidth = slides[1].offsetWidth;
+          console.log('slides[1].offsetWidth', slides[1].offsetWidth);
+          slides[1].style.transform = `translateX(-${1 * slideWidth}px)`;
       } else {
           // Move to the previous slide
           slides[0].style.visibility = 'visible';
