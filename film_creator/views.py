@@ -6,10 +6,13 @@ import random
 from django.http import JsonResponse
 from openai import OpenAI
 from django.core.serializers import serialize
+from django.http import JsonResponse, HttpResponseBadRequest
 import json
 from django.conf import settings
 import re
 import os
+import difflib
+
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -207,3 +210,52 @@ def generate_gpt_film_details(request):
             details_file.write(parsed_film_details_json_str)
     
     return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details_dict})
+
+
+def highlight_plot_differences_for_quill(original, edited):
+    # Create a SequenceMatcher object
+    matcher = difflib.SequenceMatcher(None, original, edited)
+
+    result_text = []
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == 'replace':
+            # Highlight differences from text2 (this is where text1 and text2 differ)
+            result_text.append(f'<span style="color: red;">{edited[j1:j2]}</span>')
+        elif tag == 'delete':
+            # Highlight deletions (parts of text1 that are missing in text2)
+            result_text.append(f'<span style="color: red;">{original[i1:i2]}</span>')
+        elif tag == 'insert':
+            # Highlight insertions (parts of text2 that are new)
+            result_text.append(f'<span style="color: #2cd6ae;">{edited[j1:j2]}</span>')
+        elif tag == 'equal':
+            # Keep the matching parts as is
+            result_text.append(edited[j1:j2])
+
+    return ''.join(result_text)
+
+
+def update_text(request):
+    if request.method == 'POST':
+        try:
+            # Load JSON data from the request body
+            data = json.loads(request.body)
+            original_text = data.get('original_text')
+            new_text = data.get('new_text')
+
+            # Check if both texts are provided
+            if original_text is None or new_text is None:
+                return HttpResponseBadRequest("Missing original_text or new_text")
+
+            # Generate the highlighted HTML
+            highlighted_html = highlight_plot_differences_for_quill(original_text, new_text)
+
+            return JsonResponse({'highlighted_html': highlighted_html})
+
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest("Invalid JSON data")
+        except Exception as e:
+            # Log the exception for debugging
+            print(f"An error occurred: {e}")
+            return HttpResponseBadRequest("An error occurred")
+    else:
+        return HttpResponseBadRequest("Invalid request method")
