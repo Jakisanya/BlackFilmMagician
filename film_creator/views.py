@@ -53,6 +53,15 @@ def parse_film_details(details_string):
     plot = "\n".join(film_details_list[7:plot_end_index])
     reasoning = "\n".join(film_details_list[plot_end_index + 1:])
 
+    # Remove sources
+    source_pattern = r'【\d+:\d+†source】'
+    plot = re.sub(source_pattern, '', plot)
+    reasoning = re.sub(source_pattern, '', reasoning)
+
+    # Remove asterisks
+    if '*' in reasoning:
+        reasoning = re.sub(r'\*', '', reasoning)
+
     # Create the dictionary
     film_data_dict = {
         "title": title,
@@ -183,12 +192,6 @@ def generate_gpt_film_details(request):
 
         film_details = messages.data[0].content[0].text.value
         print(f'Film details: {film_details}\n\n')
-
-        """
-        # Remove sources
-        pattern = r'【\d+:\d+†source】'
-        film_details_v3 = re.sub(pattern, '', film_details_v2)
-        """
 
         parsed_film_details_json_str, parsed_film_details_dict = parse_film_details(film_details)
 
