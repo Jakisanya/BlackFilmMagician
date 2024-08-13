@@ -569,38 +569,8 @@
   <script>
       const quill = new Quill('#plot-editor');
 
-      // Function to send text to the server and get the highlighted HTML
-      function updateText(originalText, newText) {
-        console.log('originalText: ', originalText);
-        console.log('newText: ', newText);
-        $.ajax({
-          url: '{% url "update_text" %}',
-          method: 'POST',
-          headers: {
-            'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token
-          },
-          contentType: 'application/json',
-          data: JSON.stringify({
-            original_text: originalText,
-            new_text: newText
-          }),
-          success: function (data) {
-            // Assuming data.highlighted_html contains the highlighted HTML
-            const highlightedHTML = data.highlighted_html;
-            console.log('highlightedHTML: ', highlightedHTML);
-
-            // Get the paragraph element inside the Quill editor
-            const filmPlotEditorElement = document.querySelector('#plot-editor p');
-
-            // Set the inner HTML of the paragraph to the highlighted HTML
-            if (filmPlotEditorElement) {
-              filmPlotEditorElement.innerHTML = highlightedHTML;
-            }
-          }
-        });
-      }
-
       let originalPlot;
+      let isUpdating = false;  // Flag to prevent re-triggering
       // Listen for text-change events
       quill.on('text-change', (delta, oldDelta, source) => {
           if (source === 'user') {
@@ -623,11 +593,10 @@
                         console.log('originalPlot: ', originalPlot);
                       }
                       if (insertedText.length === 1) {
-                          // Apply formatting to newly inserted text
-                          quill.formatText(startIndex, insertedText.length, { color: '#2cd6ae' });
-                          quill.update();
-                          const newText = quill.getText();
-                          updateText(originalPlot, newText);
+                        // Apply formatting to newly inserted text
+                        quill.formatText(startIndex, insertedText.length, { color: '#2cd6ae' });
+                        quill.update();  // Update the Quill editor
+                        const newText = quill.getText();
                       }
                       // Move the index forward by the length of the inserted text
                       currentIndex += op.insert.length;
