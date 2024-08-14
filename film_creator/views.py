@@ -211,3 +211,66 @@ def generate_gpt_film_details(request):
     
     return JsonResponse({"lead_actor_info": lead_actor_info_list, "gpt_film_details": parsed_film_details_dict})
 
+
+def identify_plot_differences_view(request):
+    if request.method == 'POST':
+        # Parse the incoming JSON data
+        data = json.loads(request.body)
+        original_plot = data.get('original_plot', '')
+        print(f'Original Plot: {original_plot}\n\n')
+        edited_plot = data.get('edited_plot', '')
+        print(f'Edited Plot: {edited_plot}\n\n')
+        original_genre = data.get('original_genre', '')
+        print(f'Original Genre: {original_genre}\n\n')
+
+        # Call the existing identify_plot_differences function
+        result = JsonResponse(identify_plot_differences(original_plot, original_genre, edited_plot), safe=False)
+        print(f'JsonResponse(result): {result}')
+        # Return the result back to the frontend as JSON
+        return result
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+def identify_plot_differences(original_plot, original_genre, edited_plot):
+    prompt_text = f'''
+    original_plot: {original_plot}
+    original_genre: {original_genre}
+    edited_plot: {edited_plot}
+    
+    1. Analyse the edited_plot and correct punctuation, grammar and spelling mistakes; use this corrected plot as the 
+    'edited_plot'.
+    2. Then compare the two plots (original_plot and edited_plot) and identify the sentences in the edited_plot that are
+    different to the original plot:
+        - If the entire sentence is new, highlight the sentence in green (#2cd6ae).
+        - If only punctuation has changed in the sentence, do not highlight anything.
+        - If the only parts of a sentence that have changed are single words, but the new words are a synonym of the 
+        words they replaced or spelling corrections, do not highlight anything.
+        - If a sentence is a modification of a sentence in the original plot and does not have a significantly 
+        different meaning, highlight the modified sentence in orange (#FF7900). If it does have a significantly different
+        meaning, highlight the modified sentence in green (#2cd6ae).
+         
+    3. Return this edited plot (which we will refer to as 'highlighted plot') showing the highlighted differences. 
+    The highlights should be in HTML format; paragraphs need to be separated using <p>. Explain how the new plot differs 
+    from the original in a few sentences, with an emphasis on meaning.
+    4. If the highlighted plot no longer matches the genre of the original plot, provide the new genre. If the 
+    highlighted plot does still match the genre of the original plot, return the old genre.
+    5. Return the information in this format:
+        "highlighted_plot: "
+        "explanation_of_difference: "
+        "genre: "
+    '''
+
+    client = OpenAI(api_key=os.getenv('BMFILMS_API_KEY'))
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": prompt_text}
+        ]
+    )
+
+    response_text = completion.choices[0].message.content
+    print(f'Plot difference response:  {response_text}\n\n')
+
+    return response_text

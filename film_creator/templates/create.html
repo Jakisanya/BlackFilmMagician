@@ -8,7 +8,6 @@
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <meta content="Webflow" name="generator"/>
   <link rel="stylesheet" href="{% static 'film_creator/css/styles.css' %}">
-  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.core.css" rel="stylesheet"> <!-- Quill Core CSS -->
   <style>
     @media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="eea78abf-de46-a622-8c0c-e20f33922e32"] {opacity:0;}}
     @media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="eea78abf-de46-a622-8c0c-e20f33922e32"] {opacity:0;}}
@@ -39,6 +38,29 @@
     height: 280px;
     margin-top: -15px;
     margin-bottom: -15px;
+    border-color: #2cd6ae;
+  }
+  .plot-edit-actions-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 10px;
+  }
+  .calculate-differences-button {
+    display: flex;
+    align-items: center;
+    font-size: 0.75em;
+    text-align: center;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%; /* Ensure the button is a circle */
+    border: 2px solid #fff;
+    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
+    color: #fbfbfb;
+    text-decoration: none;
+  }
+  .calculate-differences-button:hover {
     border-color: #2cd6ae;
   }
   .lead-actors-row-container {
@@ -293,6 +315,11 @@
       right: 0%;
     }
   }
+  .ql-editor {
+    border: none !important;
+    outline: none !important; /* Remove focus outline */
+    box-shadow: none !important; /* Remove any box-shadow if present */
+  }
   .ql-editor p {
     margin-bottom: 20px; /* Adjust spacing between paragraphs */
     font-family: 'DM Sans', sans-serif;
@@ -302,8 +329,11 @@
   #plot-original {
     overflow-wrap: break-word;
     white-space: pre-wrap;
-    margin-top: -43px;
+    padding-top: 20px;
   }
+  /* Remove border and outline from the Quill editor */
+
+}
 
   /* Center the control
   body {
@@ -361,15 +391,15 @@
                     // Setting the title and genre with adjusted spacing
                     filmTitleElement.innerHTML = `${data.gpt_film_details.title} <span style="font-size: 18px; font-style: italic; line-height: 1.2; margin-top: -5px; display: inline-block;">(${data.gpt_film_details.genre})</span>`;
 
-                    const filmPlotOriginalElement = document.querySelector('#plot-original p')
-                    const filmPlotEditorElement = document.querySelector('#plot-editor p');
 
                     function convertNewLinesToParagraphs(text) {
                       return text.split('\n\n').map(p => `<p>${p}</p>`).join('');
                     }
 
-                    filmPlotOriginalElement.innerHTML = convertNewLinesToParagraphs(data.gpt_film_details.plot)
-                    filmPlotEditorElement.innerHTML = convertNewLinesToParagraphs(data.gpt_film_details.plot)
+                    const filmPlotOriginalElement = document.querySelector('#plot-original');
+                    const originalPlotText = convertNewLinesToParagraphs(data.gpt_film_details.plot);
+                    filmPlotOriginalElement.innerHTML = originalPlotText;
+                    initQuillEditor(originalPlotText);
                     console.log('Film plot element:', filmPlotOriginalElement);
 
                     const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
@@ -465,30 +495,34 @@
             <div class="w-slider-mask" id="w-slider-mask-1">
               <div class="servise-slide w-slide" aria-label="1 of 4" role="group" aria-hidden="false" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: -43px;">
                 <!-- Insert original plot container -->
-                <div id="plot-original" class="hidden-section">
-                  <p></p>
-                </div>
+                <div id="plot-original" class="hidden-section"></div>
               </div>
               <div class="servise-slide w-slide" aria-label="2 of 4" role="group" aria-hidden="false" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
                 <!-- Insert the Quill editor container -->
-                <div id="plot-editor" class="hidden-section">
-                  <p></p>
-                </div>
+                <div id="plot-editor" class="hidden-section"></div>
               </div>
             </div>
           </div>
-            <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
-              <span class="text-green">LEAD ACTORS</span>
-            </h1>
-            <div class="lead-actors-row-container"></div>
-            <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
-              <span class="text-green">MODEL REASONING</span>
-            </h1>
-            <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0;"> </div>
-            <br>
-            <div class="create-actions-container">
-              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button hidden-section">Save Creation</a>
+          <div class="plot-edit-actions-container hidden-section">
+            <div class="loadingio-spinner-eclipse-2by998twmg8"> <!-- style="width: 190px; height: 190px; top: 0px;" -->
+              <div class="ldio-yzaezf3dcmj"> <!-- style="width: 160px; height: 160px;" -->
+                <div></div>
+              </div>
             </div>
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="sendPlotDifferencesToBackend()" class="calculate-differences-button">Calculate Differences</a>
+          </div>
+          <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
+            <span class="text-green">LEAD ACTORS</span>
+          </h1>
+          <div class="lead-actors-row-container"></div>
+          <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
+            <span class="text-green">MODEL REASONING</span>
+          </h1>
+          <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0;"> </div>
+          <br>
+          <div class="create-actions-container">
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/share" class="create-action-button hidden-section">Save Creation</a>
+          </div>
         </div>
       <div id="particles-js" class="hero-bg"></div>
     </div>
@@ -551,7 +585,7 @@
     });
   </script>
   <script>
-      function getCookie(name) {
+    function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
           const cookies = document.cookie.split(';');
@@ -564,75 +598,159 @@
           }
       }
       return cookieValue;
-  }
+    };
   </script>
   <script>
-      const quill = new Quill('#plot-editor');
 
-      let originalPlot;
-      let isUpdating = false;  // Flag to prevent re-triggering
-      // Listen for text-change events
-      quill.on('text-change', (delta, oldDelta, source) => {
-          if (source === 'user') {
-              let currentIndex = 0;  // Track the current position in the document
-
-              delta.ops.forEach((op) => {
-                  if (op.retain) {
-                      // Move the index forward by the number of retained characters
-                      currentIndex += op.retain;
-                  }
-
-                  if (op.insert) {
-                      console.log('inserted character')
-                      // The start index for newly inserted text is the current index
-                      const startIndex = currentIndex;
-                      const insertedText = op.insert;
-
-                      if (insertedText.length > 1) {
-                        originalPlot = insertedText;
-                        console.log('originalPlot: ', originalPlot);
-                      }
-                      if (insertedText.length === 1) {
-                        // Apply formatting to newly inserted text
-                        quill.formatText(startIndex, insertedText.length, { color: '#2cd6ae' });
-                        quill.update();  // Update the Quill editor
-                        const newText = quill.getText();
-                      }
-                      // Move the index forward by the length of the inserted text
-                      currentIndex += op.insert.length;
-                  }
-
-                  if (op.delete) {
-                      // Optionally handle deletions if needed
-                      // Since deletions remove text, you might not need to adjust currentIndex here
-                  }
-              });
-          }
-      });
   </script>
   <!-- JavaScript to control the slider -->
   <script>
-  document.getElementById('switcher-1').addEventListener('change', function() {
-      console.log('Hit the switcher.');
-      let slider = document.querySelector('.service-slider');
-      let slides = document.querySelectorAll('.servise-slide.w-slide');
-      console.log('slides.length: ', slides.length);
-      console.log('slides[0]: ', slides[0]);
-      console.log('slides[1]: ', slides[1]);
+      document.getElementById('switcher-1').addEventListener('change', function() {
+          console.log('Hit the switcher.');
+          let slider = document.querySelector('.service-slider');
+          let slides = document.querySelectorAll('.servise-slide.w-slide');
+          console.log('slides.length: ', slides.length);
+          console.log('slides[0]: ', slides[0]);
+          console.log('slides[1]: ', slides[1]);
 
-      if (this.checked) {
-          // Move to the next slide
-          slides[0].style.visibility = 'hidden';
-          slides[1].style.visibility = 'visible';
-          let slideWidth = slides[1].offsetWidth;
-          console.log('slides[1].offsetWidth', slides[1].offsetWidth);
-          slides[1].style.transform = `translateX(-${1 * slideWidth}px)`;
-      } else {
-          // Move to the previous slide
-          slides[0].style.visibility = 'visible';
-          slides[1].style.visibility = 'hidden';
-      }
-  });
+          if (this.checked) {
+              // Move to the next slide
+              slides[0].style.visibility = 'hidden';
+              slides[1].style.visibility = 'visible';
+              let slideWidth = slides[1].offsetWidth;
+              console.log('slides[1].offsetWidth', slides[1].offsetWidth);
+              slides[1].style.transform = `translateX(-${1 * slideWidth}px)`;
+              document.querySelector('div.plot-edit-actions-container').classList.remove("hidden-section");
+              document.querySelector('div#plot-editor.ql-container').removeAttribute("aria-hidden");
+          } else {
+              // Move to the previous slide
+              slides[0].style.visibility = 'visible';
+              slides[1].style.visibility = 'hidden';
+              document.querySelector('div.plot-edit-actions-container').classList.add("hidden-section");
+          }
+      });
   </script>
+  <script>
+    // Send the data to Django backend via AJAX
+    function sendPlotDifferencesToBackend() {
+      console.log('sendPlotDifferencesToBackend function called...');
+
+      let filmPlotOriginalElement = document.getElementById('plot-original');
+      console.log('filmPlotOriginalElement: ', filmPlotOriginalElement);
+      let nestedPlotOriginalParagraphs = filmPlotOriginalElement.querySelectorAll('p');
+      let combinedPlotOriginalText = Array.from(nestedPlotOriginalParagraphs)
+              .map(p => p.innerHTML.trim())
+              .join(' ');
+      console.log('combinedPlotOriginalText', combinedPlotOriginalText);
+
+      let filmPlotEditorElement = document.querySelector('div#plot-editor.ql-container');
+      console.log('filmPlotEditorElement: ', filmPlotEditorElement);
+      let nestedPlotEditorParagraphs = filmPlotEditorElement.querySelectorAll('p');
+      let combinedPlotEditorText = Array.from(nestedPlotEditorParagraphs)
+              .map(p => p.innerHTML.trim())
+              .join(' ');
+      console.log('combinedPlotEditorText', combinedPlotEditorText);
+
+      let filmTitleElement = document.querySelectorAll('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green')[0];
+
+      // Extract the innerHTML of all necessary elements
+      let originalPlotHTML = combinedPlotOriginalText;
+      let editedPlotHTML = combinedPlotEditorText;
+      let originalGenre = filmTitleElement.querySelector('span').textContent;
+      console.log('originalGenre: ', originalGenre);
+
+      // Create an AJAX request
+      fetch('/identify-plot-differences/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
+        },
+        body: JSON.stringify({
+          'original_plot': originalPlotHTML,
+          'edited_plot': editedPlotHTML,
+          'original_genre': originalGenre
+        })
+      })
+              .then(response => response.json())
+              .then(data => {
+                // Handle the response (data should contain the highlighted plot, explanation, and genre)
+                console.log('Response:', data);
+                // Update the page with the highlighted plot and explanation if needed
+                quill.clipboard.dangerouslyPasteHTML(data.highlighted_plot);
+                // document.getElementById('explanation').innerText = data.explanation_of_difference;
+                // document.getElementById('genre').innerText = data.genre;
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+    }
+
+    // Utility function to get CSRF token (if Django CSRF protection is enabled)
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+</script>
+<script>
+  // Show the hidden section first if necessary
+  function showEditor() {
+    document.getElementById("plot-editor").classList.remove("hidden-section");
+  }
+
+  let quill;
+  // Initialize Quill editor directly inside the 'plot-editor'
+  function initQuillEditor(original_plot) {
+    showEditor();
+
+    // Initialize Quill on the plot-editor div directly
+    quill = new Quill('#plot-editor');
+    quill.clipboard.dangerouslyPasteHTML(original_plot);
+
+    // Listen for text-change events
+    quill.on('text-change', (delta, oldDelta, source) => {
+      if (source === 'user') {
+        let currentIndex = 0; // Track the current position in the document
+
+        delta.ops.forEach((op) => {
+          if (op.retain) {
+            // Move the index forward by the number of retained characters
+            currentIndex += op.retain;
+          }
+
+          if (op.insert) {
+            console.log('inserted character')
+            // The start index for newly inserted text is the current index
+            const startIndex = currentIndex;
+            const insertedText = op.insert;
+
+            if (insertedText.length === 1) {
+              // Apply formatting to newly inserted text
+              quill.formatText(startIndex, insertedText.length, {color: '#2cd6ae'});
+              quill.update();  // Update the Quill editor
+            }
+            // Move the index forward by the length of the inserted text
+            currentIndex += op.insert.length;
+          }
+
+          if (op.delete) {
+            // Optionally handle deletions if needed
+            // Since deletions remove text, you might not need to adjust currentIndex here
+          }
+        })
+      }
+    });
+  }
+</script>
 </body>
 </html>

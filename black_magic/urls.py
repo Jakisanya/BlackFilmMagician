@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from film_creator.views import HomeView, CreateView, generate_gpt_film_details
+from film_creator.views import HomeView, CreateView, generate_gpt_film_details, identify_plot_differences_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('create/', CreateView.as_view(), name='create'),
     path('generate_gpt_film_details/', generate_gpt_film_details, name='generate_gpt_film_details'),
+    path('identify-plot-differences/', identify_plot_differences_view, name='identify_plot_differences'),
 ]
