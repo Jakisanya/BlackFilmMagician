@@ -225,7 +225,6 @@ def identify_plot_differences_view(request):
 
         # Call the existing identify_plot_differences function
         result = JsonResponse(identify_plot_differences(original_plot, original_genre, edited_plot), safe=False)
-        print(f'JsonResponse(result): {result}')
         # Return the result back to the frontend as JSON
         return result
     else:
@@ -234,31 +233,37 @@ def identify_plot_differences_view(request):
 
 def identify_plot_differences(original_plot, original_genre, edited_plot):
     prompt_text = f'''
-    original_plot: {original_plot}
-    original_genre: {original_genre}
-    edited_plot: {edited_plot}
-    
-    1. Analyse the edited_plot and correct punctuation, grammar and spelling mistakes; use this corrected plot as the 
-    'edited_plot'.
-    2. Then compare the two plots (original_plot and edited_plot) and identify the sentences in the edited_plot that are
-    different to the original plot:
-        - If the entire sentence is new, highlight the sentence in green (#2cd6ae).
-        - If only punctuation has changed in the sentence, do not highlight anything.
-        - If the only parts of a sentence that have changed are single words, but the new words are a synonym of the 
-        words they replaced or spelling corrections, do not highlight anything.
-        - If a sentence is a modification of a sentence in the original plot and does not have a significantly 
-        different meaning, highlight the modified sentence in orange (#FF7900). If it does have a significantly different
-        meaning, highlight the modified sentence in green (#2cd6ae).
-         
-    3. Return this edited plot (which we will refer to as 'highlighted plot') showing the highlighted differences. 
-    The highlights should be in HTML format; paragraphs need to be separated using <p>. Explain how the new plot differs 
-    from the original in a few sentences, with an emphasis on meaning.
-    4. If the highlighted plot no longer matches the genre of the original plot, provide the new genre. If the 
-    highlighted plot does still match the genre of the original plot, return the old genre.
-    5. Return the information in this format:
-        "highlighted_plot: "
-        "explanation_of_difference: "
-        "genre: "
+    Here is the reference data you will need to complete the task:
+    - "original_plot": {original_plot}
+    - "original_genre": {original_genre}
+    - "edited_plot": {edited_plot}
+
+    The task is as follows:
+
+    1. **Correct the "edited_plot":**
+       - Review the "edited_plot" for any punctuation, grammar, or spelling errors.
+       - Make the necessary corrections and use this corrected version as the new "edited_plot".
+
+    2. **Highlight the differences between the "original_plot" and the "edited_plot":**
+       - Compare the corrected "edited_plot" to the "original_plot" and identify the sentences that differ.
+       - Create a new plot called "highlighted_plot" with the differences highlighted in green (#2cd6ae).
+
+    3. **Format the "highlighted_plot":**
+       - Return the "highlighted_plot" in HTML format with the correct color codes.
+       - Ensure the plot is formatted with paragraphs using <p> elements.
+
+    4. **Explain the differences:**
+       - Provide a brief explanation of how the new plot differs from the original, focusing on changes in meaning.
+
+    5. **Determine the genre:**
+       - If the "highlighted_plot" no longer matches the genre of the "original_plot," provide the new genre.
+       - If the "highlighted_plot" still matches the genre of the "original_plot," return the original genre.
+
+    6. **Output:**
+       - Return the information in JSON format with the following keys: 
+         - "highlighted_plot"
+         - "explanation_of_difference"
+         - "genre"
     '''
 
     client = OpenAI(api_key=os.getenv('BMFILMS_API_KEY'))
@@ -267,10 +272,14 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
         model="gpt-4o-mini",
         messages=[
             {"role": "user", "content": prompt_text}
-        ]
+        ],
+        response_format={"type": "json_object"}
     )
 
     response_text = completion.choices[0].message.content
-    print(f'Plot difference response:  {response_text}\n\n')
+    print(f'response_text: {response_text}\n\n')
 
     return response_text
+
+###  - Sentences that are not in the "original_plot" and change the essence or progression of the plot should be highlighted in green (#2cd6ae).
+### Sentences that modify a sentence from the "original_plot" but do not significantly change the meaning should be highlighted in orange (#FF7900). If the modification is only a word or phrase, highlight just that word or phrase in orange (#FF7900). ###

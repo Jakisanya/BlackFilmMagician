@@ -47,7 +47,7 @@
     position: relative;
     padding-top: 10px;
   }
-  .calculate-differences-button {
+  .highlight-differences-button {
     display: flex;
     align-items: center;
     font-size: 0.75em;
@@ -60,7 +60,7 @@
     color: #fbfbfb;
     text-decoration: none;
   }
-  .calculate-differences-button:hover {
+  .highlight-differences-button:hover {
     border-color: #2cd6ae;
   }
   .lead-actors-row-container {
@@ -333,8 +333,6 @@
   }
   /* Remove border and outline from the Quill editor */
 
-}
-
   /* Center the control
   body {
     background-color: #222229;
@@ -509,7 +507,7 @@
                 <div></div>
               </div>
             </div>
-            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="sendPlotDifferencesToBackend()" class="calculate-differences-button">Calculate Differences</a>
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="sendPlotDifferencesToBackend()" class="highlight-differences-button">Highlight Differences</a>
           </div>
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <span class="text-green">LEAD ACTORS</span>
@@ -676,8 +674,12 @@
               .then(data => {
                 // Handle the response (data should contain the highlighted plot, explanation, and genre)
                 console.log('Response:', data);
+                const delta = quill.clipboard.convert({html: data});
+                document.querySelector('div.ql-editor').removeAttribute('aria-hidden');
+                quill.deleteText(0, quill.getLength());
+                quill.setContents(delta, 'silent');
                 // Update the page with the highlighted plot and explanation if needed
-                quill.clipboard.dangerouslyPasteHTML(data.highlighted_plot);
+                // quill.clipboard.dangerouslyPasteHTML(data.highlighted_plot);
                 // document.getElementById('explanation').innerText = data.explanation_of_difference;
                 // document.getElementById('genre').innerText = data.genre;
               })
