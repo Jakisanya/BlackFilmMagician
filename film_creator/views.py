@@ -247,8 +247,9 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
        - Create a new plot called "highlighted_plot" with the differences highlighted in green (#2cd6ae).
 
     3. **Format the "highlighted_plot":**
-       - Return the "highlighted_plot" in HTML format with the correct color codes.
-       - Ensure the plot is formatted into paragraphs using <p> elements.
+       - Return the "highlighted_plot" in HTML format:
+            - the highlighted parts should be encapsulated with <span> elements 
+            - the text should be formatted into paragraphs using <p> elements 
 
     4. **Explain the differences:**
        - Provide a brief explanation of how the new plot differs from the original, focusing on changes in meaning.
@@ -277,7 +278,7 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
     response_text = completion.choices[0].message.content
     print(f'response_text: {type(response_text), response_text}\n\n')
 
-    highlighted_plot = re.findall(r'"highlighted_plot":\s*"([^"]*)".*?"explanation_of_difference"', response_text, re.DOTALL)[0]
+    highlighted_plot = re.findall(r'"highlighted_plot":\s*"(.*?)",.*"explanation', response_text, re.DOTALL)[0]
     explanation_of_difference = re.findall(r'"explanation_of_difference":\s*"([^"]*)".*?"genre"', response_text, re.DOTALL)[0]
     genre = re.findall(r'"genre":\s*"(.*?)"', response_text, re.DOTALL)[0]
 
