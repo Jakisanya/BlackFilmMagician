@@ -673,10 +673,10 @@
               .then(response => response.json())
               .then(data => {
                 // Handle the response (data should contain the highlighted plot, explanation, and genre)
-                console.log('Response:', data);
-                const delta = quill.clipboard.convert({html: data});
+                console.log('Response:', data.highlighted_plot);
                 document.querySelector('div.ql-editor').removeAttribute('aria-hidden');
                 quill.deleteText(0, quill.getLength());
+                const delta = quill.clipboard.convert({html: data.highlighted_plot});
                 quill.setContents(delta, 'silent');
                 // Update the page with the highlighted plot and explanation if needed
                 // quill.clipboard.dangerouslyPasteHTML(data.highlighted_plot);

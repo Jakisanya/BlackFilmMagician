@@ -224,11 +224,9 @@ def identify_plot_differences_view(request):
         print(f'Original Genre: {original_genre}\n\n')
 
         # Call the existing identify_plot_differences function
-        result = JsonResponse(identify_plot_differences(original_plot, original_genre, edited_plot), safe=False)
+        result = identify_plot_differences(original_plot, original_genre, edited_plot)
         # Return the result back to the frontend as JSON
         return result
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
 def identify_plot_differences(original_plot, original_genre, edited_plot):
@@ -250,7 +248,7 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
 
     3. **Format the "highlighted_plot":**
        - Return the "highlighted_plot" in HTML format with the correct color codes.
-       - Ensure the plot is formatted with paragraphs using <p> elements.
+       - Ensure the plot is formatted into paragraphs using <p> elements.
 
     4. **Explain the differences:**
        - Provide a brief explanation of how the new plot differs from the original, focusing on changes in meaning.
@@ -277,9 +275,18 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
     )
 
     response_text = completion.choices[0].message.content
-    print(f'response_text: {response_text}\n\n')
+    print(f'response_text: {type(response_text), response_text}\n\n')
 
-    return response_text
+    highlighted_plot = re.findall(r'"highlighted_plot":\s*"([^"]*)".*?"explanation_of_difference"', response_text, re.DOTALL)[0]
+    explanation_of_difference = re.findall(r'"explanation_of_difference":\s*"([^"]*)".*?"genre"', response_text, re.DOTALL)[0]
+    genre = re.findall(r'"genre":\s*"(.*?)"', response_text, re.DOTALL)[0]
+
+    print(f'highlighted_plot: {highlighted_plot}')
+    print(f'explanation_of_difference: {explanation_of_difference}')
+    print(f'genre: {genre}')
+
+    return JsonResponse({"highlighted_plot": highlighted_plot, "explanation_of_difference": explanation_of_difference,
+                         "genre": genre})
 
 ###  - Sentences that are not in the "original_plot" and change the essence or progression of the plot should be highlighted in green (#2cd6ae).
 ### Sentences that modify a sentence from the "original_plot" but do not significantly change the meaning should be highlighted in orange (#FF7900). If the modification is only a word or phrase, highlight just that word or phrase in orange (#FF7900). ###
