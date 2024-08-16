@@ -244,12 +244,14 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
 
     2. **Highlight the differences between the "original_plot" and the "edited_plot":**
        - Compare the corrected "edited_plot" to the "original_plot" and identify the sentences that differ.
-       - Create a new plot called "highlighted_plot" with the differences highlighted in green (#2cd6ae).
-
+       - Create a new plot called "highlighted_plot" with the differences highlighted in green (#2cd6ae).       
+       
     3. **Format the "highlighted_plot":**
-       - Return the "highlighted_plot" in HTML format:
-            - the highlighted parts should be encapsulated with <span> elements 
-            - the text should be formatted into paragraphs using <p> elements 
+       - Return the "highlighted_plot" in **well-structured paragraphs** using HTML:
+           - **Ensure** that the entire text is divided into logical paragraphs using <p> elements.
+           - Each paragraph should contain related sentences, and breaks should occur where appropriate, mimicking natural paragraph structure.
+           - Then encapsulate the highlighted differences with <span> elements using the color #2cd6ae.
+           - **Ensure** that both the paragraph structure and the highlighting are applied simultaneously.
 
     4. **Explain the differences:**
        - Provide a brief explanation of how the new plot differs from the original, focusing on changes in meaning.

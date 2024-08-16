@@ -401,7 +401,7 @@
                     console.log('Film plot element:', filmPlotOriginalElement);
 
                     const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
-                    modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/-\s(.*?:)/, '<span class="highlight">$1</span>').replace(/\n\n-\s+(.*?:)/g, '<br><br><span class="highlight">$1</span>');
+                    modelReasoningElement.innerHTML = data.gpt_film_details.reasoning.replace(/\n\n/g, '<br><br>').replace(/--\s(.+?):/g, '<span class="highlight">$1:</span>');
                     console.log('Model reasoning element:', modelReasoningElement);
 
                     // Show the hidden sections after the data is successfully loaded
