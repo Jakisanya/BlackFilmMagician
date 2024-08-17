@@ -240,17 +240,34 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
 
     1. **Correct the "edited_plot":**
        - Review the "edited_plot" for any punctuation, grammar, or spelling errors.
-       - Make the necessary corrections and use this corrected version as the new "edited_plot".
+       - Make the necessary corrections and use this corrected version as the new "edited_plot" referred to below.
 
+   
     2. **Highlight the differences between the "original_plot" and the "edited_plot":**
-       - Compare the corrected "edited_plot" to the "original_plot" and identify the sentences that differ.
-       - Create a new plot called "highlighted_plot" with the differences highlighted in green (#2cd6ae).       
-       
+        - **Sentence-Level Differences (Essence or Progression):**
+            - Compare the "edited_plot" to the "original_plot" and focus on any **changes that impact the meaning or flow** of the story. 
+            - If the **essence** of a sentence (its core idea) or its **progression** (the way the plot unfolds) is altered, highlight that entire sentence in **green (#2cd6ae)**.  
+            - **Examples of essence or progression changes:** 
+                - A new event is introduced or an existing event is removed.
+                - Characters act differently or with new motivations.
+                - Significant plot points are added, modified, or removed.
+                
+        - **Character-Level Differences by Index:**
+            - After identifying sentence-level changes, go through both plots and find **individual character differences** by comparing them index by index.  
+            - Highlight these differences in **orange (#ff7900)**.  
+            - **Note:** If a character difference occurs within a sentence already highlighted in green (because its essence or progression was altered), do not separately highlight that ASCII character in orange.
+        
+        - **Create the "highlighted_plot":**
+            - Using the "edited_plot" as the base, create a new version called **"highlighted_plot"**.
+            - Apply the following highlights:
+                - Sentences with differences in essence or progression should be wrapped in `<span>` elements with a **green color (#2cd6ae)**.
+                - Individual character differences should be wrapped in `<span>` elements with an **orange color (#ff7900)**, unless they are already part of a green-highlighted sentence.
+          
     3. **Format the "highlighted_plot":**
        - Return the "highlighted_plot" in **well-structured paragraphs** using HTML:
            - **Ensure** that the entire text is divided into logical paragraphs using <p> elements.
            - Each paragraph should contain related sentences, and breaks should occur where appropriate, mimicking natural paragraph structure.
-           - Then encapsulate the highlighted differences with <span> elements using the color #2cd6ae.
+           - Then encapsulate the highlighted differences with <span> elements using the color #2cd6ae. For example: `<span style="color:#2cd6ae;">highlighted text</span>`.
            - **Ensure** that both the paragraph structure and the highlighting are applied simultaneously.
 
     4. **Explain the differences:**
@@ -280,6 +297,7 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
     response_text = completion.choices[0].message.content
     print(f'response_text: {type(response_text), response_text}\n\n')
 
+    response_text = re.sub(r'\\', '', response_text)
     highlighted_plot = re.findall(r'"highlighted_plot":\s*"(.*?)",.*"explanation', response_text, re.DOTALL)[0]
     explanation_of_difference = re.findall(r'"explanation_of_difference":\s*"([^"]*)".*?"genre"', response_text, re.DOTALL)[0]
     genre = re.findall(r'"genre":\s*"(.*?)"', response_text, re.DOTALL)[0]

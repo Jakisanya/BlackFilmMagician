@@ -624,10 +624,12 @@
             // Move to the next slide
             slides[0].style.display = 'none';
             slides[1].style.display = 'block';
+            document.querySelector('.plot-edit-actions-container').classList.remove('hidden-section');
         } else {
             // Move to the previous slide
             slides[1].style.display = 'none';
             slides[0].style.display = 'block';
+            document.querySelector('.plot-edit-actions-container').classList.add('hidden-section');
         }
     });
 </script>
