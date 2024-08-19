@@ -40,7 +40,7 @@
     margin-bottom: -15px;
     border-color: #2cd6ae;
   }
-  .plot-edit-actions-container {
+  .edit-actions-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -326,6 +326,46 @@
     background: #1b1b1b;
     transition: left 0.2s 0.1s, right 0.3s, background 0.25s -0.1s;
   }
+  body span.switcher.switcher-2 input {
+    transition: 0.25s -0.1s;
+  }
+  body span.switcher.switcher-2 input:checked {
+    background-color: #2cd6ae;
+  }
+  body span.switcher.switcher-2 input:checked:before {
+    color: #FFFFFF;
+    transition: color 0.2s 0.1s;
+  }
+  body span.switcher.switcher-2 input:checked:after {
+    color: #1b1b1b;
+    transition: color 0.2s;
+  }
+  body span.switcher.switcher-2 input:checked + label {
+    top: -17px;
+    left: 135px;
+    right: 10px;
+    background: #1b1b1b;
+    transition: left 0.3s, right 0.2s 0.1s;
+  }
+  body span.switcher.switcher-2 input:not(:checked) {
+    background: #FFFFFF;
+    transition: background 0.3s -0.1s;
+  }
+  body span.switcher.switcher-2 input:not(:checked):before {
+    color: #1b1b1b;
+    transition: color 0.2s;
+  }
+  body span.switcher.switcher-2 input:not(:checked):after {
+    color: #2cd6ae;
+    transition: color 0.2s 0.1s;
+  }
+  body span.switcher.switcher-2 input:not(:checked) + label {
+    top: -17px;
+    left: 10px;
+    right: 135px;
+    background: #1b1b1b;
+    transition: left 0.2s 0.1s, right 0.3s, background 0.25s -0.1s;
+  }
 
   @-webkit-keyframes turn-on {
     0% {
@@ -498,7 +538,8 @@
                     // Show the hidden sections after the data is successfully loaded
                     document.getElementById('plot-original').classList.remove('hidden-section');
                     document.getElementById('plot-editor').classList.remove('hidden-section');
-                    document.querySelector('span.switcher').classList.remove('hidden-section');
+                    document.querySelector('span.switcher.switcher-1').classList.remove('hidden-section');
+                    document.querySelector('span.switcher.switcher-2').classList.remove('hidden-section');
                     document.querySelectorAll('h1.text-green').forEach(h1 => {
                       h1.classList.remove('hidden-section');
                     });
@@ -618,13 +659,13 @@
               </div>
             </div>
           </div>
-          <div class="plot-edit-actions-container hidden-section">
+          <div class="edit-actions-container hidden-section">
             <div class="loadingio-spinner-eclipse-2by998twmg8"> <!-- style="width: 190px; height: 190px; top: 0px;" -->
               <div class="ldio-yzaezf3dcmj"> <!-- style="width: 160px; height: 160px;" -->
                 <div></div>
               </div>
             </div>
-            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="sendPlotDifferencesToBackend()" class="highlight-differences-button">Highlight Differences</a>
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="sendPlotDifferencesToBackend()" class="highlight-differences-button">Highlight Plot Differences</a>
           </div>
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <span class="text-green">LEAD ACTORS</span>
@@ -644,6 +685,18 @@
                 <div id="model-reasoning-editor" class="hidden-section"></div>
               </div>
             </div>
+          </div>
+          <span class="switcher switcher-2 hidden-section">
+             <input type="checkbox" id="switcher-2" style="margin-top: 10px;">
+             <label for="switcher-2"></label>
+          </span>
+          <div class="edit-actions-container hidden-section">
+            <div class="loadingio-spinner-eclipse-2by998twmg8"> <!-- style="width: 190px; height: 190px; top: 0px;" -->
+              <div class="ldio-yzaezf3dcmj"> <!-- style="width: 160px; height: 160px;" -->
+                <div></div>
+              </div>
+            </div>
+            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="" class="highlight-differences-button">Highlight Model-R Differences</a>
           </div>
           <br>
           <div class="create-actions-container">
@@ -731,60 +784,75 @@
   </script>
   <!-- JavaScript to control the sliders -->
 <script>
-    document.getElementById('switcher-1').addEventListener('change', function() {
-        console.log('Hit the switcher.');
-        let slides = document.querySelectorAll('div.servise-slide.w-slide');
-        let titleEditor = document.querySelector('#title-editor');
-        let genreEditor = document.querySelector('#genre-editor');
-        let plotEditor = document.querySelector('#plot-editor');
-        let modelReasoningEditor = document.querySelector('#model-reasoning-editor');
-        let qlEditors = document.querySelectorAll('div.ql-editor');
+  function handleSwitcher(switcher, otherSwitcher) {
+    console.log('Hit the switcher: ' + switcher.id);
 
-        // Ensure visibility of all slides and remove aria-hidden attributes
-        slides.forEach(slide => {
-          slide.style.visibility = 'visible';
-          slide.removeAttribute('aria-hidden');
-        });
+    // Synchronize the other switch
+    if (otherSwitcher.checked !== switcher.checked) {
+        otherSwitcher.checked = switcher.checked;
+    }
 
-        titleEditor.removeAttribute('aria-hidden');
-        genreEditor.removeAttribute('aria-hidden');
-        plotEditor.removeAttribute('aria-hidden');
-        modelReasoningEditor.removeAttribute('aria-hidden');
+    let slides = document.querySelectorAll('div.servise-slide.w-slide');
+    let titleEditor = document.querySelector('#title-editor');
+    let genreEditor = document.querySelector('#genre-editor');
+    let plotEditor = document.querySelector('#plot-editor');
+    let modelReasoningEditor = document.querySelector('#model-reasoning-editor');
+    let qlEditors = document.querySelectorAll('div.ql-editor');
 
-        qlEditors.forEach(qlEditor => {
-          qlEditor.removeAttribute('aria-hidden');
-        });
-
-        console.log('slides.length: ', slides.length);
-        console.log('qlEditors.length: ', qlEditors.length);
-
-        if (this.checked) {
-            // Move to the next slide
-            slides[0].style.display = 'none';
-            slides[1].style.display = 'block';
-            slides[2].style.display = 'none';
-            slides[3].style.display = 'block';
-            slides[4].style.display = 'none';
-            slides[5].style.display = 'block';
-            slides[6].style.display = 'none';
-            slides[7].style.display = 'block';
-            document.querySelector('.plot-edit-actions-container').classList.remove('hidden-section');
-        } else {
-            // Move to the previous slide
-            slides[1].style.display = 'none';
-            slides[0].style.display = 'block';
-            slides[3].style.display = 'none';
-            slides[2].style.display = 'block';
-            slides[5].style.display = 'none';
-            slides[4].style.display = 'block';
-            slides[7].style.display = 'none';
-            slides[6].style.display = 'block';
-            document.querySelector('.plot-edit-actions-container').classList.add('hidden-section');
-        }
+    // Ensure visibility of all slides and remove aria-hidden attributes
+    slides.forEach(slide => {
+        slide.style.visibility = 'visible';
+        slide.removeAttribute('aria-hidden');
     });
-</script>
 
-  </script>
+    titleEditor.removeAttribute('aria-hidden');
+    genreEditor.removeAttribute('aria-hidden');
+    plotEditor.removeAttribute('aria-hidden');
+    modelReasoningEditor.removeAttribute('aria-hidden');
+
+    qlEditors.forEach(qlEditor => {
+        qlEditor.removeAttribute('aria-hidden');
+    });
+
+    console.log('slides.length: ', slides.length);
+    console.log('qlEditors.length: ', qlEditors.length);
+
+    if (switcher.checked) {
+        // Move to the next slide
+        slides[0].style.display = 'none';
+        slides[1].style.display = 'block';
+        slides[2].style.display = 'none';
+        slides[3].style.display = 'block';
+        slides[4].style.display = 'none';
+        slides[5].style.display = 'block';
+        slides[6].style.display = 'none';
+        slides[7].style.display = 'block';
+        document.querySelectorAll('.edit-actions-container')[0].classList.remove('hidden-section');
+        document.querySelectorAll('.edit-actions-container')[1].classList.remove('hidden-section');
+    } else {
+        // Move to the previous slide
+        slides[1].style.display = 'none';
+        slides[0].style.display = 'block';
+        slides[3].style.display = 'none';
+        slides[2].style.display = 'block';
+        slides[5].style.display = 'none';
+        slides[4].style.display = 'block';
+        slides[7].style.display = 'none';
+        slides[6].style.display = 'block';
+        document.querySelectorAll('.edit-actions-container')[0].classList.add('hidden-section');
+        document.querySelectorAll('.edit-actions-container')[1].classList.add('hidden-section');
+    }
+  }
+
+// Attach event listeners to both switches
+document.getElementById('switcher-1').addEventListener('change', function() {
+    handleSwitcher(this, document.getElementById('switcher-2'));
+});
+
+document.getElementById('switcher-2').addEventListener('change', function() {
+    handleSwitcher(this, document.getElementById('switcher-1'));
+});
+</script>
   <script>
     // Send the data to Django backend via AJAX
     function sendPlotDifferencesToBackend() {
