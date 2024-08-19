@@ -185,21 +185,37 @@
   }
   #title-editor {
     align-self: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
     height: auto; /* Adjust height as needed */
+    width: auto;
+    max-width: 100%;
     background: transparent;
     border: 1px solid #2cd6ae;
     border-radius: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
+    padding-left: 3%;
+    padding-right: 3%;
+    display: inline-block;
   }
   #genre-editor {
     align-self: center;
+    text-align: center;
+    align-items: center;
+    align-content: center;
     height: auto; /* Adjust height as needed */
+    width: auto;
+    max-width: 100%;
     background: transparent;
     border: 1px solid #2cd6ae;
     border-radius: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
+    padding-left: 3%;
+    padding-right: 3%;
+    display: inline-block;
   }
   #plot-editor {
     align-self: center;
@@ -218,6 +234,7 @@
     border-radius: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
+    width: 97%;
   }
   #plot-original p {
     line-height: 2.0;
@@ -382,6 +399,16 @@
     white-space: pre-wrap;
     padding-top: 20px;
   }
+
+  #model-reasoning-editor .ql-editor p {
+    font-size: 16px;
+    line-height: 2.0;
+    font-family: 'DM Sans', sans-serif;
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+    width: 97%;
+  }
   /* Remove border and outline from the Quill editor */
 
   /* Center the control
@@ -453,9 +480,10 @@
                     filmPlotOriginalElement.innerHTML = originalPlotText;
 
                     const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
-                    const modelReasoning = data.gpt_film_details.reasoning.replace(/\n\n/g, '<br><br>').replace(/--\s(.+?):/g, '<span class="highlight">$1:</span>');
-                    modelReasoningElement.innerHTML = modelReasoning;
-                            console.log('Model reasoning element:', modelReasoningElement);
+                    const modelReasoningFormat1 = data.gpt_film_details.reasoning.replace(/\n\n/g, '<br><br>').replace(/--\s(.+?):/g, '<span class="highlight">$1:</span>');
+                    const modelReasoningFinalFormat = modelReasoningFormat1.replace(/(<span)/g, '<p>$1').replace(/<br><br>/g, '');
+                    modelReasoningElement.innerHTML = modelReasoningFinalFormat;
+                    console.log('Model reasoning HTML:', modelReasoningFinalFormat);
 
                     // Initialize quill editors
                     let quillTitle;
@@ -464,7 +492,7 @@
                     let quillModelReasoning;
                     let editors = [quillTitle, quillGenre, quillPlot, quillModelReasoning];
                     let element_ids = ["title-editor", "genre-editor", "plot-editor", "model-reasoning-editor"];
-                    let initialTexts = [filmTitle, filmGenre, originalPlotText, modelReasoning];
+                    let initialTexts = [filmTitle, filmGenre, originalPlotText, modelReasoningFinalFormat];
                     initQuillEditors(editors, element_ids, initialTexts);
 
                     // Show the hidden sections after the data is successfully loaded
@@ -553,11 +581,11 @@
             <div class="w-slider-mask">
               <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
                 <!-- Insert original title container -->
-                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; text-align: center; line-height: 50px; border: 1px solid #2cd6ae; border-radius: 10px; height: 80.3625px;">
+                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; text-align: center; line-height: 50px; height: 80.3625px;">
                   <span class="text-green" style="vertical-align: middle;"></span>
                 </h1>
               </div>
-              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
+              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden; align-items: center; align-content: center; text-align: center;">
                 <!-- Insert the Quill editor container -->
                 <div id="title-editor" class="hidden-section"></div>
               </div>
@@ -571,7 +599,7 @@
                   <span class="text-green" style="vertical-align: middle;"></span>
                 </h1>
               </div>
-              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
+              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden; align-items: center; align-content: center; text-align: center;">
                 <!-- Insert the Quill editor container -->
                 <div id="genre-editor" class="hidden-section"></div>
               </div>
@@ -609,7 +637,7 @@
             <div class="w-slider-mask">
               <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
                 <!-- Insert original model reasoning container -->
-                <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0;"> </div>
+                <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; font-size: 16px; text-align: justify; line-height: 2.0; width: 97%;"> </div>
               </div>
               <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
                 <!-- Insert the Quill editor container -->
@@ -842,6 +870,28 @@
     document.getElementById("model-reasoning-editor").classList.remove("hidden-section");
   }
 
+
+  // Custom function to highlight specific words
+  function highlightWords(quillObj, wordList) {
+    const text = quillObj.getText();  // Get the plain text from the editor
+    const regex = new RegExp('(' + wordList.join('|') + ')', 'gi'); // Create a regex from the word list
+    console.log('regex: ', regex);
+
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      console.log('match: ', match);
+      let start = match.index;
+      let length = match[0].length;
+
+      // Apply formatting (e.g., background color)
+      quillObj.formatText(start, length, {color: '#2cd6ae'});
+    }
+  }
+
+  // Words to highlight
+  const wordsToHighlight = ['Role Synergy:', 'Character Development:', 'Genre Decision:', 'Plot Composition:',
+                            'Title Inspiration:'];
+
   function initQuillEditors(editors, element_ids, initial_texts) {
     showEditors();
 
@@ -849,7 +899,9 @@
     for (let i = 0; i <= 3; i++) {
       editors[i] = new Quill(`#${element_ids[i]}`);
       editors[i].clipboard.dangerouslyPasteHTML(initial_texts[i]);
-
+      if (i === 3) {
+        highlightWords(editors[i], wordsToHighlight);
+      }
       // Listen for text-change events
       editors[i].on('text-change', (delta, oldDelta, source) => {
         if (source === 'user') {
