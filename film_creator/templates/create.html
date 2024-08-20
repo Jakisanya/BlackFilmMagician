@@ -65,7 +65,7 @@
   }
   .original-lead-actors-row-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 40px;
   }
   .original-lead-actor-col-container {
@@ -73,7 +73,7 @@
   }
   .editable-lead-actors-row-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 40px;
   }
   .editable-lead-actor-col-container {
@@ -81,6 +81,7 @@
   }
   .lead-actor-button {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     font-size: 1.5em;
@@ -202,8 +203,9 @@
     background: transparent;
     border: 1px solid #2cd6ae;
     border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom:10px;
     padding-left: 3%;
     padding-right: 3%;
     display: inline-block;
@@ -219,8 +221,9 @@
     background: transparent;
     border: 1px solid #2cd6ae;
     border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom:10px;
     padding-left: 3%;
     padding-right: 3%;
     display: inline-block;
@@ -457,15 +460,19 @@
     margin-right: auto;
     width: 97%;
   }
-
   .remove-actor-button {
     display: flex;
     align-items: center;
     align-self: center;
     font-size: 1em;
     text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 50px;
     height: 50px;
+    cursor: pointer;
+    z-index: 10;
     border-radius: 50%; /* Ensure the button is a circle */
     border: 2px solid #fff;
     transition: all 300ms cubic-bezier(.165, .84, .44, 1);
@@ -474,6 +481,17 @@
   }
   .remove-actor-button:hover {
     border-color: #2cd6ae;
+  }
+  .actor-image-container {
+    height: 400px;
+    width: 400px;
+    align-items: center;
+    align-content: center;
+    position: relative;
+    display: inline-block;
+  }
+  .actor-image-container:hover .remove-actor-button {
+      display: block; /* Show on hover */
   }
 
   /* Center the control
@@ -518,9 +536,11 @@
                       originalLeadActorColContainer.className = 'original-lead-actor-col-container';
 
                       originalLeadActorColContainer.innerHTML = `
-                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
-                                <img src="${actor.picture}" alt="${actor.name}">
-                            </a>
+                            <div class="actor-image-container">
+                              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
+                                  <img src="${actor.picture}" alt="${actor.name}">
+                              </a>
+                            </div>
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
 
@@ -528,12 +548,15 @@
                       editableLeadActorColContainer.className = 'editable-lead-actor-col-container';
 
                       editableLeadActorColContainer.innerHTML = `
-                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
-                                <img src="${actor.picture}" alt="${actor.name}">
-                            </a>
+                            <div class="actor-image-container">
+                              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
+                                  <img src="${actor.picture}" alt="${actor.name}">
+                              </a>
+                              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="" class="remove-actor-button">X</a>
+                            </div>
                             <div class="lead-actor-button-name">${actor.name}</div>
-                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="" class="remove-actor-button">X</a>
                         `;
+
                       originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
                       editableLeadActorsRowContainer.appendChild(editableLeadActorColContainer);
                     });
@@ -660,7 +683,7 @@
             <div class="w-slider-mask">
               <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
                 <!-- Insert original title container -->
-                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; text-align: center; line-height: 50px; height: 80.3625px;">
+                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; margin-top: -10px; text-align: center; line-height: 50px; height: 80.3625px;">
                   <span class="text-green" style="vertical-align: middle;"></span>
                 </h1>
               </div>
@@ -674,7 +697,7 @@
             <div class="w-slider-mask">
               <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
                 <!-- Insert original genre container -->
-                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; text-align: center; line-height: 50px; font-size: 50px; height: 74.36px;">
+                <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; margin-top: -10px; text-align: center; line-height: 50px; font-size: 50px; height: 74.36px;">
                   <span class="text-green" style="vertical-align: middle;"></span>
                 </h1>
               </div>
@@ -1013,14 +1036,22 @@ document.getElementById('switcher-2').addEventListener('change', function() {
     }
   }
 
-  // Words to highlight
-  const wordsToHighlight = ['Role Synergy:', 'Character Development:', 'Genre Decision:', 'Plot Composition:',
-                            'Title Inspiration:'];
-
   function initQuillEditors(editors, element_ids, initial_texts) {
     showEditors();
 
-    // titleEditor style="color:'#2cd6ae'; font: 'Ivymode, sans-serif'; font-size: 30px; line-height: 50px; text-align: center;'
+    // Regular expression to match words to highlight in model reasoning text
+    const regex = /<span[^>]*>(.*?)<\/span>/g;
+
+    // Extract all matches
+    const wordsToHighlight = [];
+    let match;
+    while ((match = regex.exec(initial_texts[3])) !== null) {
+      wordsToHighlight.push(match[1]);
+    }
+
+    // Output the extracted text
+    console.log(wordsToHighlight);
+
     for (let i = 0; i <= 3; i++) {
       editors[i] = new Quill(`#${element_ids[i]}`);
       editors[i].clipboard.dangerouslyPasteHTML(initial_texts[i]);
