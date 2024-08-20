@@ -52,8 +52,8 @@
     align-items: center;
     font-size: 0.75em;
     text-align: center;
-    width: 125px;
-    height: 125px;
+    width: 155px;
+    height: 155px;
     border-radius: 50%; /* Ensure the button is a circle */
     border: 2px solid #fff;
     transition: all 300ms cubic-bezier(.165, .84, .44, 1);
@@ -63,12 +63,20 @@
   .highlight-differences-button:hover {
     border-color: #2cd6ae;
   }
-  .lead-actors-row-container {
+  .original-lead-actors-row-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
   }
-  .lead-actor-col-container {
+  .original-lead-actor-col-container {
+    text-align: center;
+  }
+  .editable-lead-actors-row-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .editable-lead-actor-col-container {
     text-align: center;
   }
   .lead-actor-button {
@@ -449,7 +457,24 @@
     margin-right: auto;
     width: 97%;
   }
-  /* Remove border and outline from the Quill editor */
+
+  .remove-actor-button {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    font-size: 1em;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Ensure the button is a circle */
+    border: 2px solid #fff;
+    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
+    color: #fbfbfb;
+    text-decoration: none;
+  }
+  .remove-actor-button:hover {
+    border-color: #2cd6ae;
+  }
 
   /* Center the control
   body {
@@ -480,24 +505,37 @@
               success: function(data) {
                   console.log('AJAX request successful'); // Log successful AJAX request
                   console.log('Received data:', data); // Log received data
-                  const leadActorsRowContainer = document.querySelector('.lead-actors-row-container');
-                    leadActorsRowContainer.innerHTML = ''; // Clear current content
-
+                  const originalLeadActorsRowContainer = document.querySelector('.original-lead-actors-row-container');
+                    originalLeadActorsRowContainer.innerHTML = ''; // Clear current content
+                  const editableLeadActorsRowContainer = document.querySelector('.editable-lead-actors-row-container');
+                    editableLeadActorsRowContainer.innerHTML = ''; // Clear current content
                   // Check if there are 1, 2, or 3 actors in the data
                   if (data.lead_actor_info && data.lead_actor_info.length > 0) {
                       data.lead_actor_info.forEach(actor => {
                       console.log('Actor picture URL:', actor.picture); // Log actor picture URL
                       console.log('Actor name:', actor.name); // Log actor name
-                      const actorColContainer = document.createElement('div');
-                      actorColContainer.className = 'lead-actor-col-container';
+                      const originalLeadActorColContainer = document.createElement('div');
+                      originalLeadActorColContainer.className = 'original-lead-actor-col-container';
 
-                      actorColContainer.innerHTML = `
+                      originalLeadActorColContainer.innerHTML = `
                             <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                 <img src="${actor.picture}" alt="${actor.name}">
                             </a>
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
-                      leadActorsRowContainer.appendChild(actorColContainer);
+
+                      const editableLeadActorColContainer = document.createElement('div');
+                      editableLeadActorColContainer.className = 'editable-lead-actor-col-container';
+
+                      editableLeadActorColContainer.innerHTML = `
+                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
+                                <img src="${actor.picture}" alt="${actor.name}">
+                            </a>
+                            <div class="lead-actor-button-name">${actor.name}</div>
+                            <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="" class="remove-actor-button">X</a>
+                        `;
+                      originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
+                      editableLeadActorsRowContainer.appendChild(editableLeadActorColContainer);
                     });
 
                     // Update the film title, plot and reasoning
@@ -670,7 +708,17 @@
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <span class="text-green">LEAD ACTORS</span>
           </h1>
-          <div class="lead-actors-row-container"></div>
+          <!-- Insert the lead actors slider -->
+          <div data-delay="4000" data-animation="outin" class="service-slider w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true" role="region" aria-label="carousel">
+            <div class="w-slider-mask">
+              <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
+                <div class="original-lead-actors-row-container"></div>
+              </div>
+              <div class="servise-slide w-slide" aria-label="2 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 3; visibility: hidden;">
+                <div class="editable-lead-actors-row-container"></div>
+              </div>
+            </div>
+          </div>
           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" class="text-green hidden-section" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)">
             <span class="text-green">MODEL REASONING</span>
           </h1>
@@ -810,6 +858,11 @@
     plotEditor.removeAttribute('aria-hidden');
     modelReasoningEditor.removeAttribute('aria-hidden');
 
+    let removeActorButtons = document.querySelectorAll('a.remove-actor-button');
+    removeActorButtons.forEach(button => {
+      button.removeAttribute('aria-hidden');
+    })
+
     qlEditors.forEach(qlEditor => {
         qlEditor.removeAttribute('aria-hidden');
     });
@@ -827,6 +880,8 @@
         slides[5].style.display = 'block';
         slides[6].style.display = 'none';
         slides[7].style.display = 'block';
+        slides[8].style.display = 'none';
+        slides[9].style.display = 'block';
         document.querySelectorAll('.edit-actions-container')[0].classList.remove('hidden-section');
         document.querySelectorAll('.edit-actions-container')[1].classList.remove('hidden-section');
     } else {
@@ -839,6 +894,8 @@
         slides[4].style.display = 'block';
         slides[7].style.display = 'none';
         slides[6].style.display = 'block';
+        slides[9].style.display = 'none';
+        slides[8].style.display = 'block';
         document.querySelectorAll('.edit-actions-container')[0].classList.add('hidden-section');
         document.querySelectorAll('.edit-actions-container')[1].classList.add('hidden-section');
     }
