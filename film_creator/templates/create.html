@@ -101,6 +101,7 @@
     height: 350px; /* Adjust size as needed */
     border-radius: 50%; /* Make image circular */
     object-fit: cover; /* Ensure image fits within the specified dimensions */
+    z-index: 1;
   }
   .lead-actor-button-name {
     font-weight: bold; /* Optional: make name bold */
@@ -460,27 +461,27 @@
     margin-right: auto;
     width: 97%;
   }
-  .remove-actor-button {
-    display: flex;
-    align-items: center;
-    align-self: center;
-    font-size: 1em;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    z-index: 10;
-    border-radius: 50%; /* Ensure the button is a circle */
-    border: 2px solid #fff;
-    transition: all 300ms cubic-bezier(.165, .84, .44, 1);
-    color: #fbfbfb;
-    text-decoration: none;
+
+  .remove-actor-button, .add-actor-button {
+      position: absolute;
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(1);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      cursor: pointer;
   }
-  .remove-actor-button:hover {
-    border-color: #2cd6ae;
+  .remove-actor-button {
+      z-index: 0;
+      top: 0;
+      right: 0;
+  }
+  .add-actor-button {
+      z-index: 0;
+      bottom: 0; /* Start behind the image */
+      left: 0; /* Start behind the image */
+  }
+  /* Hover effect for darkening the icons */
+  .remove-actor-button:hover, .add-actor-button:hover {
+      filter: brightness(0.8); /* Darkens the icon by reducing brightness */
   }
   .actor-image-container {
     height: 400px;
@@ -552,7 +553,8 @@
                               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                   <img src="${actor.picture}" alt="${actor.name}">
                               </a>
-                              <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="" class="remove-actor-button">X</a>
+                              <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
+                              <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button hidden-section">
                             </div>
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
@@ -881,10 +883,15 @@
     plotEditor.removeAttribute('aria-hidden');
     modelReasoningEditor.removeAttribute('aria-hidden');
 
-    let removeActorButtons = document.querySelectorAll('a.remove-actor-button');
+    let removeActorButtons = document.querySelectorAll('img.remove-actor-button');
     removeActorButtons.forEach(button => {
       button.removeAttribute('aria-hidden');
-    })
+    });
+
+    let addActorButtons = document.querySelectorAll('img.add-actor-button');
+    addActorButtons.forEach(button => {
+      button.removeAttribute('aria-hidden');
+    });
 
     qlEditors.forEach(qlEditor => {
         qlEditor.removeAttribute('aria-hidden');
@@ -907,6 +914,9 @@
         slides[9].style.display = 'block';
         document.querySelectorAll('.edit-actions-container')[0].classList.remove('hidden-section');
         document.querySelectorAll('.edit-actions-container')[1].classList.remove('hidden-section');
+        addActorButtons.forEach(button => {
+          button.classList.remove('hidden-section');
+        });
     } else {
         // Move to the previous slide
         slides[1].style.display = 'none';
@@ -1093,6 +1103,10 @@ document.getElementById('switcher-2').addEventListener('change', function() {
       });
     }
   }
+</script>
+<script>
+  // listener event on remove-actor-button ; onclick = remove actor img in container and hide button, show add-actor-button, keep container, can replace with blank button circle with dashes no effects
+  // listener event on add-actor-button ; onclick = search box, etc.
 </script>
 </body>
 </html>
