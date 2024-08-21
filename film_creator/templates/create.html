@@ -114,6 +114,13 @@
     margin-bottom: -15px;
     border-color: #2cd6ae;
   }
+  .lead-actor-button.no-hover {
+    border: 2px dashed white;
+    transition: none;
+  }
+  .lead-actor-button.no-hover:hover {
+    transition: none;
+  }
   .create-actions-container {
     display: flex;
     justify-content: center;
@@ -483,6 +490,7 @@
   .remove-actor-button:hover, .add-actor-button:hover {
       filter: brightness(0.8); /* Darkens the icon by reducing brightness */
   }
+
   .actor-image-container {
     height: 400px;
     width: 400px;
@@ -492,7 +500,10 @@
     display: inline-block;
   }
   .actor-image-container:hover .remove-actor-button {
-      display: block; /* Show on hover */
+    display: block; /* Show on hover */
+  }
+  .actor-image-container.no-hover:hover .remove-actor-button {
+    display: none; /* Prevent display on hover when the no-hover class is present */
   }
 
   /* Center the control
@@ -516,27 +527,27 @@
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <script>
       function generateGptFilmDetails() {
-          // Show the loading animation
-          document.querySelector('.loadingio-spinner-eclipse-2by998twmg8').style.display = 'block';
-          $.ajax({
-              url: '{% url "generate_gpt_film_details" %}',
-              method: 'GET',
-              success: function(data) {
-                  console.log('AJAX request successful'); // Log successful AJAX request
-                  console.log('Received data:', data); // Log received data
-                  const originalLeadActorsRowContainer = document.querySelector('.original-lead-actors-row-container');
-                    originalLeadActorsRowContainer.innerHTML = ''; // Clear current content
-                  const editableLeadActorsRowContainer = document.querySelector('.editable-lead-actors-row-container');
-                    editableLeadActorsRowContainer.innerHTML = ''; // Clear current content
-                  // Check if there are 1, 2, or 3 actors in the data
-                  if (data.lead_actor_info && data.lead_actor_info.length > 0) {
-                      data.lead_actor_info.forEach(actor => {
-                      console.log('Actor picture URL:', actor.picture); // Log actor picture URL
-                      console.log('Actor name:', actor.name); // Log actor name
-                      const originalLeadActorColContainer = document.createElement('div');
-                      originalLeadActorColContainer.className = 'original-lead-actor-col-container';
+        // Show the loading animation
+        document.querySelector('.loadingio-spinner-eclipse-2by998twmg8').style.display = 'block';
+        $.ajax({
+          url: '{% url "generate_gpt_film_details" %}',
+          method: 'GET',
+          success: function (data) {
+            console.log('AJAX request successful'); // Log successful AJAX request
+            console.log('Received data:', data); // Log received data
+            const originalLeadActorsRowContainer = document.querySelector('.original-lead-actors-row-container');
+            originalLeadActorsRowContainer.innerHTML = ''; // Clear current content
+            const editableLeadActorsRowContainer = document.querySelector('.editable-lead-actors-row-container');
+            editableLeadActorsRowContainer.innerHTML = ''; // Clear current content
+            // Check if there are 1, 2, or 3 actors in the data
+            if (data.lead_actor_info && data.lead_actor_info.length > 0) {
+              data.lead_actor_info.forEach(actor => {
+                console.log('Actor picture URL:', actor.picture); // Log actor picture URL
+                console.log('Actor name:', actor.name); // Log actor name
+                const originalLeadActorColContainer = document.createElement('div');
+                originalLeadActorColContainer.className = 'original-lead-actor-col-container';
 
-                      originalLeadActorColContainer.innerHTML = `
+                originalLeadActorColContainer.innerHTML = `
                             <div class="actor-image-container">
                               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                   <img src="${actor.picture}" alt="${actor.name}">
@@ -545,10 +556,10 @@
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
 
-                      const editableLeadActorColContainer = document.createElement('div');
-                      editableLeadActorColContainer.className = 'editable-lead-actor-col-container';
+                const editableLeadActorColContainer = document.createElement('div');
+                editableLeadActorColContainer.className = 'editable-lead-actor-col-container';
 
-                      editableLeadActorColContainer.innerHTML = `
+                editableLeadActorColContainer.innerHTML = `
                             <div class="actor-image-container">
                               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                   <img src="${actor.picture}" alt="${actor.name}">
@@ -559,78 +570,88 @@
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
 
-                      originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
-                      editableLeadActorsRowContainer.appendChild(editableLeadActorColContainer);
-                    });
+                originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
+                editableLeadActorsRowContainer.appendChild(editableLeadActorColContainer);
+              });
 
-                    // Update the film title, plot and reasoning
-                    // Selecting the title element
-                    const filmTitleElement = document.querySelectorAll('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green')[0];
-                    const filmGenreElement = document.querySelectorAll('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green')[1];
+              // Update the film title, plot and reasoning
+              // Selecting the title element
+              const filmTitleElement = document.querySelectorAll('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green')[0];
+              const filmGenreElement = document.querySelectorAll('h1[data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e"] .text-green')[1];
 
-                    // Setting the title and genre with adjusted spacing
-                    const filmTitle = data.gpt_film_details.title;
-                    const filmGenre = data.gpt_film_details.genre;
-                    filmTitleElement.innerHTML = filmTitle;
-                    filmGenreElement.innerHTML = `<span style="font-size: 18px; font-style: italic; line-height: 1.2; margin-top: -5px; display: inline-block;">(${filmGenre})</span>`;
+              // Setting the title and genre with adjusted spacing
+              const filmTitle = data.gpt_film_details.title;
+              const filmGenre = data.gpt_film_details.genre;
+              filmTitleElement.innerHTML = filmTitle;
+              filmGenreElement.innerHTML = `<span style="font-size: 18px; font-style: italic; line-height: 1.2; margin-top: -5px; display: inline-block;">(${filmGenre})</span>`;
 
-                    function convertNewLinesToParagraphs(text) {
-                      return text.split('\n\n').map(p => `<p>${p}</p>`).join('');
-                    }
+              function convertNewLinesToParagraphs(text) {
+                return text.split('\n\n').map(p => `<p>${p}</p>`).join('');
+              }
 
-                    const filmPlotOriginalElement = document.querySelector('#plot-original');
-                    const originalPlotText = convertNewLinesToParagraphs(data.gpt_film_details.plot);
-                    filmPlotOriginalElement.innerHTML = originalPlotText;
+              const filmPlotOriginalElement = document.querySelector('#plot-original');
+              const originalPlotText = convertNewLinesToParagraphs(data.gpt_film_details.plot);
+              filmPlotOriginalElement.innerHTML = originalPlotText;
 
-                    const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
-                    const modelReasoningFormat1 = data.gpt_film_details.reasoning.replace(/\n\n/g, '<br><br>').replace(/--\s(.+?):/g, '<span class="highlight">$1:</span>');
-                    const modelReasoningFinalFormat = modelReasoningFormat1.replace(/(<span)/g, '<p>$1').replace(/<br><br>/g, '');
-                    modelReasoningElement.innerHTML = modelReasoningFinalFormat;
-                    console.log('Model reasoning HTML:', modelReasoningFinalFormat);
+              const modelReasoningElement = document.querySelector('div[data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c"]');
+              const modelReasoningFormat1 = data.gpt_film_details.reasoning.replace(/\n\n/g, '<br><br>').replace(/--\s(.+?):/g, '<span class="highlight">$1:</span>');
+              const modelReasoningFinalFormat = modelReasoningFormat1.replace(/(<span)/g, '<p>$1').replace(/<br><br>/g, '');
+              modelReasoningElement.innerHTML = modelReasoningFinalFormat;
+              console.log('Model reasoning HTML:', modelReasoningFinalFormat);
 
-                    // Initialize quill editors
-                    let quillTitle;
-                    let quillGenre;
-                    let quillPlot;
-                    let quillModelReasoning;
-                    let editors = [quillTitle, quillGenre, quillPlot, quillModelReasoning];
-                    let element_ids = ["title-editor", "genre-editor", "plot-editor", "model-reasoning-editor"];
-                    let initialTexts = [filmTitle, filmGenre, originalPlotText, modelReasoningFinalFormat];
-                    initQuillEditors(editors, element_ids, initialTexts);
+              // Initialize quill editors
+              let quillTitle;
+              let quillGenre;
+              let quillPlot;
+              let quillModelReasoning;
+              let editors = [quillTitle, quillGenre, quillPlot, quillModelReasoning];
+              let element_ids = ["title-editor", "genre-editor", "plot-editor", "model-reasoning-editor"];
+              let initialTexts = [filmTitle, filmGenre, originalPlotText, modelReasoningFinalFormat];
+              initQuillEditors(editors, element_ids, initialTexts);
 
-                    // Show the hidden sections after the data is successfully loaded
-                    document.getElementById('plot-original').classList.remove('hidden-section');
-                    document.getElementById('plot-editor').classList.remove('hidden-section');
-                    document.querySelector('span.switcher.switcher-1').classList.remove('hidden-section');
-                    document.querySelector('span.switcher.switcher-2').classList.remove('hidden-section');
-                    document.querySelectorAll('h1.text-green').forEach(h1 => {
-                      h1.classList.remove('hidden-section');
-                    });
-                    document.querySelector('.create-action-button').classList.remove('hidden-section');
-                  }
-              },
-            error: function (error) {
-              console.error('Error fetching actors:', error);
-            },
-            complete: function() {
-              // Hide the loading animation
-              document.querySelector('.loadingio-spinner-eclipse-2by998twmg8').style.display = 'none';
-
-              // Hide the Create Film button and its container
-              const createButtonContainer = document.querySelector('.create-button-container');
-              createButtonContainer.style.display = 'none';
-
-              // Create the new button
-              const createNewFilmButton = document.createElement('a');
-              createNewFilmButton.href = '';
-              createNewFilmButton.className = 'create-action-button';
-              createNewFilmButton.textContent = 'Create New Film';
-
-              // Append the new button to the container
-              const createActionsContainer = document.querySelector('.create-actions-container');
-              createActionsContainer.appendChild(createNewFilmButton);
+              // Show the hidden sections after the data is successfully loaded
+              document.getElementById('plot-original').classList.remove('hidden-section');
+              document.getElementById('plot-editor').classList.remove('hidden-section');
+              document.querySelector('span.switcher.switcher-1').classList.remove('hidden-section');
+              document.querySelector('span.switcher.switcher-2').classList.remove('hidden-section');
+              document.querySelectorAll('h1.text-green').forEach(h1 => {
+                h1.classList.remove('hidden-section');
+              });
+              document.querySelector('.create-action-button').classList.remove('hidden-section');
             }
-          });
+          },
+          error: function (error) {
+            console.error('Error fetching actors:', error);
+          },
+          complete: function () {
+            // Hide the loading animation
+            document.querySelector('.loadingio-spinner-eclipse-2by998twmg8').style.display = 'none';
+
+            // Hide the Create Film button and its container
+            const createButtonContainer = document.querySelector('.create-button-container');
+            createButtonContainer.style.display = 'none';
+
+            // Create the new button
+            const createNewFilmButton = document.createElement('a');
+            createNewFilmButton.href = '';
+            createNewFilmButton.className = 'create-action-button';
+            createNewFilmButton.textContent = 'Create New Film';
+
+            // Append the new button to the container
+            const createActionsContainer = document.querySelector('.create-actions-container');
+            createActionsContainer.appendChild(createNewFilmButton);
+
+            // Select the remove-actor-button elements
+            const removeActorButtons = document.querySelectorAll('.remove-actor-button');
+            console.log('removeActorButtons.length: ', removeActorButtons.length);
+            removeActorButtons.forEach(button => {
+              button.addEventListener('click', function () {
+                console.log('remove actor button clicked...');
+                handleRemoveActorButtonClick(this);
+              })
+            });
+          }
+        })
       }
   </script>
   <link href="https://assets.website-files.com/60be390332a614269413c7ee/60be390332a61412e113c829_fav.png" rel="shortcut icon" type="image/x-icon"/>
@@ -914,7 +935,7 @@
         slides[9].style.display = 'block';
         document.querySelectorAll('.edit-actions-container')[0].classList.remove('hidden-section');
         document.querySelectorAll('.edit-actions-container')[1].classList.remove('hidden-section');
-        addActorButtons.forEach(button => {
+        removeActorButtons.forEach(button => {
           button.classList.remove('hidden-section');
         });
     } else {
@@ -1107,6 +1128,28 @@ document.getElementById('switcher-2').addEventListener('change', function() {
 <script>
   // listener event on remove-actor-button ; onclick = remove actor img in container and hide button, show add-actor-button, keep container, can replace with blank button circle with dashes no effects
   // listener event on add-actor-button ; onclick = search box, etc.
+  function handleRemoveActorButtonClick(button) {
+    // Find the parent .actor-image-container of the clicked button
+    const actorImageContainer = button.closest('.actor-image-container');
+
+    if (actorImageContainer) {
+      // Find the img element within the same .actor-image-container
+      const actorImage = actorImageContainer.querySelector('img');
+      // Hide/show the remove/add actor buttons
+      let removeActorButton = actorImageContainer.querySelector('img.remove-actor-button');
+      removeActorButton.classList.add('hidden-section');
+      let addActorButton = actorImageContainer.querySelector('img.add-actor-button');
+      addActorButton.classList.remove('hidden-section');
+
+      if (actorImage) {
+        // Remove the actor image but keep the border
+        actorImage.src = ''; // Hide the image
+        actorImage.alt = '';
+        actorImageContainer.classList.add('no-hover');
+        actorImageContainer.querySelector('a.lead-actor-button').classList.add('no-hover');
+      }
+    }
+  }
 </script>
 </body>
 </html>
