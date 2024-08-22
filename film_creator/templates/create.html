@@ -502,7 +502,7 @@
   .actor-image-container:hover .remove-actor-button {
     display: block; /* Show on hover */
   }
-  .actor-image-container.no-hover:hover .remove-actor-button {
+  .actor-image-container.no-hover .remove-actor-button {
     display: none; /* Prevent display on hover when the no-hover class is present */
   }
 
@@ -546,6 +546,7 @@
                 console.log('Actor name:', actor.name); // Log actor name
                 const originalLeadActorColContainer = document.createElement('div');
                 originalLeadActorColContainer.className = 'original-lead-actor-col-container';
+                originalLeadActorColContainer.setAttribute('data-blank', 'false');
 
                 originalLeadActorColContainer.innerHTML = `
                             <div class="actor-image-container">
@@ -558,6 +559,7 @@
 
                 const editableLeadActorColContainer = document.createElement('div');
                 editableLeadActorColContainer.className = 'editable-lead-actor-col-container';
+                editableLeadActorColContainer.setAttribute('data-blank', 'false');
 
                 editableLeadActorColContainer.innerHTML = `
                             <div class="actor-image-container">
@@ -573,6 +575,26 @@
                 originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
                 editableLeadActorsRowContainer.appendChild(editableLeadActorColContainer);
               });
+
+              // Add additional blank editableLeadActorColContainers if less than 3 actors
+              const blankActorsRequired = 3 - data.lead_actor_info.length;
+              for (let i = 0; i < blankActorsRequired; i++) {
+                  const blankEditableLeadActorColContainer = document.createElement('div');
+                  blankEditableLeadActorColContainer.className = 'editable-lead-actor-col-container';
+                  blankEditableLeadActorColContainer.setAttribute('data-blank', 'true');
+
+                  blankEditableLeadActorColContainer.innerHTML = `
+                      <div class="actor-image-container no-hover">
+                          <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button no-hover">
+                              <img src="" alt="">
+                          </a>
+                          <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
+                          <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button">
+                      </div>
+                      <div class="lead-actor-button-name"></div>
+                  `;
+                  editableLeadActorsRowContainer.appendChild(blankEditableLeadActorColContainer);
+              }
 
               // Update the film title, plot and reasoning
               // Selecting the title element
@@ -649,6 +671,8 @@
                 console.log('remove actor button clicked...');
                 handleRemoveActorButtonClick(this);
               })
+
+              // All remove-actor-buttons in editable containers need to be hidden
             });
           }
         })
@@ -935,8 +959,11 @@
         slides[9].style.display = 'block';
         document.querySelectorAll('.edit-actions-container')[0].classList.remove('hidden-section');
         document.querySelectorAll('.edit-actions-container')[1].classList.remove('hidden-section');
+
         removeActorButtons.forEach(button => {
-          button.classList.remove('hidden-section');
+          if (button.closest('.editable-lead-actor-col-container').getAttribute('data-blank') === 'false') {
+            button.classList.remove('hidden-section');
+          }
         });
     } else {
         // Move to the previous slide
@@ -1131,6 +1158,7 @@ document.getElementById('switcher-2').addEventListener('change', function() {
   function handleRemoveActorButtonClick(button) {
     // Find the parent .actor-image-container of the clicked button
     const actorImageContainer = button.closest('.actor-image-container');
+    const editableLeadActorColumnContainer = button.closest('.editable-lead-actor-col-container');
 
     if (actorImageContainer) {
       // Find the img element within the same .actor-image-container
@@ -1145,6 +1173,7 @@ document.getElementById('switcher-2').addEventListener('change', function() {
         // Remove the actor image but keep the border
         actorImage.src = ''; // Hide the image
         actorImage.alt = '';
+        editableLeadActorColumnContainer.querySelector('.lead-actor-button-name').textContent = '';
         actorImageContainer.classList.add('no-hover');
         actorImageContainer.querySelector('a.lead-actor-button').classList.add('no-hover');
       }
