@@ -506,6 +506,47 @@
     display: none; /* Prevent display on hover when the no-hover class is present */
   }
 
+  .search-box-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: auto;
+      height: auto;
+      pointer-events: auto;
+  }
+
+  .search {
+      font-weight: 300;
+      color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      width: 100px;
+      height: 100px;
+      border: 5px solid #fff;
+      border-radius: 100px;
+      cursor: default;
+      transition: width 0.7s cubic-bezier(1, -0.5, 0, 1.5),
+                  height 0.7s cubic-bezier(1, -0.5, 0, 1.5),
+                  border-radius 0.7s cubic-bezier(1, -0.5, 0, 1.5),
+                  opacity 0.5s ease-in-out;
+      text-align: left;
+      box-sizing: border-box;
+      padding-left: 15px;
+      outline: none;
+      font-size: 18px;
+      background: transparent;
+      z-index: 10;
+      pointer-events: auto;
+  }
+
+  .active {
+      width: 275px;
+      height: 70px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+  }
+
   /* Center the control
   body {
     background-color: #222229;
@@ -553,6 +594,9 @@
                               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                   <img src="${actor.picture}" alt="${actor.name}">
                               </a>
+                              <div class="search-box-container hidden-section">
+                                  <input type="text" class="search" placeholder="Search for an actor..." />
+                              </div>
                             </div>
                             <div class="lead-actor-button-name">${actor.name}</div>
                         `;
@@ -566,6 +610,9 @@
                               <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button">
                                   <img src="${actor.picture}" alt="${actor.name}">
                               </a>
+                              <div class="search-box-container hidden-section">
+                                  <input type="text" class="search" placeholder="Search for an actor..." />
+                              </div>
                               <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
                               <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button hidden-section">
                             </div>
@@ -588,6 +635,9 @@
                           <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:1" href="#" class="lead-actor-button no-hover">
                               <img src="" alt="">
                           </a>
+                          <div class="search-box-container hidden-section">
+                              <input type="text" class="search" placeholder="Search for an actor..." />
+                          </div>
                           <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
                           <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button">
                       </div>
@@ -671,9 +721,16 @@
                 console.log('remove actor button clicked...');
                 handleRemoveActorButtonClick(this);
               })
+            })
 
-              // All remove-actor-buttons in editable containers need to be hidden
-            });
+            const addActorButtons = document.querySelectorAll('.add-actor-button');
+            console.log('addActorButtons.length: ', addActorButtons.length);
+            addActorButtons.forEach(button => {
+              button.addEventListener('click', function () {
+                console.log('add actor button clicked...');
+                handleAddActorButtonClick(this);
+              })
+            })
           }
         })
       }
@@ -1177,6 +1234,29 @@ document.getElementById('switcher-2').addEventListener('change', function() {
         actorImageContainer.classList.add('no-hover');
         actorImageContainer.querySelector('a.lead-actor-button').classList.add('no-hover');
       }
+    }
+  }
+</script>
+<script>
+  function handleAddActorButtonClick(button) {
+    // Find the parent .actor-image-container of the clicked button
+    const actorImageContainer = button.closest('.actor-image-container');
+    const editableLeadActorColumnContainer = button.closest('.editable-lead-actor-col-container');
+
+    const searchBoxContainer = actorImageContainer.querySelector('.search-box-container');
+    const line1 = searchBoxContainer.querySelector('.line-1');
+    const line2 = searchBoxContainer.querySelector('.line-2');
+    const searchInput = searchBoxContainer.querySelector('.search');
+
+    if (actorImageContainer) {
+      // Show the search bar and hide the add actor button
+      button.classList.add('hidden-section');
+      searchBoxContainer.classList.remove('hidden-section');
+
+      // Ensure the element is visible and then apply the active class
+      setTimeout(function () {
+          searchInput.classList.add('active'); // Trigger the animation by adding the active class
+      }, 50); // Small delay to allow the browser to render the visibility change
     }
   }
 </script>
