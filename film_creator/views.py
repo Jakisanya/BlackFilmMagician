@@ -324,16 +324,20 @@ def get_all_actor_names(request):
 
 
 def get_actor_details(request):
-    actor_id = request.GET.get('id')
+    if request.method == 'GET':
+        # Parse the incoming JSON data
+        data = json.loads(request.body)
+        actor_tmdb_id = data.get('actor_tmdb_id')
+        print("actor_tmdb_id: ", actor_tmdb_id)
+        actor_name = data.get('actor_name')
+        print("actor_name: ", actor_name)
     try:
-        actor = Actor.objects.get(pk=actor_id)
+        actor = Actor.objects.get(name=actor_name, tmdb_id=actor_tmdb_id)
         actor_details = {
             'name': actor.name,
-            'gender': actor.gender,
-            'birthday': actor.birthday,
-            'movie_credits': actor.movie_credits,
-            'picture': actor.picture,
+            'picture_url': actor.picture,
         }
         return JsonResponse(actor_details)
     except Actor.DoesNotExist:
         return JsonResponse({'error': 'Actor not found'}, status=404)
+

@@ -1314,7 +1314,7 @@ document.getElementById('switcher-2').addEventListener('change', function() {
       filteredActors.forEach(actor => {
           const listEl = document.createElement('li');
           listEl.textContent = actor.name; // Display the name
-          listEl.dataset.actorId = actor.tmdb_id; // Store the ID
+          listEl.dataset.actorTMDBid = actor.tmdb_id; // Store the ID
 
           dropdownElement.appendChild(listEl);
       });
@@ -1326,22 +1326,51 @@ document.getElementById('switcher-2').addEventListener('change', function() {
       let totalChildrenHeight = dropdownElement.children[0].offsetHeight * filteredActors.length;
       dropdownElement.style.height = totalChildrenHeight + 'px';
 
-      /*
+
       // Event listener for when an actor is selected
-      const listElements = document.querySelectorAll('.li');
-      listElements.addEventListener('click', () => {
-          const selectedActorId = listElements.dataset.actorId;
+      const listElements = dropdownElement.querySelectorAll('li');
+
+      listElements.forEach(listEl => {
+        listEl.addEventListener('click', () => {
+          console.log('clicked dropdown name...');
+          const selectedActorId = listEl.dataset.actorTMDBid;
+          const selectedActorName = listEl.textContent;
 
           // Fetch actor details using the selected actor ID
-          fetch(`/get-actor-details/?id=${selectedActorId}`)
-              .then(response => response.json())
-              .then(details => {
-                  // Handle the actor details (e.g., display them in the UI)
-                  console.log(details);
-                  // You can update the UI with the actor details here
+          fetch('/get-actor-details/', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
+            },
+            body: JSON.stringify({
+              'actor_tmdb_id': selectedActorId,
+              'actor_name': selectedActorName
+            })
+          })
+              .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
+              .then(actor_details => {
+                // Handle the actor details (e.g., display them in the UI)
+                console.log('actor_details: ', actor_details);
+                // You can update the UI with the actor details here
+                searchBoxContainer.className.add('hidden-section');
+                actorImageContainer.className.remove('no-hover');
+                actorImageContainer.querySelector('a.lead-actor-button').classList.remove('no-hover');
+                actorImageContainer.querySelector('img').src = actor_details.picture_url;
+                actorImageContainer.querySelector('img').alt = actor_details.name;
+                let editableLeadActorContainer = actorImageContainer.closest('.editable-lead-actor-col-container')
+                editableLeadActorContainer.querySelector('.lead-actor-button-name').textContent = actor_details.name;
+              })
+              .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
               });
-      });
-      */
+        })
+      })
     }
     // Clear any previous event listeners (if the function is called multiple times)
     searchInput.removeEventListener('input', formHandler);
