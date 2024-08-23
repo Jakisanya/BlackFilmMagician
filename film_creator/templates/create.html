@@ -1263,7 +1263,7 @@ document.getElementById('switcher-2').addEventListener('change', function() {
     const searchBoxContainer = actorImageContainer.querySelector('.search-box-container');
     const searchInput = searchBoxContainer.querySelector('.search');
     const dropdownElement = searchBoxContainer.querySelector('.dropdown')
-    const words = ["suppose end get","boy warrant general","natural. delightful","met sufficient projection ask.","decisively everything","principles if preference","do","impression","of. preserved oh so","difficult repulsive on","in household. in what","do","miss time be. valley","as be","appear","cannot so","by.","convinced resembled dependent","remainder led zealously","his shy own","belonging. always length","letter","adieus","add number moment she.","promise few","compass six several old","offices removal parties","fat. concluded","rapturous it intention","perfectly daughters","is as.","behaviour we","improving at something","to. evil true","high lady roof men","had open.","to projection considered it","precaution an","melancholy or.","wound young","you thing","worse along being ham.","dissimilar of favourable solicitude","if sympathize middletons","at. forfeited","up if disposing","perfectly in an","eagerness perceived necessary.","belonging sir","curiosity discovery","extremity yet","forfeited prevailed","own off.","travelling by","introduced of","mr terminated. knew as","miss","my high hope quit. in","curiosity shameless dependent","knowledge up.","literature admiration","frequently indulgence announcing","are who you","her. was","least quick after","six. so","it yourself repeated","together","cheerful. neither it cordial so","painful picture studied if.","sex","him position doubtful","resolved boy expenses.","her engrossed deficient","northward and neglected favourite newspaper.","but","use peculiar","produced concerns ten. maids","table how","learn","drift","but purse","stand yet","set. music me","house could","among oh","as their. piqued","our","sister shy nature almost","his","wicket.","hand dear","so we hour","to. he","we be","hastily","offence effects","he service. sympathize","it projection","ye insipidity celebrated"]
+    let allActors;
 
     if (actorImageContainer) {
       // Show the search bar and hide the add actor button
@@ -1272,68 +1272,97 @@ document.getElementById('switcher-2').addEventListener('change', function() {
 
       searchInput.classList.add('active'); // Trigger the animation by adding the active class
       searchInput.focus(); // Set focus to the input field
+    }
 
-      const formHandler = (e) => {
-        const userInput = e.target.value.toLowerCase()
-
-        if(userInput.length === 0) {
-            dropdownElement.style.height = 0
-            return dropdownElement.innerHTML = ''
-        }
-
-        actorImageContainer.querySelector('a.lead-actor-button').classList.add('hidden-section');
-
-        dropdownElement.innerHTML = ''
-        // Filter words to match the user input exactly and in order
-        const filteredWords = words.filter(word => {
-          // Convert word to lowercase and trim spaces
-          const lowerCaseWord = word.toLowerCase().trim();
-          return lowerCaseWord.startsWith(userInput); // Ensure it starts with the userInput
-        }).sort().splice(0, 5); // Limit to 5 results
-
-        // Create list items for each filtered word
-        filteredWords.forEach(item => {
-          const listEl = document.createElement('li');
-          listEl.textContent = item;
-
-          // Check if item matches exactly the userInput (case-insensitive)
-          if (item.toLowerCase().trim().startsWith(userInput)) {
-              listEl.classList.add('match');
-          }
-
-          dropdownElement.appendChild(listEl);
-        });
-
-        if(dropdownElement.children[0] === undefined) {
-            return dropdownElement.style.height = 0
-        }
-
-        let totalChildrenHeight = dropdownElement.children[0].offsetHeight * filteredWords.length
-        dropdownElement.style.height = totalChildrenHeight + 'px'
-
+    // Make AJAX request to get actor names once
+    fetch('/get-all-actor-names/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
+      },
+    })
+          .then(response => response.json())
+          .then(data => {
+            dropdownElement.innerHTML = '';
+            allActors = data.actors;
+          });
+    const formHandler = (e) => {
+      const userInput = e.target.value.toLowerCase()
+      console.log('userInput: ', userInput);
+      if (userInput.length === 0) {
+        dropdownElement.style.height = 0
+        return dropdownElement.innerHTML = ''
       }
 
-      // Clear any previous event listeners (if the function is called multiple times)
-      searchInput.removeEventListener('input', formHandler);
+      actorImageContainer.querySelector('a.lead-actor-button').classList.add('hidden-section');
 
-      // Attach the event listener
-      searchInput.addEventListener('input', formHandler);
+      // Filter actors to match the user input exactly and in order
+      const filteredActors = allActors
+            .filter(actor => {
+              const actorNameLower = actor.name.toLowerCase();
+              const startsWithUserInput = actorNameLower.startsWith(userInput);
+              if (startsWithUserInput === true) {
+                return actor.name;
+              }
+            })
+            .slice(0, 5); // Limit to 5 results
 
-      // Add a click event listener to refocus the input field
-      searchInput.addEventListener('click', (e) => {
-          // Refocus the input when clicked
-          setTimeout(() => {
-              searchInput.focus();
-          }, 10); // Small delay to ensure focus is set after the click event
+      console.log('filteredActors: ', filteredActors);
+
+      dropdownElement.innerHTML = '';
+      filteredActors.forEach(actor => {
+          const listEl = document.createElement('li');
+          listEl.textContent = actor.name; // Display the name
+          listEl.dataset.actorId = actor.tmdb_id; // Store the ID
+
+          dropdownElement.appendChild(listEl);
       });
 
-      searchInput.addEventListener('blur', (e) => {
-         if (dropdownElement.style.height === "0px") {
-            actorImageContainer.querySelector('a.lead-actor-button').classList.remove('hidden-section');
-         }
+      if (dropdownElement.children[0] === undefined) {
+        return dropdownElement.style.height = 0
+      }
+
+      let totalChildrenHeight = dropdownElement.children[0].offsetHeight * filteredActors.length;
+      dropdownElement.style.height = totalChildrenHeight + 'px';
+
+      /*
+      // Event listener for when an actor is selected
+      const listElements = document.querySelectorAll('.li');
+      listElements.addEventListener('click', () => {
+          const selectedActorId = listElements.dataset.actorId;
+
+          // Fetch actor details using the selected actor ID
+          fetch(`/get-actor-details/?id=${selectedActorId}`)
+              .then(response => response.json())
+              .then(details => {
+                  // Handle the actor details (e.g., display them in the UI)
+                  console.log(details);
+                  // You can update the UI with the actor details here
+              });
       });
+      */
     }
-  }
+    // Clear any previous event listeners (if the function is called multiple times)
+    searchInput.removeEventListener('input', formHandler);
+
+    // Attach the event listener
+    searchInput.addEventListener('input', formHandler);
+
+    // Add a click event listener to refocus the input field
+    searchInput.addEventListener('click', (e) => {
+      // Refocus the input when clicked
+      setTimeout(() => {
+        searchInput.focus();
+      }, 10); // Small delay to ensure focus is set after the click event
+    });
+
+    searchInput.addEventListener('blur', (e) => {
+      if (dropdownElement.style.height === "0px") {
+        actorImageContainer.querySelector('a.lead-actor-button').classList.remove('hidden-section');
+      }
+    });
+}
 </script>
 </body>
 </html>

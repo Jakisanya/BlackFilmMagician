@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from film_creator.views import HomeView, CreateView, generate_gpt_film_details, identify_plot_differences_view
+from film_creator.views import (HomeView, CreateView, generate_gpt_film_details, identify_plot_differences_view,
+                                get_all_actor_names, get_actor_details)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -23,4 +24,6 @@ urlpatterns = [
     path('create/', CreateView.as_view(), name='create'),
     path('generate_gpt_film_details/', generate_gpt_film_details, name='generate_gpt_film_details'),
     path('identify-plot-differences/', identify_plot_differences_view, name='identify_plot_differences'),
+    path('get-all-actor-names/', get_all_actor_names, name='get_actor_names'),
+    path('get-actor-details/', get_actor_details, name='get_actor_details')
 ]

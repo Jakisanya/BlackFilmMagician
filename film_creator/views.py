@@ -309,5 +309,31 @@ def identify_plot_differences(original_plot, original_genre, edited_plot):
     return JsonResponse({"highlighted_plot": highlighted_plot, "explanation_of_difference": explanation_of_difference,
                          "genre": genre})
 
-###  - Sentences that are not in the "original_plot" and change the essence or progression of the plot should be highlighted in green (#2cd6ae).
-### Sentences that modify a sentence from the "original_plot" but do not significantly change the meaning should be highlighted in orange (#FF7900). If the modification is only a word or phrase, highlight just that word or phrase in orange (#FF7900). ###
+
+def get_all_actor_names(request):
+    if request.method == 'GET':
+        # Retrieve all actor names
+        actors = Actor.objects.all().values('tmdb_id', 'name')
+
+        # Optional: you can print the number of actors retrieved for debugging
+        print("len(actors):", len(actors))
+
+        return JsonResponse({'actors': list(actors)})
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+def get_actor_details(request):
+    actor_id = request.GET.get('id')
+    try:
+        actor = Actor.objects.get(pk=actor_id)
+        actor_details = {
+            'name': actor.name,
+            'gender': actor.gender,
+            'birthday': actor.birthday,
+            'movie_credits': actor.movie_credits,
+            'picture': actor.picture,
+        }
+        return JsonResponse(actor_details)
+    except Actor.DoesNotExist:
+        return JsonResponse({'error': 'Actor not found'}, status=404)
