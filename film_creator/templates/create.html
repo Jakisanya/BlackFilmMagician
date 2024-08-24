@@ -1403,7 +1403,20 @@ document.getElementById('switcher-2').addEventListener('change', function() {
 }
 </script>
 <script>
-  // lead-actor-button ondrag -> switch editable-lead-actor-containers positions
+  // auto update model reasoning upon actor change, title change, plot change, genre change
+  // when i change an actor, this means the plot has to add this new actor, but the original plot was written for 1,2,3 actors specifically
+  // so if i add/remove an actor, the plot might change significantly
+  // i can add/remove an actor and tell the model to not change the essence/progression of the plot - tricky
+  // the problem with this is that the plot may not make sense if i just add a character without changing the essence/progression of the plot
+  // and what if i've already changed the plot before i've changed the actors - is the previous plot saved so it can be reverted to?
+  // i mean i can save the whole thing after every change and allow the user to go back to previous versions - memory is required for this
+  // um, so in regards to updating the model reasoning - changing the title alone is fine; adding or removing a character - difficult
+  // i can't tell a user how to edit the creation - too rigid - complex
+  // so all roads lead to saving versions - allowing the user to easily click back through a timeline of versions
+  // things to create:
+      // 0. users (user ids; creation ids; version ids)
+      // 1. timeline of changes (top of page);
+      // 2. database table for each creation (state) to save the versioning data to;
 </script>
 </body>
 </html>
