@@ -1292,7 +1292,6 @@ document.getElementById('switcher-2').addEventListener('change', function() {
               let currentlySelectedActor = {
                 "tmdb_id": actorName.dataset.actorTmdbid, // Use dataset property (camelCase)
               };
-              console.log("currentlySelectedActor: ", currentlySelectedActor);
 
               // Filter out the actor from the list
               allActors = allActors.filter(actor => actor.tmdb_id.toString() !== currentlySelectedActor.tmdb_id.toString());
@@ -1320,8 +1319,6 @@ document.getElementById('switcher-2').addEventListener('change', function() {
             })
             .slice(0, 5); // Limit to 5 results
 
-      console.log('filteredActors: ', filteredActors);
-
       dropdownElement.innerHTML = '';
       filteredActors.forEach(actor => {
           const listEl = document.createElement('li');
@@ -1343,7 +1340,6 @@ document.getElementById('switcher-2').addEventListener('change', function() {
 
       listElements.forEach(listEl => {
         listEl.addEventListener('click', () => {
-          console.log('clicked dropdown name...');
           const selectedActorId = listEl.dataset.actorTMDBid;
           const selectedActorName = listEl.textContent;
 
@@ -1366,8 +1362,6 @@ document.getElementById('switcher-2').addEventListener('change', function() {
                     return response.json();
                   })
               .then(actor_details => {
-                // Handle the actor details (e.g., display them in the UI)
-                console.log('actor_details: ', actor_details);
                 // You can update the UI with the actor details here
                 searchInput.value = '';
                 dropdownElement.style.height = 0;
