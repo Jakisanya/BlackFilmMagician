@@ -324,7 +324,7 @@ def get_all_actor_names(request):
 
 
 def get_actor_details(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         # Parse the incoming JSON data
         data = json.loads(request.body)
         actor_tmdb_id = data.get('actor_tmdb_id')

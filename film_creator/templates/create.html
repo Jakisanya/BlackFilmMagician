@@ -615,7 +615,7 @@
                               </a>
                               </div>
                             </div>
-                            <div class="lead-actor-button-name">${actor.name}</div>
+                            <div data-actor-tmdbid="${actor.tmdb_id}" class="lead-actor-button-name">${actor.name}</div>
                         `;
 
                 const editableLeadActorColContainer = document.createElement('div');
@@ -634,7 +634,7 @@
                               <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
                               <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button hidden-section">
                             </div>
-                            <div class="lead-actor-button-name">${actor.name}</div>
+                            <div data-actor-tmdbid="${actor.tmdb_id}" class="lead-actor-button-name">${actor.name}</div>
                         `;
 
                 originalLeadActorsRowContainer.appendChild(originalLeadActorColContainer);
@@ -660,7 +660,7 @@
                           <img src="{% static 'film_creator/images/TOP-RIGHT-REMOVE-ICON.png' %}" alt="Remove Lead Actor Button" style="opacity:1" href="#" onclick="" class="remove-actor-button hidden-section">
                           <img src="{% static 'film_creator/images/BOT-LEFT-ADD-ICON.png' %}" alt="Add Lead Actor Button" style="opacity:1" href="#" onclick="" class="add-actor-button">
                       </div>
-                      <div class="lead-actor-button-name"></div>
+                      <div data-actor-tmdbid="" class="lead-actor-button-name"></div>
                   `;
                   editableLeadActorsRowContainer.appendChild(blankEditableLeadActorColContainer);
               }
@@ -1286,7 +1286,19 @@ document.getElementById('switcher-2').addEventListener('change', function() {
           .then(data => {
             dropdownElement.innerHTML = '';
             allActors = data.actors;
+
+            // Check to see which actors are already picked and exclude them from the list
+            document.querySelectorAll('div.lead-actor-button-name').forEach(actorName => {
+              let currentlySelectedActor = {
+                "tmdb_id": actorName.dataset.actorTmdbid, // Use dataset property (camelCase)
+              };
+              console.log("currentlySelectedActor: ", currentlySelectedActor);
+
+              // Filter out the actor from the list
+              allActors = allActors.filter(actor => actor.tmdb_id.toString() !== currentlySelectedActor.tmdb_id.toString());
+            });
           });
+
     const formHandler = (e) => {
       const userInput = e.target.value.toLowerCase()
       console.log('userInput: ', userInput);
@@ -1326,7 +1338,6 @@ document.getElementById('switcher-2').addEventListener('change', function() {
       let totalChildrenHeight = dropdownElement.children[0].offsetHeight * filteredActors.length;
       dropdownElement.style.height = totalChildrenHeight + 'px';
 
-
       // Event listener for when an actor is selected
       const listElements = dropdownElement.querySelectorAll('li');
 
@@ -1338,7 +1349,7 @@ document.getElementById('switcher-2').addEventListener('change', function() {
 
           // Fetch actor details using the selected actor ID
           fetch('/get-actor-details/', {
-            method: 'GET',
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
@@ -1358,11 +1369,15 @@ document.getElementById('switcher-2').addEventListener('change', function() {
                 // Handle the actor details (e.g., display them in the UI)
                 console.log('actor_details: ', actor_details);
                 // You can update the UI with the actor details here
-                searchBoxContainer.className.add('hidden-section');
-                actorImageContainer.className.remove('no-hover');
+                searchInput.value = '';
+                dropdownElement.style.height = 0;
+                searchBoxContainer.classList.add('hidden-section');
+                actorImageContainer.classList.remove('no-hover');
                 actorImageContainer.querySelector('a.lead-actor-button').classList.remove('no-hover');
+                actorImageContainer.querySelector('a.lead-actor-button').classList.remove('hidden-section');
                 actorImageContainer.querySelector('img').src = actor_details.picture_url;
                 actorImageContainer.querySelector('img').alt = actor_details.name;
+                actorImageContainer.querySelector('img.remove-actor-button').classList.remove('hidden-section');
                 let editableLeadActorContainer = actorImageContainer.closest('.editable-lead-actor-col-container')
                 editableLeadActorContainer.querySelector('.lead-actor-button-name').textContent = actor_details.name;
               })
@@ -1392,6 +1407,9 @@ document.getElementById('switcher-2').addEventListener('change', function() {
       }
     });
 }
+</script>
+<script>
+  // lead-actor-button ondrag -> switch editable-lead-actor-containers positions
 </script>
 </body>
 </html>
