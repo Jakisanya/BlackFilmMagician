@@ -27,6 +27,9 @@ class HomeView(TemplateView):
 class CreateView(TemplateView):
     template_name = 'create.html'
 
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
 
 def fetch_new_actors():
     # Get all unique actor IDs from roles where lead is 1
