@@ -130,9 +130,9 @@
                <!-- Menu -->
                <div class="menu-wrapper">
                   <div class="navbar_component-wrapper" style="display: flex; justify-content: center;">
-                     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca1fd" role="banner" data-duration="400" style="max-width: 1200px; border-radius: 25px; border: 2px solid #000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); background-color: #000; padding: 10px 20px;">
+                     <a href="/" aria-current="page" class="navbar_logo-link w-nav-brand w--current" aria-label="home"><img src="{% static 'film_creator/images/creab-logo-110x100px.png' %}" loading="eager" alt="Creab logo" class="navbar_logo"></a>
+                     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca1fd" role="banner" data-duration="400" style="max-width: 850px; border-radius: 25px; border: 2px solid #000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); background-color: #242424;">
                         <div class="navbar_container">
-                           <a href="/" aria-current="page" class="navbar_logo-link w-nav-brand w--current" aria-label="home"><img src="" loading="eager" alt="Creab logo" class="navbar_logo"></a>
                            <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu" style="transition: height 0.5s; transform: translateY(0px) translateX(0px);">
                               <div>
                                  <a href="/why-tenantcloud" class="navbar_link w-nav-link">Why Creab?</a>
@@ -425,16 +425,6 @@
                                     </nav>
                                  </div>
                               </div>
-                              <div>
-                                 <div class="navbar_menu-buttons">
-                                    <a href="/login/" target="_blank" class="navbar_link w-nav-link">Login</a>
-                                    <a id="w-node-e934e3e9-b4e2-2d1e-b2cc-e757b97ca219-b97ca1fc" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca219" href="https://home.tenantcloud.com/signup" target="_blank" class="button-block-03 is-neon is-small w-inline-block" style="background-color: rgb(203, 251, 69);">
-                                       <div class="button-text-03 is-dark" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">Get Started</div>
-                                       <div class="button-text-03 is-text-absolute" style="transform: translate3d(0px, 160%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; color: rgb(222, 222, 222);">Get Started</div>
-                                    </a>
-                                    <link rel="prefetch" href="https://home.tenantcloud.com/signup">
-                                 </div>
-                              </div>
                            </nav>
                            <div class="navbar12_show-tablet">
                               <a href="https://home.tenantcloud.com/signup" target="_blank" class="button is-navbar w-button">Get Started</a>
@@ -451,6 +441,16 @@
                         </div>
                         <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style="display: none;"></div>
                      </div>
+                      <div class="navbar_menu-buttons-container" style="display: flex; align-items: center; align-content: center;">
+                        <div class="navbar_menu-buttons">
+                           <a href="/login/" target="_blank" class="navbar_link w-nav-link">Login</a>
+                           <a id="w-node-e934e3e9-b4e2-2d1e-b2cc-e757b97ca219-b97ca1fc" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca219" href="https://home.tenantcloud.com/signup" target="_blank" class="button-block-03 is-neon is-small w-inline-block" style="background-color: rgb(203, 251, 69);">
+                              <div class="button-text-03 is-dark" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">Get Started</div>
+                              <div class="button-text-03 is-text-absolute" style="transform: translate3d(0px, 160%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; color: rgb(222, 222, 222);">Get Started</div>
+                           </a>
+                           <link rel="prefetch" href="https://home.tenantcloud.com/signup">
+                        </div>
+                     </div>
                      <div class="navbar_divider"></div>
                   </div>
                </div>
@@ -463,12 +463,11 @@
             <!-- Hero Content -->
             <div class="section-paddings hero">
                <div class="container">
-                  <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0; font-size:85px; transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1);">
-                     Welcome!<br>
-                  </h1>
+                  <!--
                   <div data-w-id="f0baacb2-f09c-a825-a3cf-bc164f1f6d2c" style="opacity:0; color: #2cd6ae;" class="hero-text">
                      Collaborate, become a genre expert, perfect plots, fine-tune leads, throw in wildcards, create magic.
                   </div>
+                  -->
                   <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="/create" class="join-button">Start</a>
                </div>
             </div>
