@@ -7,8 +7,8 @@
       <meta content="width=device-width, initial-scale=1" name="viewport"/>
       <meta content="Webflow" name="generator"/>
       <!-- Stylesheets -->
-      <link rel="stylesheet" href="{% static '/film_creator/css/home/tenantcloud-styles.css' %}">
       <link rel="stylesheet" href="{% static '/film_creator/css/home/moonrise-styles.css' %}">
+      <link rel="stylesheet" href="{% static '/film_creator/css/home/tenantcloud-styles.css' %}">
       <link href="https://fonts.googleapis.com" rel="preconnect"/>
       <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
       <!-- Fonts -->
@@ -867,26 +867,27 @@
    <body>
       <div class="page">
          <section class="hero-section wf-section">
-            <div class="header">
+                        <div class="header">
                <!-- Menu -->
                <div class="menu-wrapper">
-                  <div class="navbar_component-wrapper" style="display: flex; justify-content: center;">
-                     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca1fd" role="banner" data-duration="400" style="max-width: 1200px; border-radius: 25px; border: 2px solid #000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); background-color: #000; padding: 10px 20px;">
-                        <div class="navbar_container">
-                           <a href="/" aria-current="page" class="navbar_logo-link w-nav-brand w--current" aria-label="home"><img src="" loading="eager" alt="Creab logo" class="navbar_logo"></a>
+                  <div class="navbar_component-wrapper" style="display: flex; justify-content: center; align-items: center;  padding-top: 15px; padding-bottom: 15px;">
+                     <a href="/" aria-current="page" class="navbar_logo-link w-nav-brand w--current" aria-label="home"><img src="{% static 'film_creator/images/creab-logo-110x100px.png' %}" loading="eager" alt="Creab logo" class="navbar_logo"></a>
+                     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca1fd" role="banner" data-duration="400" style="max-width: 650px; border-radius: 25px; border: 2px solid #000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9); background-color: #132e31;">
+                        <div class="navbar_container" style="margin-left: 40px;">
                            <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu" style="transition: height 0.5s; transform: translateY(0px) translateX(0px);">
                               <div>
-                                 <a href="/why-tenantcloud" class="navbar_link w-nav-link">Why Creab?</a>
+                                 <a href="/create/" class="navbar_link w-nav-link">Film Creab</a>
+                                 <a href="" class="navbar_link w-nav-link">Creation Finder</a>
                                  <div data-hover="true" data-delay="200" blocks-name="navbar12_menu-dropdown" data-w-id="a16d6f09-ccbd-4983-d322-383e7adbbcd6" class="navbar12_menu-dropdown is-features w-dropdown" style="">
                                     <div class="navbar12_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-0" aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
                                        <div>Features</div>
-                                       <div class="dropdown-chevron w-embed" style="">
+                                       <div class="dropdown-chevron w-embed" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                           <svg width=" 100%" height=" 100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path>
                                           </svg>
                                        </div>
                                     </div>
-                                    <nav class="navbar12_dropdown-list-features w-dropdown-list" style="" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
+                                    <nav class="navbar12_dropdown-list-features w-dropdown-list" style="transform: translate3d(0px, 4rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
                                        <div class="navbar12_dropdown-content is-features">
                                           <div class="navbar12_dropdown-link-list">
                                              <div class="navbar12_features-heading">Listings &amp; Leads</div>
@@ -1018,7 +1019,7 @@
                                        </div>
                                     </nav>
                                  </div>
-                                 <a href="/pricing" class="navbar_link w-nav-link">Pricing</a>
+                                 <!--
                                  <div data-hover="true" data-delay="200" blocks-name="navbar12_menu-dropdown" data-w-id="f481b270-17bb-5bca-2ae1-2ea7d75207c4" class="navbar12_menu-dropdown w-dropdown" style="">
                                     <div class="navbar12_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
                                        <div>Use Cases</div>
@@ -1028,7 +1029,7 @@
                                           </svg>
                                        </div>
                                     </div>
-                                    <nav class="navbar12_dropdown-list is-usecases w-dropdown-list" style="" id="w-dropdown-list-1" aria-labelledby="w-dropdown-toggle-1">
+                                    <nav class="navbar12_dropdown-list is-usecases w-dropdown-list" style="transform: translate3d(0px, 3rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;" id="w-dropdown-list-1" aria-labelledby="w-dropdown-toggle-1">
                                        <div class="navbar12_dropdown-content is-usecases">
                                           <div class="navbar12_dropdown-link-list">
                                              <a href="/property-manager" class="navbar12_dropdown-link w-inline-block" tabindex="0">
@@ -1060,16 +1061,17 @@
                                        </div>
                                     </nav>
                                  </div>
+                                 -->
                                  <div data-hover="true" data-delay="200" blocks-name="navbar12_menu-dropdown" data-w-id="7b01baf3-b315-c507-eed6-f9d642f43e4f" class="navbar12_menu-dropdown w-dropdown" style="">
                                     <div class="navbar12_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-2" aria-controls="w-dropdown-list-2" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
                                        <div>Resources</div>
-                                       <div class="dropdown-chevron w-embed" style="">
+                                       <div class="dropdown-chevron w-embed" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                           <svg width=" 100%" height=" 100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path>
                                           </svg>
                                        </div>
                                     </div>
-                                    <nav class="navbar12_dropdown-list is-resources w-dropdown-list" style="" id="w-dropdown-list-2" aria-labelledby="w-dropdown-toggle-2">
+                                    <nav class="navbar12_dropdown-list is-resources w-dropdown-list" style="transform: translate3d(0px, 4rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;" id="w-dropdown-list-2" aria-labelledby="w-dropdown-toggle-2">
                                        <div class="navbar12_dropdown-content is-resources">
                                           <div class="navbar12_carrot is-resources w-embed">
                                              <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1085,7 +1087,7 @@
                                                 </div>
                                                 <div>Resource Library</div>
                                              </a>
-                                             <a id="w-node-d8a52783-5900-0e6f-7ed3-c107465e1944-b97ca1fc" href="https://support.tenantcloud.com/?__hstc=19301799.a2179c2ebc77b60104df2d8d0a04799d.1724527352120.1724686611699.1724688503646.12&amp;__hssc=19301799.14.1724688503646&amp;__hsfp=214978291" target="_blank" class="navbar12_dropdown-link-resource w-inline-block" tabindex="0">
+                                             <a id="w-node-d8a52783-5900-0e6f-7ed3-c107465e1944-b97ca1fc" href="https://support.tenantcloud.com/" target="_blank" class="navbar12_dropdown-link-resource w-inline-block" tabindex="0">
                                                 <div class="icon-1x1-navbar w-embed">
                                                    <svg width="100%" height="100%" viewBox="0 0 20 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                       <path d="M7.54553 6.81514C7.54553 6.32968 7.68948 5.85512 7.95921 5.45148C8.22891 5.04782 8.61226 4.73321 9.06076 4.54743C9.50927 4.36166 10.0028 4.31306 10.4789 4.40775C10.9551 4.50247 11.3924 4.73624 11.7357 5.07951C12.079 5.42279 12.3128 5.86014 12.4075 6.33629C12.5022 6.81242 12.4536 7.30595 12.2678 7.75446C12.082 8.20297 11.7674 8.58631 11.3638 8.85603C10.9601 9.12573 10.4855 9.26968 10.0001 9.26968V10.0879" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1097,7 +1099,7 @@
                                                 </div>
                                                 <div>Help Center</div>
                                              </a>
-                                             <a id="w-node-ed9d5ce5-aef3-b11b-9ba3-e3d6980d63a3-b97ca1fc" href="https://home.tenantcloud.com/support/add/scenario?__hstc=19301799.a2179c2ebc77b60104df2d8d0a04799d.1724527352120.1724686611699.1724688503646.12&amp;__hssc=19301799.14.1724688503646&amp;__hsfp=214978291" target="_blank" class="navbar12_dropdown-link-resource w-inline-block" tabindex="0">
+                                             <a id="w-node-ed9d5ce5-aef3-b11b-9ba3-e3d6980d63a3-b97ca1fc" href="https://home.tenantcloud.com/support/add/scenario" target="_blank" class="navbar12_dropdown-link-resource w-inline-block" tabindex="0">
                                                 <div class="icon-1x1-navbar w-embed">
                                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                       <g clip-path="url(#clip0_10527_15306)">
@@ -1166,19 +1168,9 @@
                                     </nav>
                                  </div>
                               </div>
-                              <div>
-                                 <div class="navbar_menu-buttons">
-                                    <a href="/login/" target="_blank" class="navbar_link w-nav-link">Login</a>
-                                    <a id="w-node-e934e3e9-b4e2-2d1e-b2cc-e757b97ca219-b97ca1fc" data-w-id="e934e3e9-b4e2-2d1e-b2cc-e757b97ca219" href="https://home.tenantcloud.com/signup?__hstc=19301799.a2179c2ebc77b60104df2d8d0a04799d.1724527352120.1724686611699.1724688503646.12&amp;__hssc=19301799.14.1724688503646&amp;__hsfp=214978291" target="_blank" class="button-block-03 is-neon is-small w-inline-block" style="">
-                                       <div class="button-text-03 is-dark" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">Get Started</div>
-                                       <div class="button-text-03 is-text-absolute" style="transform: translate3d(0px, 160%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">Get Started</div>
-                                    </a>
-                                    <link rel="prefetch" href="https://home.tenantcloud.com/signup">
-                                 </div>
-                              </div>
                            </nav>
                            <div class="navbar12_show-tablet">
-                              <a href="https://home.tenantcloud.com/signup?__hstc=19301799.a2179c2ebc77b60104df2d8d0a04799d.1724527352120.1724686611699.1724688503646.12&amp;__hssc=19301799.14.1724688503646&amp;__hsfp=214978291" target="_blank" class="button is-navbar w-button">Get Started</a>
+                              <a href="https://home.tenantcloud.com/signup" target="_blank" class="button is-navbar w-button">Get Started</a>
                               <div class="navbar_menu-button w-nav-button" style="-webkit-user-select: text;" aria-label="menu" role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
                                  <div class="menu-icon1">
                                     <div class="menu-icon1_line-top" style=""></div>
@@ -1191,7 +1183,12 @@
                            </div>
                         </div>
                         <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style="display: none;"></div>
-                        <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
+                     </div>
+                      <div class="navbar_menu-buttons-container" style="display: flex; align-items: center; align-content: center;">
+                        <div class="navbar_menu-buttons">
+                           <a href="/login/" target="_blank" class="navbar_link w-nav-link">Login</a>
+                           <a href="/signup/" class="button-block-03 is-neon is-small w-inline-block" style="background-color: rgb(21,206,206);">Get Started</a>
+                        </div>
                      </div>
                      <div class="navbar_divider"></div>
                   </div>
@@ -1210,7 +1207,7 @@
                </div>
                <a data-w-id="64aa7b86-02a2-48e0-6178-6a8cd1eabae7" style="opacity:0" href="#" onclick="generateGptFilmDetails()" class="create-button">Create Film</a>
             </div>
-            <div id="film-creation-section-hidden-section" class="hidden-section">
+            <div id="film-creation-section-hidden-section" class="hidden-section" style="padding-top: 100px;">
                <div class="container">
                   <span class="switcher switcher-1 hidden-section">
                   <input type="checkbox" id="switcher-1">
@@ -1221,7 +1218,7 @@
                      <div class="w-slider-mask">
                         <div class="servise-slide w-slide" aria-label="1 of 4" role="group" style="transition: all; transform: translateX(-2651.62px); opacity: 1; z-index: 12; visibility: visible; margin-bottom: 0px;">
                            <!-- Insert original title container -->
-                           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; margin-top: -10px; text-align: center; line-height: 50px; height: 80.3625px;">
+                           <h1 data-w-id="dc5e3c52-347e-60f3-9135-719b969fb34e" style="opacity:0;-webkit-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 30px, 0) scale3d(1, 1.2, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0); margin-bottom: 0px; margin-top: -10px; text-align: center; line-height: 50px; height: 80.3625px; padding-top: 30px;">
                               <span class="text-green" style="vertical-align: middle;"></span>
                            </h1>
                         </div>

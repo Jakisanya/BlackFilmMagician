@@ -117,7 +117,7 @@ class SuggestionCard(models.Model):
     type = models.CharField(max_length=20)
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     id = models.IntegerField(primary_key=True)
     content = models.TextField(null=False, blank=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
