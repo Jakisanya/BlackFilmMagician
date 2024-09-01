@@ -105,7 +105,9 @@
            cursor: pointer;
         }
          .signup-popup {
-             align-content: center;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
              text-align: center;
              color: #132E31;
          }
@@ -114,6 +116,8 @@
             position: relative;
             width: 175px;
             height: 175px;
+            margin-top: 20px;
+            margin-bottom: 40px;
          }
 
          .signup-wheel-container img {
@@ -463,7 +467,7 @@
                            <div id="loginPopup" class="popup">
                             <div class="popup-content">
                                    <div class="signup-popup">
-                                      <h2>SIGN UP</h2>
+                                      <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; letter-spacing: 5px; color: #FFF;">SIGN UP</h2>
                                       <div class="signup-wheel-container">
                                           <img class="wheel-username-section" src="{% static 'film_creator/images/signup/Username Selection w Text.png' %}" alt="username section">
                                           <img class="wheel-password-section" src="{% static 'film_creator/images/signup/Password Selection w Text.png' %}" alt="password section">
