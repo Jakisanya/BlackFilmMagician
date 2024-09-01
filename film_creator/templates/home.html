@@ -81,7 +81,7 @@
 
         /* Popup content */
         .popup-content {
-            background-color: #fefefe;
+            background-color: #132E31;
             margin: 15% auto; /* 15% from the top and centered */
             padding: 20px;
             border: 2px solid #888;
@@ -100,10 +100,84 @@
 
         .close:hover,
         .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+           color: black;
+           text-decoration: none;
+           cursor: pointer;
         }
+         .signup-popup {
+             align-content: center;
+             text-align: center;
+             color: #132E31;
+         }
+
+         .signup-wheel-container {
+            position: relative;
+            width: 175px;
+            height: 175px;
+         }
+
+         .signup-wheel-container img {
+            position: absolute;
+            display: flex;
+         }
+
+         .wheel-username-section {
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+         }
+
+         .wheel-password-section {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%) translateX(-100%);
+         }
+
+         .wheel-email-section {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+         }
+
+         .wheel-captcha-section {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+         }
+
+         .signup-form {
+             display: flex;
+             flex-direction: column;
+             gap: 10px;
+         }
+
+         .signup-form input[type="password"] {
+             padding: 10px;
+             border: none;
+             border-radius: 20px;
+             background-color: #1f3a3a;
+             color: #fff;
+             text-align: center;
+             font-size: 1rem;
+             outline: none;
+             width: 240px;
+             margin: 0 auto;
+             border: 2px solid #fff;
+         }
+
+         .signup-form input[type="password"]::placeholder {
+             color: #fff;
+         }
+
+         .signup-form input[type="password"]:focus {
+             border-color: #bbb;
+         }
+
+
       </style>
    </head>
    <body>
@@ -389,6 +463,19 @@
                            <a id="loginNavButton" target="_blank" class="navbar_link w-nav-link">Login</a>
                            <div id="loginPopup" class="popup">
                             <div class="popup-content">
+                                   <div class="signup-popup">
+                                      <h2>SIGN UP</h2>
+                                      <div class="signup-wheel-container">
+                                          <img class="wheel-username-section" src="{% static 'film_creator/images/signup/Username Selection w Text.png' %}" alt="username section">
+                                          <img class="wheel-password-section" src="{% static 'film_creator/images/signup/Password Selection w Text.png' %}" alt="password section">
+                                          <img class="wheel-email-section" src="{% static 'film_creator/images/signup/Email Selection w Text.png' %}" alt="email section">
+                                          <img class="wheel-captcha-section" src="{% static 'film_creator/images/signup/Captcha Selection w Text.png' %}" alt="captcha section">
+                                      </div>
+                                      <form class="signup-form">
+                                          <input type="password" placeholder="enter password" required>
+                                          <input type="password" placeholder="confirm password" required>
+                                      </form>
+                                  </div>
                             </div>
                         </div>
                            <a href="/signup/" class="button-block-03 is-neon is-small w-inline-block" style="background-color: rgb(21,206,206);">Get Started</a>
