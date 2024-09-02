@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.views.generic import TemplateView
-from .models import Actor, Role, Film
+from .models import Actor, Role, Film, User
 import random
 from django.http import JsonResponse
 from openai import OpenAI
@@ -348,4 +348,19 @@ def get_actor_details(request):
         return JsonResponse(actor_details)
     except Actor.DoesNotExist:
         return JsonResponse({'error': 'Actor not found'}, status=404)
+
+
+def check_username_is_unique(request):
+    if request.method == 'POST':
+        # Parse the incoming JSON data
+        data = json.loads(request.body)
+        username = data.get('username')
+        print('Received username:', username)
+        print(User.objects.filter(username=username).exists())
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'isUnique': False})
+        else:
+            return JsonResponse({'isUnique': True})
+
+
 

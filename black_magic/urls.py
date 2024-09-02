@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LoginView
 from django.urls import path
 from film_creator.views import (HomeView, CreateView, LoginView, SignupView, generate_gpt_film_details, identify_plot_differences_view,
-                                get_all_actor_names, get_actor_details)
+                                get_all_actor_names, get_actor_details, check_username_is_unique)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,5 +28,6 @@ urlpatterns = [
     path('generate_gpt_film_details/', generate_gpt_film_details, name='generate_gpt_film_details'),
     path('identify-plot-differences/', identify_plot_differences_view, name='identify_plot_differences'),
     path('get-all-actor-names/', get_all_actor_names, name='get_actor_names'),
-    path('get-actor-details/', get_actor_details, name='get_actor_details')
+    path('get-actor-details/', get_actor_details, name='get_actor_details'),
+    path('check-username/', check_username_is_unique, name='check_username_is_unique')
 ]
