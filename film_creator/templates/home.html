@@ -81,7 +81,7 @@
 
         /* Popup content */
         .popup-content {
-            background-color: #132E31;
+            background: rgba(19, 46, 49, 1.0);
             margin: 15% auto; /* 15% from the top and centered */
             padding: 20px;
             border: 2px solid #888;
@@ -109,15 +109,16 @@
              flex-direction: column;
              align-items: center;
              text-align: center;
-             color: #132E31;
          }
 
          .signup-wheel-container {
+            display: flex;
             position: relative;
-            width: 175px;
-            height: 175px;
+            width: 390px;
+            height: 390px;
             margin-top: 20px;
             margin-bottom: 40px;
+            justify-content: center;
          }
 
          .signup-wheel-container img {
@@ -158,6 +159,7 @@
              flex-direction: column;
              gap: 10px;
          }
+
          .signup-form input[type="password"] {
              padding: 10px;
              border: none;
@@ -167,7 +169,7 @@
              text-align: center;
              font-size: 1rem;
              outline: none;
-             width: 240px;
+             width: 250px;
              margin: 0 auto;
              border: 2px solid #fff;
          }
@@ -179,7 +181,6 @@
          .signup-form input[type="password"]:focus {
              border-color: #bbb;
          }
-
 
       </style>
    </head>
@@ -469,15 +470,15 @@
                                    <div class="signup-popup">
                                       <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; letter-spacing: 5px; color: #FFF;">SIGN UP</h2>
                                       <div class="signup-wheel-container">
-                                          <img class="wheel-username-section" src="{% static 'film_creator/images/signup/Username Selection w Text.png' %}" alt="username section">
-                                          <img class="wheel-password-section" src="{% static 'film_creator/images/signup/Password Selection w Text.png' %}" alt="password section">
-                                          <img class="wheel-email-section" src="{% static 'film_creator/images/signup/Email Selection w Text.png' %}" alt="email section">
-                                          <img class="wheel-captcha-section" src="{% static 'film_creator/images/signup/Captcha Selection w Text.png' %}" alt="captcha section">
+                                          <img class="wheel-username-section" src="{% static 'film_creator/images/signup/username segment.svg' %}" alt="username section">
+                                          <img class="wheel-password-section" src="{% static 'film_creator/images/signup/password segment.svg' %}" alt="password section">
+                                          <img class="wheel-email-section" src="{% static 'film_creator/images/signup/email segment.svg' %}" alt="email section">
+                                          <img class="wheel-captcha-section" src="{% static 'film_creator/images/signup/captcha segment.svg' %}" alt="captcha section">
+                                          <form class="signup-form" style="align-self: center;">
+                                             <input type="password" placeholder="enter password" required>
+                                             <input type="password" placeholder="confirm password" required>
+                                          </form>
                                       </div>
-                                      <form class="signup-form">
-                                          <input type="password" placeholder="enter password" required>
-                                          <input type="password" placeholder="confirm password" required>
-                                      </form>
                                   </div>
                             </div>
                         </div>
