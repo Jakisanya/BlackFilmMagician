@@ -126,6 +126,7 @@
             margin-top: 20px;
             margin-bottom: 40px;
             justify-content: center;
+            align-items: center;
          }
 
          .signup-wheel-container img {
@@ -136,6 +137,7 @@
             position: absolute;
             transform: translateX(-50%);
             left: 50%;
+            top: 0;
          }
 
          .wheel-password-section {
@@ -743,14 +745,44 @@
       });
    </script>
    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const nextSectionButtons = document.querySelectorAll('.next-section-btn');
+         console.log('nextSectionButtons.length: ', nextSectionButtons.length);
+         nextSectionButtons.forEach(button => {
+            button.addEventListener('click', function () {
+               console.log('next section button clicked...');
+               handleNextSectionButtonClick(this);
+            })
+         })
+      })
+
       function handleNextSectionButtonClick(button) {
          // rotate the selection wheel by 90 degrees anti-clockwise
          let signupWheelContainer = document.querySelector('.signup-wheel-container');
          let signupWheelImages = signupWheelContainer.querySelectorAll('img');
+         let signupForm = signupWheelContainer.querySelector('.signup-form');
 
+         // Rotate the container by 90 degrees
+         signupWheelContainer.style.transform = 'rotate(-90deg)';
+         signupWheelContainer.style.transformOrigin = 'center';
+
+         // Apply counter-rotation to sign up form
+         signupForm.style.transform = 'rotate(90deg)';
+         signupForm.style.transformOrigin = 'center';
+
+         // Swap out the red segment for the green
+         if (button.id === "password_next") {
+            signupWheelContainer.querySelectorAll('.wheel-password-section')[0].classList.add('hidden');
+            signupWheelContainer.querySelectorAll('.wheel-password-section')[1].classList.remove('hidden');
+         }
+         if (button.id === "username_next") {
+            signupWheelContainer.querySelectorAll('.wheel-username-section')[0].classList.add('hidden');
+            signupWheelContainer.querySelectorAll('.wheel-username-section')[1].classList.remove('hidden');
+         }
+         if (button.id === "email_next") {
+            signupWheelContainer.querySelectorAll('.wheel-email-section')[0].classList.add('hidden');
+            signupWheelContainer.querySelectorAll('.wheel-email-section')[1].classList.remove('hidden');
+         }
       }
-
-
-
    </script>
 </html>
