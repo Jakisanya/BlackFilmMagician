@@ -121,47 +121,91 @@
          .signup-wheel-container {
             display: flex;
             position: relative;
-            width: 390px;
-            height: 390px;
+            width: 405px;
+            height: 405px;
             margin-top: 20px;
             margin-bottom: 40px;
             justify-content: center;
             align-items: center;
+            z-index: 0;
+         }
+
+         .wheel-405-light-grey-background {
+            z-index: 1;
          }
 
          .signup-wheel-container img {
             position: absolute;
+            z-index: 2;
          }
 
-         .wheel-top-segment {
-            position: absolute;
+         .wheel-top-username-segment {
             transform: translateX(-50%);
             left: 50%;
-            top: 0;
+            top: 10px;
+         }
+         .wheel-top-425-cyan-highlight {
+            transform: translateX(-50%);
+            left: 50%;
+            top: -10px;
+         }
+         .wheel-top-425-green-highlight {
+            transform: translateX(-50%);
+            left: 50%;
+            top: -10px;
          }
 
-         .wheel-right-segment {
-            position: absolute;
+         .wheel-right-password-segment {
             right: 0;
             top: 50%;
-            left: 100%;
+            left: 395px;
+            transform: translateY(-50%) translateX(-100%);
+         }
+         .wheel-right-425-cyan-highlight {
+            transform: translateX(-50%);
+            right: 0;
+            top: 50%;
+            left: 415px;
+            transform: translateY(-50%) translateX(-100%);
+         }
+         .wheel-right-425-green-highlight {
+            right: 0;
+            top: 50%;
+            left: 415px;
             transform: translateY(-50%) translateX(-100%);
          }
 
-         .wheel-bottom-segment {
-            position: absolute;
-            bottom: 0;
+         .wheel-bottom-email-segment {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+         }
+         .wheel-bottom-425-cyan-highlight {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+         }
+         .wheel-bottom-425-green-highlight {
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
          }
 
-         .wheel-left-segment {
-            position: absolute;
-            left: 0;
+         .wheel-left-captcha-segment {
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
          }
-
+         .wheel-left-425-cyan-highlight {
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+         }
+         .wheel-left-425-green-highlight {
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+         }
          .signup-form {
              display: flex;
              flex-direction: column;
@@ -561,21 +605,23 @@
                                    <div class="signup-popup">
                                       <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; letter-spacing: 5px; color: #FFF;">SIGN UP</h2>
                                       <div class="signup-wheel-container">
+                                          <img class="wheel-405-light-grey-background" src="{% static 'film_creator/images/signup/405 LIGHT GREY.svg' %}" alt="wheel 405 light grey background">
+
                                           <img class="wheel-top-username-segment" src="{% static 'film_creator/images/signup/WHEEL TOP USERNAME SEGMENT.svg' %}" alt="wheel top username segment">
                                           <img class="wheel-top-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 TOP GREEN HIGHLIGHT.svg' %}" alt="wheel top 425 green highlight">
                                           <img class="wheel-top-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 TOP CYAN HIGHLIGHT.svg' %}" alt="wheel top 425 cyan highlight">
 
                                           <img class="wheel-right-password-segment" src="{% static 'film_creator/images/signup/WHEEL RIGHT PASSWORD SEGMENT.svg' %}" alt="wheel right password segment">
                                           <img class="wheel-right-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT GREEN HIGHLIGHT.svg' %}" alt="wheel right 425 green highlight">
-                                          <img class="wheel-right-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT CYAN HIGHLIGHT.svg' %}" alt="wheel right 425 cyan highlight">
+                                          <img class="wheel-right-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 RIGHT CYAN HIGHLIGHT.svg' %}" alt="wheel right 425 cyan highlight">
 
-                                          <img class="wheel-bottom-email-segment" src="{% static 'film_creator/images/signup/WHEEL BOTTOM EMAIL SEGMENT.svg' %}" alt="wheel bottom email segment">
+                                          <img class="wheel-bottom-email-segment" src="{% static 'film_creator/images/signup/WHEEL BOT EMAIL SEGMENT.svg' %}" alt="wheel bottom email segment">
                                           <img class="wheel-bottom-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT GREEN HIGHLIGHT.svg' %}" alt="wheel bottom 425 green highlight">
-                                          <img class="wheel-bottom-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT CYAN HIGHLIGHT.svg' %}" alt="wheel bottom 425 cyan highlight">
+                                          <img class="wheel-bottom-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 BOT CYAN HIGHLIGHT.svg' %}" alt="wheel bottom 425 cyan highlight">
 
                                           <img class="wheel-left-captcha-segment" src="{% static 'film_creator/images/signup/WHEEL LEFT CAPTCHA SEGMENT.svg' %}" alt="wheel left captcha segment">
                                           <img class="wheel-left-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT GREEN HIGHLIGHT.svg' %}" alt="wheel left 425 green highlight">
-                                          <img class="wheel-left-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
+                                          <img class="wheel-left-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
 
                                           <form class="signup-form" style="align-self: center;">
                                              <input type="text" id="id_username" placeholder="enter username" required>
@@ -767,7 +813,6 @@
       function handleNextSectionButtonClick(button) {
          // rotate the selection wheel by 90 degrees anti-clockwise
          let signupWheelContainer = document.querySelector('.signup-wheel-container');
-         let signupWheelImages = signupWheelContainer.querySelectorAll('img');
          let signupForm = signupWheelContainer.querySelector('.signup-form');
 
          // Rotate the container by 90 degrees
@@ -778,18 +823,21 @@
          signupForm.style.transform = 'rotate(90deg)';
          signupForm.style.transformOrigin = 'center';
 
-         // Swap out the red segment for the green
-         if (button.id === "password_next") {
-            signupWheelContainer.querySelectorAll('.wheel-password-section')[0].classList.add('hidden');
-            signupWheelContainer.querySelectorAll('.wheel-password-section')[1].classList.remove('hidden');
-         }
+         // Highlight completed segment green and next segment cyan
          if (button.id === "username_next") {
-            signupWheelContainer.querySelectorAll('.wheel-username-section')[0].classList.add('hidden');
-            signupWheelContainer.querySelectorAll('.wheel-username-section')[1].classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-top-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-top-425-green-highlight').classList.remove('hidden');
+         }
+         if (button.id === "password_next") {
+            signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.remove('hidden');
          }
          if (button.id === "email_next") {
-            signupWheelContainer.querySelectorAll('.wheel-email-section')[0].classList.add('hidden');
-            signupWheelContainer.querySelectorAll('.wheel-email-section')[1].classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.remove('hidden');
          }
       }
    </script>
