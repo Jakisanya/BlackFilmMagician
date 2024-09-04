@@ -88,7 +88,7 @@
 
         /* Popup content */
         .popup-content {
-            background: rgba(19, 46, 49, 1.0);
+            background: rgba(255, 255, 255, 0.5);
             margin: 15% auto; /* 15% from the top and centered */
             padding: 20px;
             border: 2px solid #888;
@@ -133,14 +133,14 @@
             position: absolute;
          }
 
-         .wheel-username-section {
+         .wheel-top-segment {
             position: absolute;
             transform: translateX(-50%);
             left: 50%;
             top: 0;
          }
 
-         .wheel-password-section {
+         .wheel-right-segment {
             position: absolute;
             right: 0;
             top: 50%;
@@ -148,14 +148,14 @@
             transform: translateY(-50%) translateX(-100%);
          }
 
-         .wheel-email-section {
+         .wheel-bottom-segment {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
          }
 
-         .wheel-captcha-section {
+         .wheel-left-segment {
             position: absolute;
             left: 0;
             top: 50%;
@@ -561,14 +561,22 @@
                                    <div class="signup-popup">
                                       <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; letter-spacing: 5px; color: #FFF;">SIGN UP</h2>
                                       <div class="signup-wheel-container">
-                                          <img class="wheel-username-section" src="{% static 'film_creator/images/signup/username red segment.svg' %}" alt="username red segment">
-                                          <img class="wheel-username-section hidden" src="{% static 'film_creator/images/signup/username green segment.svg' %}" alt="username green segment">
-                                          <img class="wheel-password-section" src="{% static 'film_creator/images/signup/password red segment.svg' %}" alt="password red segment">
-                                          <img class="wheel-password-section hidden" src="{% static 'film_creator/images/signup/password green segment.svg' %}" alt="password green segment">
-                                          <img class="wheel-email-section" src="{% static 'film_creator/images/signup/email red segment.svg' %}" alt="email red segment">
-                                          <img class="wheel-email-section hidden" src="{% static 'film_creator/images/signup/email green segment.svg' %}" alt="email green segment">
-                                          <img class="wheel-captcha-section" src="{% static 'film_creator/images/signup/captcha red segment.svg' %}" alt="captcha red segment">
-                                          <img class="wheel-captcha-section hidden" src="{% static 'film_creator/images/signup/captcha green segment.svg' %}" alt="captcha green segment">
+                                          <img class="wheel-top-username-segment" src="{% static 'film_creator/images/signup/WHEEL TOP USERNAME SEGMENT.svg' %}" alt="wheel top username segment">
+                                          <img class="wheel-top-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 TOP GREEN HIGHLIGHT.svg' %}" alt="wheel top 425 green highlight">
+                                          <img class="wheel-top-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 TOP CYAN HIGHLIGHT.svg' %}" alt="wheel top 425 cyan highlight">
+
+                                          <img class="wheel-right-password-segment" src="{% static 'film_creator/images/signup/WHEEL RIGHT PASSWORD SEGMENT.svg' %}" alt="wheel right password segment">
+                                          <img class="wheel-right-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT GREEN HIGHLIGHT.svg' %}" alt="wheel right 425 green highlight">
+                                          <img class="wheel-right-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT CYAN HIGHLIGHT.svg' %}" alt="wheel right 425 cyan highlight">
+
+                                          <img class="wheel-bottom-email-segment" src="{% static 'film_creator/images/signup/WHEEL BOTTOM EMAIL SEGMENT.svg' %}" alt="wheel bottom email segment">
+                                          <img class="wheel-bottom-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT GREEN HIGHLIGHT.svg' %}" alt="wheel bottom 425 green highlight">
+                                          <img class="wheel-bottom-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT CYAN HIGHLIGHT.svg' %}" alt="wheel bottom 425 cyan highlight">
+
+                                          <img class="wheel-left-captcha-segment" src="{% static 'film_creator/images/signup/WHEEL LEFT CAPTCHA SEGMENT.svg' %}" alt="wheel left captcha segment">
+                                          <img class="wheel-left-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT GREEN HIGHLIGHT.svg' %}" alt="wheel left 425 green highlight">
+                                          <img class="wheel-left-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
+
                                           <form class="signup-form" style="align-self: center;">
                                              <input type="text" id="id_username" placeholder="enter username" required>
                                              <input type="submit" id="username_next" value="Next Section" class="next-section-btn hidden">
