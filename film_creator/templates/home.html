@@ -115,12 +115,13 @@
              display: flex;
              flex-direction: column;
              align-items: center;
-             text-align: center;
          }
          .signup-popup-close-button {
             position: relative;
             top: 0;
-            right: 0;
+            right: -20px;
+            scale: 0.7;
+            margin-top: -15px;
          }
          .signup-wheel-container {
             display: flex;
@@ -585,8 +586,10 @@
                            <div id="signupPopup" class="popup">
                               <div class="popup-content">
                                    <div class="signup-popup">
-                                      <img class="signup-popup-close-button" src="{% static 'film_creator/images/SEARCH-BOX-CLOSE-ICON.png' %}" alt="Search Box Close Icon" style="opacity:1" onclick="">
-                                      <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; font-size: 24px; letter-spacing: 5px; color: #FFF; padding-bottom: 20px;">SIGN UP</h2>
+                                      <div class="signup-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                          <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; font-size: 24px; letter-spacing: 10px; color: #FFF; padding-bottom: 20px; margin-left: 150px;">SIGN UP</h2>
+                                          <img class="signup-popup-close-button" src="{% static 'film_creator/images/SEARCH-BOX-CLOSE-ICON.png' %}" alt="Search Box Close Icon" style="opacity:1" onclick="">
+                                      </div>
                                       <div class="signup-wheel-container">
                                           <img class="wheel-405-light-grey-background" src="{% static 'film_creator/images/signup/405 LIGHT GREY.svg' %}" alt="wheel 405 light grey background">
 
