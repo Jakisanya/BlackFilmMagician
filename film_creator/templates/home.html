@@ -122,6 +122,7 @@
             right: -20px;
             scale: 0.7;
             margin-top: -15px;
+            cursor: pointer;
          }
          .signup-wheel-container {
             display: flex;
@@ -194,24 +195,23 @@
              display: flex;
              flex-direction: column;
              gap: 10px;
+             z-index: 2;
          }
 
          .signup-form input[type="password"] {
              padding: 10px;
-             border: none;
              border-radius: 20px;
-             background-color: #1f3a3a;
-             color: #fff;
              text-align: center;
              font-size: 1rem;
              outline: none;
              width: 250px;
              margin: 0 auto;
              border: 2px solid #fff;
+             z-index: 2;
          }
 
          .signup-form input[type="password"]::placeholder {
-             color: rgba(255, 255, 255, 0.5);
+             color: rgba(0, 0, 0, 0.5);
          }
 
          .signup-form input[type="password"]:focus {
@@ -220,20 +220,20 @@
 
          .signup-form input[type="text"] {
              padding: 10px;
-             border: none;
              border-radius: 20px;
-             background-color: #1f3a3a;
-             color: #fff;
+             color: rgba(0, 0, 0, 1.0);
+             background-color: rgba(255, 255, 255, 0.5);
              text-align: center;
              font-size: 1rem;
              outline: none;
              width: 250px;
              margin: 0 auto;
              border: 2px solid #fff;
+             z-index: 2;
          }
 
          .signup-form input[type="text"]::placeholder {
-             color: rgba(255, 255, 255, 0.5);
+             color: rgba(0, 0, 0, 0.5);
          }
 
          .signup-form input[type="text"]:focus {
@@ -243,18 +243,17 @@
          .signup-form input[type="email"] {
              padding: 10px;
              border-radius: 20px;
-             background-color: #1f3a3a;
-             color: #fff;
              text-align: center;
              font-size: 1rem;
              outline: none;
              width: 250px;
              margin: 0 auto;
              border: 2px solid #fff;
+             z-index: 2;
          }
 
          .signup-form input[type="email"]::placeholder {
-             color: rgba(255, 255, 255, 0.5);
+             color: rgba(0, 0, 0, 0.5);
          }
 
          .signup-form input[type="email"]:focus {
@@ -271,7 +270,7 @@
            background-size: 25px;
          }
 
-         .signup-form .next-section-btn {
+         .signup-form .next-section-btn, .previous-section-btn{
              padding: 12px 20px;
              border: none;
              border-radius: 25px;
@@ -286,9 +285,10 @@
              margin-right: 20px;
              cursor: pointer;
              transition: background-color 0.3s ease, border-color 0.3s ease;
+             z-index: 2;
          }
 
-         .signup-form .next-section-btn:hover {
+         .signup-form .next-section-btn:hover, .previous-section-btn:hover {
              background-color: #3e6e6e;
              border-color: #bbb;
          }
@@ -599,25 +599,28 @@
 
                                           <img class="wheel-right-password-segment" src="{% static 'film_creator/images/signup/WHEEL RIGHT PASSWORD SEGMENT.svg' %}" alt="wheel right password segment">
                                           <img class="wheel-right-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT GREEN HIGHLIGHT.svg' %}" alt="wheel right 425 green highlight">
-                                          <img class="wheel-right-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 RIGHT CYAN HIGHLIGHT.svg' %}" alt="wheel right 425 cyan highlight">
+                                          <img class="wheel-right-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 RIGHT CYAN HIGHLIGHT.svg' %}" alt="wheel right 425 cyan highlight">
 
                                           <img class="wheel-bottom-email-segment" src="{% static 'film_creator/images/signup/WHEEL BOT EMAIL SEGMENT.svg' %}" alt="wheel bottom email segment">
                                           <img class="wheel-bottom-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT GREEN HIGHLIGHT.svg' %}" alt="wheel bottom 425 green highlight">
-                                          <img class="wheel-bottom-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 BOT CYAN HIGHLIGHT.svg' %}" alt="wheel bottom 425 cyan highlight">
+                                          <img class="wheel-bottom-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 BOT CYAN HIGHLIGHT.svg' %}" alt="wheel bottom 425 cyan highlight">
 
                                           <img class="wheel-left-captcha-segment" src="{% static 'film_creator/images/signup/WHEEL LEFT CAPTCHA SEGMENT.svg' %}" alt="wheel left captcha segment">
                                           <img class="wheel-left-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT GREEN HIGHLIGHT.svg' %}" alt="wheel left 425 green highlight">
-                                          <img class="wheel-left-425-cyan-highlight" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
+                                          <img class="wheel-left-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
 
                                           <form class="signup-form" style="align-self: center;">
-                                             <input type="text" id="id_username" placeholder="enter username" required>
-                                             <input type="submit" id="username_next" value="Next Section" class="next-section-btn hidden">
-                                             <input type="password" placeholder="enter password" required class="hidden">
-                                             <input type="password" placeholder="confirm password" required class="hidden">
-                                             <input type="submit" id="password_next" value="Next Section" class="next-section-btn hidden">
-                                             <input type="email" placeholder="enter email" required class="hidden">
-                                             <input type="email" placeholder="confirm email" required class="hidden">
-                                             <input type="submit" id="email_next" value="Next Section" class="next-section-btn hidden">
+                                             <input type="text" id="username_input" placeholder="enter username" required>
+                                             <input type="button" id="username_next" value="Next" class="next-section-btn hidden">
+                                             <input type="password" id="password_first_input" placeholder="enter password" required class="hidden">
+                                             <input type="password" id="password_confirm_input" placeholder="confirm password" required class="hidden">
+                                             <input type="button" id="password_next" value="Next" class="next-section-btn hidden">
+                                             <input type="button" id="password_back" value="Back" class="previous-section-btn hidden">
+                                             <input type="email" id="email_first_input" placeholder="enter email" required class="hidden">
+                                             <input type="email" id="email_confirm_input" placeholder="confirm email" required class="hidden">
+                                             <input type="button" id="email_next" value="Next" class="next-section-btn hidden">
+                                             <input type="button" id="email_back" value="Back" class="previous-section-btn hidden">
+                                             <input type="button" id="captcha_back" value="Back" class="previous-section-btn hidden">
                                           </form>
                                       </div>
                                   </div>
@@ -713,8 +716,7 @@
        let loginButton = document.getElementById("loginNavButton");
        let signupButton = document.getElementById("signupNavButton");
 
-       // Get the <span> element that closes the modal
-       let span = document.getElementsByClassName("close")[0];
+       let signupCloseButton = document.querySelector('.signup-popup-close-button');
 
        // When the user clicks the button, open the modal
        loginButton.onclick = function() {
@@ -724,20 +726,20 @@
            signupPopup.style.display = "block";
        }
        // When the user clicks on <span> (x), close the modal
-       span.onclick = function() {
-           popup.style.display = "none";
+       signupCloseButton.onclick = function() {
+           signupPopup.style.display = "none";
        }
 
        // When the user clicks anywhere outside of the modal, close it
        window.onclick = function(event) {
-           if (event.target == popup) {
-               popup.style.display = "none";
+           if (event.target == signupPopup) {
+               signupPopup.style.display = "none";
            }
        }
    </script>
    <script>
       document.addEventListener('DOMContentLoaded', function() {
-          const usernameInput = document.getElementById('id_username');
+          const usernameInput = document.getElementById('username_input');
           let typingTimer;  // Timer identifier
           const typingInterval = 500;  // half a second delay
 
@@ -789,41 +791,147 @@
          const nextSectionButtons = document.querySelectorAll('.next-section-btn');
          console.log('nextSectionButtons.length: ', nextSectionButtons.length);
          nextSectionButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.onclick = function () {
                console.log('next section button clicked...');
                handleNextSectionButtonClick(this);
-            })
+            }
+         })
+
+         const previousSectionButtons = document.querySelectorAll('.previous-section-btn');
+         console.log('previousSectionButtons.length: ', previousSectionButtons.length);
+         previousSectionButtons.forEach(button => {
+            button.onclick = function () {
+               console.log('previous section button clicked...');
+               handlePreviousSectionButtonClick(this);
+            }
          })
       })
 
       function handleNextSectionButtonClick(button) {
-         // rotate the selection wheel by 90 degrees anti-clockwise
          let signupWheelContainer = document.querySelector('.signup-wheel-container');
          let signupForm = signupWheelContainer.querySelector('.signup-form');
-
-         // Rotate the container by 90 degrees
-         signupWheelContainer.style.transform = 'rotate(-90deg)';
-         signupWheelContainer.style.transformOrigin = 'center';
-
-         // Apply counter-rotation to sign up form
-         signupForm.style.transform = 'rotate(90deg)';
-         signupForm.style.transformOrigin = 'center';
 
          // Highlight completed segment green and next segment cyan
          if (button.id === "username_next") {
             signupWheelContainer.querySelector('.wheel-top-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-top-425-green-highlight').classList.remove('hidden');
+
+            // hide username input box
+            signupForm.querySelector('#username_input').classList.add('hidden');
+
+            // show password input boxes
+            signupForm.querySelector('#password_first_input').classList.remove('hidden');
+            signupForm.querySelector('#password_confirm_input').classList.remove('hidden');
+
+            // hide username next button
+            signupForm.querySelector('#username_next').classList.add('hidden');
+
+            // show password back button
+            signupForm.querySelector('#password_back').classList.remove('hidden');
          }
          if (button.id === "password_next") {
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.remove('hidden');
+
+            // hide password input boxes
+            signupForm.querySelector('#password_first_input').classList.add('hidden');
+            signupForm.querySelector('#password_confirm_input').classList.add('hidden');
+
+            // show email input boxes
+            signupForm.querySelector('#email_first_input').classList.remove('hidden');
+            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
+
+            // hide password next and back buttons
+            signupForm.querySelector('#password_next').classList.add('hidden');
+            signupForm.querySelector('#password_back').classList.remove('hidden');
+
+            // show email back button
+            signupForm.querySelector('#email_back').classList.remove('hidden');
          }
          if (button.id === "email_next") {
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.remove('hidden');
+
+            // hide email input boxes
+            signupForm.querySelector('#email_first_input').classList.remove('hidden');
+            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
+
+            // hide email next and back buttons
+            signupForm.querySelector('#email_next').classList.add('hidden');
+            signupForm.querySelector('#email_back').classList.add('hidden');
+
+            // show captcha
+
+            // show captcha back button
+            signupForm.querySelector('#captcha_back').classList.remove('hidden');
+         }
+      }
+
+      function handlePreviousSectionButtonClick(button) {
+         let signupWheelContainer = document.querySelector('.signup-wheel-container');
+         let signupForm = signupWheelContainer.querySelector('.signup-form');
+
+         // Highlight completed segment green and next segment cyan
+         if (button.id === "password_back") {
+            signupWheelContainer.querySelector('.wheel-top-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.add('hidden');
+
+            // hide password input boxes
+            signupForm.querySelector('#password_first_input').classList.add('hidden');
+            signupForm.querySelector('#password_confirm_input').classList.add('hidden');
+
+            // show username input box
+            signupForm.querySelector('#username_input').classList.remove('hidden');
+
+            // remove password next and back buttons
+            signupForm.querySelector('#password_next').classList.add('hidden');
+            signupForm.querySelector('#password_back').classList.add('hidden');
+
+            // show username next button
+            signupForm.querySelector('#username_next').classList.remove('hidden');
+         }
+         if (button.id === "email_back") {
+            signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.add('hidden');
+
+            // show password input boxes
+            signupForm.querySelector('#password_first_input').classList.remove('hidden');
+            signupForm.querySelector('#password_confirm_input').classList.remove('hidden');
+
+            // hide email input boxes
+            signupForm.querySelector('#email_first_input').classList.add('hidden');
+            signupForm.querySelector('#email_confirm_input').classList.add('hidden');
+
+            // hide email back and next buttons
+            signupForm.querySelector('#email_back').classList.add('hidden');
+            signupForm.querySelector('#email_next').classList.add('hidden');
+
+            // show password back and next buttons
+            signupForm.querySelector('#password_back').classList.remove('hidden');
+            signupForm.querySelector('#password_next').classList.remove('hidden');
+         }
+         if (button.id === "captcha_back") {
+            signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.add('hidden');
+            signupWheelContainer.querySelector('.wheel-left-425-green-highlight').classList.add('hidden');
+
+            // show email input boxes
+            signupForm.querySelector('#email_first_input').classList.remove('hidden');
+            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
+
+            // hide captcha
+
+            // hide captcha back button
+            signupForm.querySelector('#captcha_back').classList.add('hidden');
+
+            // show email back and next buttons
+            signupForm.querySelector('#email_back').classList.remove('hidden');
+            signupForm.querySelector('#email_next').classList.remove('hidden');
          }
       }
    </script>
