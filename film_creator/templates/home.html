@@ -117,7 +117,11 @@
              align-items: center;
              text-align: center;
          }
-
+         .signup-popup-close-button {
+            position: relative;
+            top: 0;
+            right: 0;
+         }
          .signup-wheel-container {
             display: flex;
             position: relative;
@@ -144,12 +148,7 @@
             left: 50%;
             top: 10px;
          }
-         .wheel-top-425-cyan-highlight {
-            transform: translateX(-50%);
-            left: 50%;
-            top: -10px;
-         }
-         .wheel-top-425-green-highlight {
+         .wheel-top-425-cyan-highlight, .wheel-top-425-green-highlight {
             transform: translateX(-50%);
             left: 50%;
             top: -10px;
@@ -161,14 +160,7 @@
             left: 395px;
             transform: translateY(-50%) translateX(-100%);
          }
-         .wheel-right-425-cyan-highlight {
-            transform: translateX(-50%);
-            right: 0;
-            top: 50%;
-            left: 415px;
-            transform: translateY(-50%) translateX(-100%);
-         }
-         .wheel-right-425-green-highlight {
+         .wheel-right-425-cyan-highlight, .wheel-right-425-green-highlight {
             right: 0;
             top: 50%;
             left: 415px;
@@ -180,12 +172,7 @@
             left: 50%;
             transform: translateX(-50%);
          }
-         .wheel-bottom-425-cyan-highlight {
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-         }
-         .wheel-bottom-425-green-highlight {
+         .wheel-bottom-425-cyan-highlight, .wheel-bottom-425-green-highlight {
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
@@ -196,16 +183,12 @@
             top: 50%;
             transform: translateY(-50%);
          }
-         .wheel-left-425-cyan-highlight {
+         .wheel-left-425-cyan-highlight, .wheel-left-425-green-highlight {
             left: -10px;
             top: 50%;
             transform: translateY(-50%);
          }
-         .wheel-left-425-green-highlight {
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-         }
+
          .signup-form {
              display: flex;
              flex-direction: column;
@@ -258,7 +241,6 @@
 
          .signup-form input[type="email"] {
              padding: 10px;
-             border: none;
              border-radius: 20px;
              background-color: #1f3a3a;
              color: #fff;
@@ -603,7 +585,8 @@
                            <div id="signupPopup" class="popup">
                               <div class="popup-content">
                                    <div class="signup-popup">
-                                      <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; letter-spacing: 5px; color: #FFF;">SIGN UP</h2>
+                                      <img class="signup-popup-close-button" src="{% static 'film_creator/images/SEARCH-BOX-CLOSE-ICON.png' %}" alt="Search Box Close Icon" style="opacity:1" onclick="">
+                                      <h2 style="font-family: DM Sans, sans-serif; font-weight: normal; font-size: 24px; letter-spacing: 5px; color: #FFF; padding-bottom: 20px;">SIGN UP</h2>
                                       <div class="signup-wheel-container">
                                           <img class="wheel-405-light-grey-background" src="{% static 'film_creator/images/signup/405 LIGHT GREY.svg' %}" alt="wheel 405 light grey background">
 
