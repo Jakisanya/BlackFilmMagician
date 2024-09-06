@@ -150,6 +150,19 @@
             left: 50%;
             top: 10px;
          }
+
+         @keyframes blink {
+           0% {
+             opacity: 1; /* Fully visible */
+           }
+           50% {
+             opacity: 0; /* Invisible */
+           }
+           100% {
+             opacity: 1; /* Fully visible again */
+           }
+         }
+
          .wheel-top-425-cyan-highlight, .wheel-top-425-green-highlight {
             transform: translateX(-50%);
             left: 50%;
@@ -191,34 +204,44 @@
             transform: translateY(-50%);
          }
 
-         .signup-form {
+         .wheel-top-425-cyan-highlight, .wheel-right-425-cyan-highlight, .wheel-bottom-425-cyan-highlight,
+         .wheel-left-425-cyan-highlight {
+            animation: blink 1.2s infinite;
+         }
+
+         .signup-form-username, .signup-form-password, .signup-form-email, .signup-form-captcha {
              display: flex;
              flex-direction: column;
              gap: 10px;
-             z-index: 2;
+             width: 250px;
+             height: 250px;
+             align-items: center; /* Horizontally center the input and button */
+             justify-content: center; /* Vertically center the input-box */
+             z-index: 3;
          }
 
-         .signup-form input[type="password"] {
+         .signup-form-password input[type="password"] {
              padding: 10px;
              border-radius: 20px;
              text-align: center;
              font-size: 1rem;
              outline: none;
              width: 250px;
+             height: 50px;
              margin: 0 auto;
              border: 2px solid #fff;
              z-index: 2;
          }
 
-         .signup-form input[type="password"]::placeholder {
+         .signup-form-password input[type="password"]::placeholder {
              color: rgba(0, 0, 0, 0.5);
          }
 
-         .signup-form input[type="password"]:focus {
+         .signup-form-password input[type="password"]:focus {
              border-color: #ffffff;
          }
 
-         .signup-form input[type="text"] {
+         .signup-form-username input[type="text"] {
              padding: 10px;
              border-radius: 20px;
              color: rgba(0, 0, 0, 1.0);
@@ -227,50 +250,52 @@
              font-size: 1rem;
              outline: none;
              width: 250px;
+             height: 50px;
              margin: 0 auto;
              border: 2px solid #fff;
              z-index: 2;
          }
 
-         .signup-form input[type="text"]::placeholder {
+         .signup-form-username input[type="text"]::placeholder {
              color: rgba(0, 0, 0, 0.5);
          }
 
-         .signup-form input[type="text"]:focus {
+         .signup-form-username input[type="text"]:focus {
              border-color: #ffffff;
          }
 
-         .signup-form input[type="email"] {
+         .signup-form-email input[type="email"] {
              padding: 10px;
              border-radius: 20px;
              text-align: center;
              font-size: 1rem;
              outline: none;
              width: 250px;
+             height: 50px;
              margin: 0 auto;
              border: 2px solid #fff;
              z-index: 2;
          }
 
-         .signup-form input[type="email"]::placeholder {
+         .signup-form-email input[type="email"]::placeholder {
              color: rgba(0, 0, 0, 0.5);
          }
 
-         .signup-form input[type="email"]:focus {
+         .signup-form-email input[type="email"]:focus {
              border-color: #ffffff;
          }
 
-         .signup-form input:required:focus.valid {
+         .signup-form-password, .signup-form-email input:required:focus.valid {
            background: url('{% static "film_creator/images/signup/input valid icon.svg" %}') no-repeat 95% 50%;
            background-size: 25px;
          }
 
-         .signup-form input:required:focus.invalid {
+         .signup-form-password, .signup-form-email input:required:focus.invalid {
            background: url('{% static "film_creator/images/signup/input invalid icon.svg" %}') no-repeat 95% 50%;
            background-size: 25px;
          }
 
-         .signup-form .next-section-btn, .previous-section-btn{
+         .signup-form-password, .signup-form-email, .signup-form-captcha .previous-section-btn {
              padding: 12px 20px;
              border: none;
              border-radius: 25px;
@@ -280,18 +305,39 @@
              font-size: 1rem;
              outline: none;
              width: 200px;
-             margin-top: 20px;
-             margin-left: 20px;
-             margin-right: 20px;
+             height: 40px;
+             margin-bottom: 10px;
+             align-self: center;
              cursor: pointer;
-             transition: background-color 0.3s ease, border-color 0.3s ease;
-             z-index: 2;
+             transition: background-color 1s ease, border-color 0.3s ease;
+             z-index: 3;
+             visibility: hidden;
          }
 
-         .signup-form .next-section-btn:hover, .previous-section-btn:hover {
+         .signup-form-username, .signup-form-password, .signup-form-email, .signup-form-captcha .next-section-btn {
+             padding: 12px 20px;
+             border: none;
+             border-radius: 25px;
+             background-color: #1f3a3a;
+             color: #fff;
+             text-align: center;
+             font-size: 1rem;
+             outline: none;
+             width: 200px;
+             height: 40px;
+             margin-top: 10px;
+             align-self: center;
+             cursor: pointer;
+             transition: background-color 1s ease, border-color 0.3s ease;
+             z-index: 3;
+             visibility: hidden;
+         }
+
+         .signup-form-username .signup-form-password, .signup-form-email, .signup-form-captcha .next-section-btn:hover, .previous-section-btn:hover {
              background-color: #3e6e6e;
              border-color: #bbb;
          }
+
          .hidden {
             display: none;
          }
@@ -609,18 +655,24 @@
                                           <img class="wheel-left-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT GREEN HIGHLIGHT.svg' %}" alt="wheel left 425 green highlight">
                                           <img class="wheel-left-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
 
-                                          <form class="signup-form" style="align-self: center;">
+                                          <form class="signup-form-username" style="align-self: center;">
                                              <input type="text" id="username_input" placeholder="enter username" required>
-                                             <input type="button" id="username_next" value="Next" class="next-section-btn hidden">
+                                             <input type="button" id="username_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                          </form>
+                                          <form class="signup-form-password hidden" style="align-self: center;">
+                                             <input type="button" id="password_back" value="Back" class="previous-section-btn" style="visibility: hidden">
                                              <input type="password" id="password_first_input" placeholder="enter password" required class="hidden">
                                              <input type="password" id="password_confirm_input" placeholder="confirm password" required class="hidden">
-                                             <input type="button" id="password_next" value="Next" class="next-section-btn hidden">
-                                             <input type="button" id="password_back" value="Back" class="previous-section-btn hidden">
+                                             <input type="button" id="password_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                          </form>
+                                          <form class="signup-form-email hidden" style="align-self: center;">
+                                             <input type="button" id="email_back" value="Back" class="previous-section-btn" style="visibility: hidden">
                                              <input type="email" id="email_first_input" placeholder="enter email" required class="hidden">
                                              <input type="email" id="email_confirm_input" placeholder="confirm email" required class="hidden">
-                                             <input type="button" id="email_next" value="Next" class="next-section-btn hidden">
-                                             <input type="button" id="email_back" value="Back" class="previous-section-btn hidden">
-                                             <input type="button" id="captcha_back" value="Back" class="previous-section-btn hidden">
+                                             <input type="button" id="email_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                          </form>
+                                          <form class="signup-form-captcha hidden" style="align-self: center;">
+                                             <input type="button" id="captcha_back" value="Back" class="previous-section-btn" style="visibility: hidden">
                                           </form>
                                       </div>
                                   </div>
@@ -809,7 +861,10 @@
 
       function handleNextSectionButtonClick(button) {
          let signupWheelContainer = document.querySelector('.signup-wheel-container');
-         let signupForm = signupWheelContainer.querySelector('.signup-form');
+         let signupFormUsername = signupWheelContainer.querySelector('.signup-form-username');
+         let signupFormPassword = signupWheelContainer.querySelector('.signup-form-password');
+         let signupFormEmail = signupWheelContainer.querySelector('.signup-form-email');
+         let signupFormCaptcha = signupWheelContainer.querySelector('.signup-form-captcha');
 
          // Highlight completed segment green and next segment cyan
          if (button.id === "username_next") {
@@ -817,56 +872,42 @@
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-top-425-green-highlight').classList.remove('hidden');
 
-            // hide username input box
-            signupForm.querySelector('#username_input').classList.add('hidden');
+            // hide username form
+            signupFormUsername.classList.add('hidden');
 
-            // show password input boxes
-            signupForm.querySelector('#password_first_input').classList.remove('hidden');
-            signupForm.querySelector('#password_confirm_input').classList.remove('hidden');
-
-            // hide username next button
-            signupForm.querySelector('#username_next').classList.add('hidden');
-
-            // show password back button
-            signupForm.querySelector('#password_back').classList.remove('hidden');
+            // show password form, its input boxes and back button
+            signupFormPassword.classList.remove('hidden');
+            signupFormPassword.querySelector('#password_first_input').classList.remove('hidden');
+            signupFormPassword.querySelector('#password_confirm_input').classList.remove('hidden');
+            signupFormPassword.querySelector('#password_back').style.visibility = 'visible';
          }
          if (button.id === "password_next") {
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.remove('hidden');
 
-            // hide password input boxes
-            signupForm.querySelector('#password_first_input').classList.add('hidden');
-            signupForm.querySelector('#password_confirm_input').classList.add('hidden');
+            // hide password form
+            signupFormPassword.classList.add('hidden');
 
-            // show email input boxes
-            signupForm.querySelector('#email_first_input').classList.remove('hidden');
-            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
-
-            // hide password next and back buttons
-            signupForm.querySelector('#password_next').classList.add('hidden');
-            signupForm.querySelector('#password_back').classList.remove('hidden');
-
-            // show email back button
-            signupForm.querySelector('#email_back').classList.remove('hidden');
+            // show email form, its input boxes and back button
+            signupFormEmail.classList.add('hidden');
+            signupFormEmail.querySelector('#email_first_input').classList.remove('hidden');
+            signupFormEmail.querySelector('#email_confirm_input').classList.remove('hidden');
+            signupFormEmail.querySelector('#email_back').style.visibility = 'visible';
          }
          if (button.id === "email_next") {
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.remove('hidden');
 
-            // hide email input boxes
-            signupForm.querySelector('#email_first_input').classList.remove('hidden');
-            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
-
-            // hide email next and back buttons
-            signupForm.querySelector('#email_next').classList.add('hidden');
-            signupForm.querySelector('#email_back').classList.add('hidden');
+            // hide email form
+            signupFormEmail.classList.add('hidden');
 
             // show captcha
 
-            // show captcha back button
-            signupForm.querySelector('#captcha_back').classList.remove('hidden');
+            // show captcha form and its back button#
+            signupFormCaptcha.classList.remove('hidden');
+            signupFormCaptcha.querySelector('#captcha_back').style.visibility = 'visible';
          }
       }
 
@@ -877,62 +918,73 @@
          // Highlight completed segment green and next segment cyan
          if (button.id === "password_back") {
             signupWheelContainer.querySelector('.wheel-top-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-top-425-green-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.add('hidden');
 
-            // hide password input boxes
-            signupForm.querySelector('#password_first_input').classList.add('hidden');
-            signupForm.querySelector('#password_confirm_input').classList.add('hidden');
+            // hide password form
+            signupFormPassword.classList.add('hidden');
 
-            // show username input box
-            signupForm.querySelector('#username_input').classList.remove('hidden');
-
-            // remove password next and back buttons
-            signupForm.querySelector('#password_next').classList.add('hidden');
-            signupForm.querySelector('#password_back').classList.add('hidden');
-
-            // show username next button
-            signupForm.querySelector('#username_next').classList.remove('hidden');
+            // show username form, its input box and next button
+            signupFormUsername.classList.remove('hidden');
          }
          if (button.id === "email_back") {
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.add('hidden');
 
-            // show password input boxes
-            signupForm.querySelector('#password_first_input').classList.remove('hidden');
-            signupForm.querySelector('#password_confirm_input').classList.remove('hidden');
+            // show password form
+            signupFormPassword.classList.remove('hidden');
 
-            // hide email input boxes
-            signupForm.querySelector('#email_first_input').classList.add('hidden');
-            signupForm.querySelector('#email_confirm_input').classList.add('hidden');
-
-            // hide email back and next buttons
-            signupForm.querySelector('#email_back').classList.add('hidden');
-            signupForm.querySelector('#email_next').classList.add('hidden');
-
-            // show password back and next buttons
-            signupForm.querySelector('#password_back').classList.remove('hidden');
-            signupForm.querySelector('#password_next').classList.remove('hidden');
+            // hide email form
+            signupFormEmail.classList.add('hidden');
          }
          if (button.id === "captcha_back") {
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
+            signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-left-425-green-highlight').classList.add('hidden');
 
-            // show email input boxes
-            signupForm.querySelector('#email_first_input').classList.remove('hidden');
-            signupForm.querySelector('#email_confirm_input').classList.remove('hidden');
+            // show email form
+            signupFormEmail.classList.remove('hidden');
 
-            // hide captcha
-
-            // hide captcha back button
-            signupForm.querySelector('#captcha_back').classList.add('hidden');
-
-            // show email back and next buttons
-            signupForm.querySelector('#email_back').classList.remove('hidden');
-            signupForm.querySelector('#email_next').classList.remove('hidden');
+            // hide captcha form
+            signupFormCaptcha.classList.add('hidden');
          }
       }
+   </script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const passwordConfirmationInput = document.getElementById('password_confirm_input');
+          let typingTimer;  // Timer identifier
+          const typingInterval = 100;  // half a second delay
+
+          passwordConfirmationInput.addEventListener('keyup', function() {
+              clearTimeout(typingTimer);  // Clear the previous timer
+              typingTimer = setTimeout(checkPasswordMatch, typingInterval);
+          });
+
+          function checkPasswordMatch() {
+             // Get the two password values
+             const passwordFirstInput = document.getElementById('password_first_input');
+             const passwordConfirmationInput = document.getElementById('password_confirm_input');
+
+             // Check if passwords match (case-sensitive)
+             if (passwordFirstInput.value === passwordConfirmationInput.value) {
+                console.log('Passwords match.');
+                passwordConfirmationInput.classList.remove('invalid');
+                passwordConfirmationInput.classList.add('valid');
+                document.getElementById('password_next').classList.remove("hidden");
+             } else {
+                console.log('Passwords do not match.');
+                document.getElementById('password_next').classList.add("hidden");
+                passwordConfirmationInput.classList.remove('valid');
+                passwordConfirmationInput.classList.add('invalid');
+             }
+          }
+      });
+
+
    </script>
 </html>
