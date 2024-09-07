@@ -677,7 +677,7 @@
                                           <form class="signup-form-captcha hidden" style="align-self: center;">
                                              <input type="button" id="captcha_back" value="Back" class="previous-section-btn" style="visibility: hidden">
                                              <div class="cf-turnstile hidden" data-sitekey=""></div>
-                                             <input type="submit" id="submit" value="Submit" class="submit-btn">
+                                             <input type="submit" id="submit" value="Create Account" class="submit-btn">
                                           </form>
                                       </div>
                                   </div>
@@ -902,9 +902,9 @@
          }
          if (button.id === "email_next") {
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
-            signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.remove('hidden');
+            // signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.remove('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.remove('hidden');
-
+            signupWheelContainer.querySelector('.wheel-left-425-green-highlight').classList.remove('hidden');
             // hide email form
             signupFormEmail.classList.add('hidden');
 
