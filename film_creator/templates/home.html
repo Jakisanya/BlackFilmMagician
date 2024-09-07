@@ -658,26 +658,29 @@
                                           <img class="wheel-left-425-green-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT GREEN HIGHLIGHT.svg' %}" alt="wheel left 425 green highlight">
                                           <img class="wheel-left-425-cyan-highlight hidden" src="{% static 'film_creator/images/signup/425 LEFT CYAN HIGHLIGHT.svg' %}" alt="wheel left 425 cyan highlight">
 
-                                          <form class="signup-form-username" style="align-self: center;">
-                                             <input type="text" id="username_input" placeholder="enter username" required>
-                                             <input type="button" id="username_next" value="Next" class="next-section-btn" style="visibility: hidden">
-                                          </form>
-                                          <form class="signup-form-password hidden" style="align-self: center;">
-                                             <input type="button" id="password_back" value="Back" class="previous-section-btn" style="visibility: hidden">
-                                             <input type="password" id="password_first_input" placeholder="enter password" required class="hidden">
-                                             <input type="password" id="password_confirm_input" placeholder="confirm password" required class="hidden">
-                                             <input type="button" id="password_next" value="Next" class="next-section-btn" style="visibility: hidden">
-                                          </form>
-                                          <form class="signup-form-email hidden" style="align-self: center;">
-                                             <input type="button" id="email_back" value="Back" class="previous-section-btn" style="visibility: hidden">
-                                             <input type="email" id="email_first_input" placeholder="enter email" required class="hidden">
-                                             <input type="email" id="email_confirm_input" placeholder="confirm email" required class="hidden">
-                                             <input type="button" id="email_next" value="Next" class="next-section-btn" style="visibility: hidden">
-                                          </form>
-                                          <form class="signup-form-captcha hidden" style="align-self: center;">
-                                             <input type="button" id="captcha_back" value="Back" class="previous-section-btn" style="visibility: hidden">
-                                             <div class="cf-turnstile hidden" data-sitekey=""></div>
-                                             <input type="submit" id="submit" value="Create Account" class="submit-btn">
+                                          <form id="signup-form" method="post" action="{% url 'complete_signup' %}">
+                                          {% csrf_token %}
+                                             <div class="signup-form-username" style="align-self: center;">
+                                                <input type="text" id="username_input" placeholder="enter username" name="username" required>
+                                                <input type="button" id="username_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                             </div>
+                                             <div class="signup-form-password hidden" style="align-self: center;">
+                                                <input type="button" id="password_back" value="Back" class="previous-section-btn" style="visibility: hidden">
+                                                <input type="password" id="password_first_input" placeholder="enter password" required name="password_first" class="hidden">
+                                                <input type="password" id="password_confirm_input" placeholder="confirm password" name="password_confirmation" required class="hidden">
+                                                <input type="button" id="password_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                             </div>
+                                             <div class="signup-form-email hidden" style="align-self: center;">
+                                                <input type="button" id="email_back" value="Back" class="previous-section-btn" style="visibility: hidden">
+                                                <input type="email" id="email_first_input" placeholder="enter email" required name="email_first" class="hidden">
+                                                <input type="email" id="email_confirm_input" placeholder="confirm email" required name="email_confirmation" class="hidden">
+                                                <input type="button" id="email_next" value="Next" class="next-section-btn" style="visibility: hidden">
+                                             </div>
+                                             <div class="signup-form-captcha hidden" style="align-self: center;">
+                                                <input type="button" id="captcha_back" value="Back" class="previous-section-btn" style="visibility: hidden">
+                                                <div class="cf-turnstile hidden" data-sitekey=""></div>
+                                                <input type="submit" id="submit" value="Create Account" class="submit-btn">
+                                             </div>
                                           </form>
                                       </div>
                                   </div>
@@ -810,7 +813,7 @@
        const usernameInput = document.getElementById('username_input');
        const username = usernameInput.value;
 
-           if (username) {
+           if (username !== '') {
                // Perform an AJAX request to check the username against the database
                console.log('Checking username:', username);
 
@@ -841,6 +844,11 @@
                    .catch(error => {
                        console.error('Error checking username:', error);
                    });
+           }
+           else {
+              usernameInput.classList.remove('valid');
+              usernameInput.classList.remove('invalid');
+              document.getElementById('username_next').style.visibility = 'hidden';
            }
     }
    </script>
@@ -1062,5 +1070,8 @@
             emailConfirmationInput.classList.add('invalid');
          }
       }
+   </script>
+   <script>
+
    </script>
 </html>

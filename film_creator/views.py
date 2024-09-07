@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.views.generic import TemplateView
-from .models import Actor, Role, Film, User
+from .models import Actor, Role, Film, User, UserProfile
 import random
 from django.http import JsonResponse
 from openai import OpenAI
@@ -12,6 +12,12 @@ from django.conf import settings
 import re
 import os
 import difflib
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 class HomeView(TemplateView):
@@ -19,8 +25,16 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Home Page'
-        context['message'] = 'Welcome to the Home Page'
+
+        if self.request.user.is_authenticated:
+            context['user'] = self.request.user
+            # Retrieve the user profile if it exists
+            # user_profile = UserProfile.objects.filter(user=self.request.user).first()
+            # context['user_profile'] = user_profile
+        else:
+            context['user'] = None
+            context['user_profile'] = None
+
         return context
 
 
@@ -363,4 +377,28 @@ def check_username_is_unique(request):
             return JsonResponse({'isUnique': True})
 
 
+def complete_signup(request):
+    print('Received complete_signup request...')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password_first = request.POST.get('password1')
+        password_confirmation = request.POST.get('password2')
+        email_first = request.POST.get('email1')
+        email_confirmation = request.POST.get('email2')
 
+        # Basic validation
+        if password_first != password_confirmation:
+            messages.error(request, "Passwords do not match.")
+
+        if email_first != email_confirmation:
+            messages.error(request, "Emails do not match.")
+
+        try:
+            user = User.objects.create_user(username=username, password=password_first, email=email_first)
+            user.save()
+            print('User created successfully.')
+            print(user)
+            login(request, user)
+            return redirect(reverse('home'))
+        except ValidationError as e:
+            messages.error(request, str(e))

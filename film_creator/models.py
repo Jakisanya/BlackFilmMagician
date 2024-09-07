@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
 class Actor(models.Model):
     DoesNotExist = None
     objects = models.Manager()
@@ -167,3 +166,11 @@ class UserContributionStats(models.Model):
     no_of_suggestions_accepted = models.PositiveIntegerField()
     no_of_suggestions_rejected = models.PositiveIntegerField()
 
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    user_contribution_stats = models.OneToOneField(UserContributionStats, on_delete=models.DO_NOTHING)
+    badge = models.ForeignKey(Badge, on_delete=models.DO_NOTHING)
