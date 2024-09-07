@@ -209,6 +209,7 @@
             animation: blink 1.2s infinite;
          }
 
+
          .signup-form-username, .signup-form-password, .signup-form-email, .signup-form-captcha {
              display: flex;
              flex-direction: column;
@@ -226,11 +227,11 @@
              color: rgba(0, 0, 0, 1.0);
              background-color: rgba(255, 255, 255, 0.5);
              text-align: center;
-             font-size: 1.2rem;
+             font-size: 1.1rem;
              outline: none;
              width: 250px;
              height: 50px;
-             margin: 0 auto;
+             margin-top: 55px;
              border: 2px solid #fff;
              z-index: 3;
          }
@@ -247,7 +248,7 @@
              padding: 10px;
              border-radius: 20px;
              text-align: center;
-             font-size: 1.2rem;
+             font-size: 1.1rem;
              outline: none;
              width: 250px;
              height: 50px;
@@ -269,7 +270,7 @@
              border-radius: 20px;
              color: rgba(0, 0, 0, 1.0);
              text-align: center;
-             font-size: 1.2rem;
+             font-size: 1.1rem;
              outline: none;
              width: 250px;
              height: 50px;
@@ -317,7 +318,7 @@
          }
 
          .signup-form-username .next-section-btn, .signup-form-password .next-section-btn,
-         .signup-form-email .next-section-btn {
+         .signup-form-email .next-section-btn, .submit-btn {
              padding: 12px 20px;
              border: none;
              border-radius: 25px;
@@ -335,7 +336,7 @@
              z-index: 3;
          }
 
-         .next-section-btn:hover, .previous-section-btn:hover {
+         .next-section-btn:hover, .previous-section-btn:hover, .submit-btn:hover {
              background-color: #3e6e6e;
              border-color: #bbb;
          }
@@ -675,6 +676,8 @@
                                           </form>
                                           <form class="signup-form-captcha hidden" style="align-self: center;">
                                              <input type="button" id="captcha_back" value="Back" class="previous-section-btn" style="visibility: hidden">
+                                             <div class="cf-turnstile hidden" data-sitekey=""></div>
+                                             <input type="submit" id="submit" value="Submit" class="submit-btn">
                                           </form>
                                       </div>
                                   </div>
@@ -905,9 +908,12 @@
             // hide email form
             signupFormEmail.classList.add('hidden');
 
-            // show captcha form and its back button#
+            // show captcha form, its back button, captcha turnstile and submit button
             signupFormCaptcha.classList.remove('hidden');
             signupFormCaptcha.querySelector('#captcha_back').style.visibility = 'visible';
+            // signupFormCaptcha.querySelector('.cf-turnstile').classList.remove('hidden');
+            signupFormCaptcha.querySelector('.submit-btn').style.visibility = 'visible';
+
          }
       }
 
@@ -951,7 +957,8 @@
 
             checkEmailMatch();
 
-            // hide captcha form
+            // hide submit button and captcha form
+            signupFormCaptcha.querySelector('.submit-btn').style.visibility = 'hidden';
             signupFormCaptcha.classList.add('hidden');
 
             // show email form
