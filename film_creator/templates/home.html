@@ -166,7 +166,7 @@
          .wheel-top-425-cyan-highlight, .wheel-top-425-green-highlight {
             transform: translateX(-50%);
             left: 50%;
-            top: -10px;
+            top: -15px;
          }
 
          .wheel-right-password-segment {
@@ -178,7 +178,7 @@
          .wheel-right-425-cyan-highlight, .wheel-right-425-green-highlight {
             right: 0;
             top: 50%;
-            left: 415px;
+            left: 420px;
             transform: translateY(-50%) translateX(-100%);
          }
 
@@ -188,7 +188,7 @@
             transform: translateX(-50%);
          }
          .wheel-bottom-425-cyan-highlight, .wheel-bottom-425-green-highlight {
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
          }
@@ -199,7 +199,7 @@
             transform: translateY(-50%);
          }
          .wheel-left-425-cyan-highlight, .wheel-left-425-green-highlight {
-            left: -10px;
+            left: -15px;
             top: 50%;
             transform: translateY(-50%);
          }
@@ -220,40 +220,19 @@
              z-index: 3;
          }
 
-         .signup-form-password input[type="password"] {
-             padding: 10px;
-             border-radius: 20px;
-             text-align: center;
-             font-size: 1rem;
-             outline: none;
-             width: 250px;
-             height: 50px;
-             margin: 0 auto;
-             border: 2px solid #fff;
-             z-index: 2;
-         }
-
-         .signup-form-password input[type="password"]::placeholder {
-             color: rgba(0, 0, 0, 0.5);
-         }
-
-         .signup-form-password input[type="password"]:focus {
-             border-color: #ffffff;
-         }
-
          .signup-form-username input[type="text"] {
              padding: 10px;
              border-radius: 20px;
              color: rgba(0, 0, 0, 1.0);
              background-color: rgba(255, 255, 255, 0.5);
              text-align: center;
-             font-size: 1rem;
+             font-size: 1.2rem;
              outline: none;
              width: 250px;
              height: 50px;
              margin: 0 auto;
              border: 2px solid #fff;
-             z-index: 2;
+             z-index: 3;
          }
 
          .signup-form-username input[type="text"]::placeholder {
@@ -264,17 +243,39 @@
              border-color: #ffffff;
          }
 
-         .signup-form-email input[type="email"] {
+         .signup-form-password input[type="password"] {
              padding: 10px;
              border-radius: 20px;
              text-align: center;
-             font-size: 1rem;
+             font-size: 1.2rem;
              outline: none;
              width: 250px;
              height: 50px;
              margin: 0 auto;
              border: 2px solid #fff;
-             z-index: 2;
+             z-index: 3;
+         }
+
+         .signup-form-password input[type="password"]::placeholder {
+             color: rgba(0, 0, 0, 0.5);
+         }
+
+         .signup-form-password input[type="password"]:focus {
+             border-color: #ffffff;
+         }
+
+         .signup-form-email input[type="email"] {
+             padding: 10px;
+             border-radius: 20px;
+             color: rgba(0, 0, 0, 1.0);
+             text-align: center;
+             font-size: 1.2rem;
+             outline: none;
+             width: 250px;
+             height: 50px;
+             margin: 0 auto;
+             border: 2px solid #fff;
+             z-index: 3;
          }
 
          .signup-form-email input[type="email"]::placeholder {
@@ -285,17 +286,19 @@
              border-color: #ffffff;
          }
 
-         .signup-form-password, .signup-form-email input:required:focus.valid {
+         .signup-form-username input:required:focus.valid, .signup-form-password input:required:focus.valid, .signup-form-email input:required:focus.valid {
            background: url('{% static "film_creator/images/signup/input valid icon.svg" %}') no-repeat 95% 50%;
            background-size: 25px;
+           padding-right: 40px;
          }
-
-         .signup-form-password, .signup-form-email input:required:focus.invalid {
+         .signup-form-username input:required:focus.invalid, .signup-form-password input:required:focus.invalid, .signup-form-email input:required:focus.invalid {
            background: url('{% static "film_creator/images/signup/input invalid icon.svg" %}') no-repeat 95% 50%;
            background-size: 25px;
+           padding-right: 40px;
          }
 
-         .signup-form-password, .signup-form-email, .signup-form-captcha .previous-section-btn {
+         .signup-form-password .previous-section-btn, .signup-form-email .previous-section-btn,
+         .signup-form-captcha .previous-section-btn {
              padding: 12px 20px;
              border: none;
              border-radius: 25px;
@@ -306,15 +309,15 @@
              outline: none;
              width: 200px;
              height: 40px;
-             margin-bottom: 10px;
+             margin-bottom: 5px;
              align-self: center;
              cursor: pointer;
-             transition: background-color 1s ease, border-color 0.3s ease;
+             transition: background-color 0.3s ease, border-color 0.3s ease;
              z-index: 3;
-             visibility: hidden;
          }
 
-         .signup-form-username, .signup-form-password, .signup-form-email, .signup-form-captcha .next-section-btn {
+         .signup-form-username .next-section-btn, .signup-form-password .next-section-btn,
+         .signup-form-email .next-section-btn {
              padding: 12px 20px;
              border: none;
              border-radius: 25px;
@@ -325,15 +328,14 @@
              outline: none;
              width: 200px;
              height: 40px;
-             margin-top: 10px;
+             margin-top: 5px;
              align-self: center;
              cursor: pointer;
-             transition: background-color 1s ease, border-color 0.3s ease;
+             transition: background-color 0.3s ease, border-color 0.3s ease;
              z-index: 3;
-             visibility: hidden;
          }
 
-         .signup-form-username .signup-form-password, .signup-form-email, .signup-form-captcha .next-section-btn:hover, .previous-section-btn:hover {
+         .next-section-btn:hover, .previous-section-btn:hover {
              background-color: #3e6e6e;
              border-color: #bbb;
          }
@@ -799,44 +801,45 @@
               clearTimeout(typingTimer);  // Clear the previous timer
               typingTimer = setTimeout(checkUsernameUniqueness, typingInterval);
           });
-
-          function checkUsernameUniqueness() {
-              const username = usernameInput.value;
-
-              if (username) {
-                  // Perform an AJAX request to check the username against the database
-                  console.log('Checking username:', username);
-
-                 // Example using fetch (assuming you have an endpoint to check uniqueness)
-                  fetch('/check-username/', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
-                      },
-                      body: JSON.stringify({
-                        'username': username
-                      })
-                  })
-                      .then(response => response.json())
-                      .then(data => {
-                          if (data.isUnique) {
-                              console.log('Username is unique');
-                              usernameInput.classList.remove('invalid');
-                              usernameInput.classList.add('valid');
-                              document.getElementById('username_next').classList.remove("hidden");
-                          } else {
-                              console.log('Username is already taken');
-                              usernameInput.classList.remove('valid');
-                              usernameInput.classList.add('invalid');
-                          }
-                      })
-                      .catch(error => {
-                          console.error('Error checking username:', error);
-                      });
-              }
-          }
       });
+
+    function checkUsernameUniqueness() {
+       const usernameInput = document.getElementById('username_input');
+       const username = usernameInput.value;
+
+           if (username) {
+               // Perform an AJAX request to check the username against the database
+               console.log('Checking username:', username);
+
+              // Example using fetch (assuming you have an endpoint to check uniqueness)
+               fetch('/check-username/', {
+                   method: 'POST',
+                   headers: {
+                     'Content-Type': 'application/json',
+                     'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token if needed
+                   },
+                   body: JSON.stringify({
+                     'username': username
+                   })
+               })
+                   .then(response => response.json())
+                   .then(data => {
+                       if (data.isUnique) {
+                           console.log('Username is unique');
+                           usernameInput.classList.remove('invalid');
+                           usernameInput.classList.add('valid');
+                           document.getElementById('username_next').style.visibility = 'visible';
+                       } else {
+                           console.log('Username is already taken');
+                           usernameInput.classList.remove('valid');
+                           usernameInput.classList.add('invalid');
+                       }
+                   })
+                   .catch(error => {
+                       console.error('Error checking username:', error);
+                   });
+           }
+    }
    </script>
    <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -859,13 +862,12 @@
          })
       })
 
+      let signupWheelContainer = document.querySelector('.signup-wheel-container');
+      let signupFormUsername = signupWheelContainer.querySelector('.signup-form-username');
+      let signupFormPassword = signupWheelContainer.querySelector('.signup-form-password');
+      let signupFormEmail = signupWheelContainer.querySelector('.signup-form-email');
+      let signupFormCaptcha = signupWheelContainer.querySelector('.signup-form-captcha');
       function handleNextSectionButtonClick(button) {
-         let signupWheelContainer = document.querySelector('.signup-wheel-container');
-         let signupFormUsername = signupWheelContainer.querySelector('.signup-form-username');
-         let signupFormPassword = signupWheelContainer.querySelector('.signup-form-password');
-         let signupFormEmail = signupWheelContainer.querySelector('.signup-form-email');
-         let signupFormCaptcha = signupWheelContainer.querySelector('.signup-form-captcha');
-
          // Highlight completed segment green and next segment cyan
          if (button.id === "username_next") {
             signupWheelContainer.querySelector('.wheel-top-425-cyan-highlight').classList.add('hidden');
@@ -890,7 +892,7 @@
             signupFormPassword.classList.add('hidden');
 
             // show email form, its input boxes and back button
-            signupFormEmail.classList.add('hidden');
+            signupFormEmail.classList.remove('hidden');
             signupFormEmail.querySelector('#email_first_input').classList.remove('hidden');
             signupFormEmail.querySelector('#email_confirm_input').classList.remove('hidden');
             signupFormEmail.querySelector('#email_back').style.visibility = 'visible';
@@ -903,8 +905,6 @@
             // hide email form
             signupFormEmail.classList.add('hidden');
 
-            // show captcha
-
             // show captcha form and its back button#
             signupFormCaptcha.classList.remove('hidden');
             signupFormCaptcha.querySelector('#captcha_back').style.visibility = 'visible';
@@ -913,7 +913,6 @@
 
       function handlePreviousSectionButtonClick(button) {
          let signupWheelContainer = document.querySelector('.signup-wheel-container');
-         let signupForm = signupWheelContainer.querySelector('.signup-form');
 
          // Highlight completed segment green and next segment cyan
          if (button.id === "password_back") {
@@ -921,6 +920,8 @@
             signupWheelContainer.querySelector('.wheel-top-425-green-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-right-425-green-highlight').classList.add('hidden');
+
+            checkUsernameUniqueness();
 
             // hide password form
             signupFormPassword.classList.add('hidden');
@@ -934,11 +935,13 @@
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-bottom-425-green-highlight').classList.add('hidden');
 
-            // show password form
-            signupFormPassword.classList.remove('hidden');
+            checkPasswordMatch();
 
             // hide email form
             signupFormEmail.classList.add('hidden');
+
+            // show password form
+            signupFormPassword.classList.remove('hidden');
          }
          if (button.id === "captcha_back") {
             signupWheelContainer.querySelector('.wheel-bottom-425-cyan-highlight').classList.remove('hidden');
@@ -946,45 +949,111 @@
             signupWheelContainer.querySelector('.wheel-left-425-cyan-highlight').classList.add('hidden');
             signupWheelContainer.querySelector('.wheel-left-425-green-highlight').classList.add('hidden');
 
-            // show email form
-            signupFormEmail.classList.remove('hidden');
+            checkEmailMatch();
 
             // hide captcha form
             signupFormCaptcha.classList.add('hidden');
+
+            // show email form
+            signupFormEmail.classList.remove('hidden');
          }
       }
    </script>
    <script>
       document.addEventListener('DOMContentLoaded', function() {
+          const passwordFirstInput = document.getElementById('password_first_input');
           const passwordConfirmationInput = document.getElementById('password_confirm_input');
           let typingTimer;  // Timer identifier
-          const typingInterval = 100;  // half a second delay
+          const typingInterval = 500;  // half a second delay
+
+          passwordFirstInput.addEventListener('keyup', function() {
+              clearTimeout(typingTimer);  // Clear the previous timer
+              typingTimer = setTimeout(checkPasswordMatch, typingInterval);
+          });
 
           passwordConfirmationInput.addEventListener('keyup', function() {
               clearTimeout(typingTimer);  // Clear the previous timer
               typingTimer = setTimeout(checkPasswordMatch, typingInterval);
           });
+      });
 
-          function checkPasswordMatch() {
+      function checkPasswordMatch() {
              // Get the two password values
              const passwordFirstInput = document.getElementById('password_first_input');
              const passwordConfirmationInput = document.getElementById('password_confirm_input');
 
              // Check if passwords match (case-sensitive)
-             if (passwordFirstInput.value === passwordConfirmationInput.value) {
+             if (passwordFirstInput.value === '' || passwordConfirmationInput.value === '') {
+                passwordFirstInput.classList.remove('invalid');
+                passwordFirstInput.classList.remove('valid');
+                passwordConfirmationInput.classList.remove('invalid');
+                passwordConfirmationInput.classList.remove('valid');
+                document.getElementById('password_next').style.visibility = 'hidden';
+             }
+             else if (passwordFirstInput.value === passwordConfirmationInput.value && passwordFirstInput.value !== '' &&
+                     passwordConfirmationInput.value !== '') {
                 console.log('Passwords match.');
+                passwordFirstInput.classList.remove('invalid');
+                passwordFirstInput.classList.add('valid');
                 passwordConfirmationInput.classList.remove('invalid');
                 passwordConfirmationInput.classList.add('valid');
-                document.getElementById('password_next').classList.remove("hidden");
+                document.getElementById('password_next').style.visibility = 'visible';
              } else {
                 console.log('Passwords do not match.');
-                document.getElementById('password_next').classList.add("hidden");
+                document.getElementById('password_next').style.visibility = 'hidden';
+                passwordFirstInput.classList.remove('valid');
+                passwordFirstInput.classList.add('invalid');
                 passwordConfirmationInput.classList.remove('valid');
                 passwordConfirmationInput.classList.add('invalid');
              }
-          }
-      });
+      }
+   </script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         const emailFirstInput = document.getElementById('email_first_input');
+         const emailConfirmationInput = document.getElementById('email_confirm_input');
+         let typingTimer;  // Timer identifier
+         const typingInterval = 500;  // half a second delay
 
+         emailFirstInput.addEventListener('keyup', function () {
+            clearTimeout(typingTimer);  // Clear the previous timer
+            typingTimer = setTimeout(checkEmailMatch, typingInterval);
+         });
 
+         emailConfirmationInput.addEventListener('keyup', function () {
+            clearTimeout(typingTimer);  // Clear the previous timer
+            typingTimer = setTimeout(checkEmailMatch, typingInterval);
+         });
+      })
+
+      function checkEmailMatch() {
+         const emailFirstInput = document.getElementById('email_first_input');
+         const emailConfirmationInput = document.getElementById('email_confirm_input');
+
+         if (emailFirstInput.value === '' || emailConfirmationInput.value === '') {
+            document.getElementById('email_next').style.visibility = 'hidden';
+            emailFirstInput.classList.remove('valid');
+            emailFirstInput.classList.remove('invalid');
+            emailConfirmationInput.classList.remove('valid');
+            emailConfirmationInput.classList.remove('invalid');
+         }
+         else if (emailFirstInput.value === emailConfirmationInput.value && emailFirstInput.value !== '' &&
+                 emailConfirmationInput.value !== '') {
+               console.log('Emails match.');
+               document.getElementById('email_next').style.visibility = 'visible';
+               emailFirstInput.classList.add('valid');
+               emailFirstInput.classList.remove('invalid');
+               emailConfirmationInput.classList.add('valid');
+               emailConfirmationInput.classList.remove('invalid');
+            }
+         else {
+            console.log('Emails do not match.');
+            document.getElementById('email_next').style.visibility = 'hidden';
+            emailFirstInput.classList.remove('valid');
+            emailFirstInput.classList.add('invalid');
+            emailConfirmationInput.classList.remove('valid');
+            emailConfirmationInput.classList.add('invalid');
+         }
+      }
    </script>
 </html>
