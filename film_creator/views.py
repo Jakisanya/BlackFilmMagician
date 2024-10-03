@@ -28,7 +28,7 @@ class HomeView(TemplateView):
 
         if self.request.user.is_authenticated:
             context['user'] = self.request.user
-            # Retrieve the user profile if it exists
+            # Retrieve the user profile.html if it exists
             # user_profile = UserProfile.objects.filter(user=self.request.user).first()
             # context['user_profile'] = user_profile
         else:
