@@ -50,6 +50,10 @@ class SignupView(TemplateView):
     template_name = 'signup.html'
 
 
+class ProfileView(TemplateView):
+    template_name = 'profile.html'
+
+
 def fetch_new_actors():
     # Get all unique actor IDs from roles where lead is 1
     actor_ids = list(Role.objects.filter(lead=1).values_list('actor', flat=True).distinct())
